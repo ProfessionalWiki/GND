@@ -1,0 +1,9 @@
+{
+	"@metadata": {
+		"authors": [
+			"Jeroen De Dauw"
+		]
+	},
+	"gnd-name": "GND",
+	"gnd-desc": "Adds scripts to import GND items into Wikibase Repository"
+}

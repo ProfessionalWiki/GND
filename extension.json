@@ -1,0 +1,51 @@
+{
+	"name": "GND",
+	"type": "wikibase",
+
+	"version": "0.1.0",
+
+	"author": [
+		"[https://www.EntropyWins.wtf/mediawiki Jeroen De Dauw]",
+		"[https://professional.wiki/ Professional.Wiki]"
+	],
+
+	"url": "https://github.com/ProfessionalWiki/GND",
+
+	"descriptionmsg": "gnd-desc",
+
+	"requires": {
+		"MediaWiki": ">= 1.35.0",
+		"extensions": {
+			"WikibaseRepository": "*"
+		}
+	},
+
+	"MessagesDirs": {
+		"GND": [
+			"i18n"
+		]
+	},
+
+	"AutoloadNamespaces": {
+		"DNB\\GND\\": "src/",
+		"DNB\\GND\\Tests\\": "tests/"
+	},
+
+	"callback": "DNB\\GND\\HookHandlers::onExtensionRegistration",
+
+	"Hooks": {
+	},
+
+	"config": {
+	},
+
+	"ResourceFileModulePaths": {
+		"localBasePath": "resources",
+		"remoteExtPath": "GND/resources"
+	},
+
+	"ResourceModules": {
+	},
+
+	"manifest_version": 2
+}
