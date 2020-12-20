@@ -1,4 +1,4 @@
-# Wikibase EDTF
+# GND MediaWiki extension
 
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ProfessionalWiki/GND/CI/master)](https://github.com/ProfessionalWiki/GND/actions?query=workflow%3ACI)
 [![Latest Stable Version](https://poser.pugx.org/dnb/mediawiki-gnd/version.png)](https://packagist.org/packages/dnb/mediawiki-gnd)
@@ -33,7 +33,7 @@ composer update dnb/mediawiki-gnd --no-dev -o
 Then enable the extension by adding the following to the bottom of your wikis `LocalSettings.php` file:
 
 ```php
-wfLoadExtension( 'WikibaseEdtf' );
+wfLoadExtension( 'GND' );
 ```
 
 You can verify the extension was enabled successfully by opening your wikis Special:Version page in your browser.
