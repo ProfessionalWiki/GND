@@ -23,7 +23,8 @@
 	},
 	"require": {
 		"php": ">=7.4",
-		"composer/installers": "^1.0.1"
+		"composer/installers": "^1.0.1",
+		"dnb/wikibase-converter": "dev-master"
 	},
 	"require-dev": {
 	},
