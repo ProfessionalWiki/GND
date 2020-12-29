@@ -19,27 +19,31 @@ $basePath = getenv( 'MW_INSTALL_PATH' ) !== false
 
 require_once $basePath . '/maintenance/Maintenance.php';
 
-class CreateItem extends Maintenance {
+class ImportGndDump extends Maintenance {
 
 	public function __construct() {
 		parent::__construct();
 
-		$this->addDescription( 'TODO' );
+		$this->addDescription( 'Imports a GND dump in PICA+ format into Wikibase Repository' );
 	}
 
 	public function execute() {
-		if ( !WikibaseSettings::isRepoEnabled() ) {
-			$this->output( "You need to have Wikibase enabled in order to use this maintenance script!\n" );
-			exit;
-		}
+		$this->ensureWikibaseIsLoaded();
 
 		$item = new Item();
-		$item->setId( new ItemId( 'Q42' ) );
+		$item->setId( new ItemId( 'Q50' ) );
 		$item->setLabel( 'en', 'testing' );
 
 		$this->saveItem( $item );
 
 		$this->output( 'done' );
+	}
+
+	private function ensureWikibaseIsLoaded() {
+		if ( !WikibaseSettings::isRepoEnabled() ) {
+			$this->output( "You need to have Wikibase enabled in order to use this script!\n" );
+			exit;
+		}
 	}
 
 	private function saveItem( Item $item ) {
@@ -52,7 +56,7 @@ class CreateItem extends Maintenance {
 		}
 	}
 
-	private function createEntity( EntityDocument $entity ) {
+	private function createEntity( EntityDocument $entity ): \Status {
 		return $this->newEntitySaver()->attemptSave( $entity, 'test summary', EDIT_NEW, false );
 	}
 
@@ -64,5 +68,5 @@ class CreateItem extends Maintenance {
 
 }
 
-$maintClass = CreateItem::class;
+$maintClass = ImportGndDump::class;
 require_once RUN_MAINTENANCE_IF_MAIN;
