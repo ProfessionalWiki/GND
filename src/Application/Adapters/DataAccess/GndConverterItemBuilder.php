@@ -14,7 +14,7 @@ use Wikibase\DataModel\Entity\Item;
 class GndConverterItemBuilder {
 
 	public function build( WikibaseRecord $record ): Item {
-
+		return new Item();
 	}
 
 }

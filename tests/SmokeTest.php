@@ -2,7 +2,7 @@
 
 declare( strict_types = 1 );
 
-namespace DNB\GND\Tests\Unit;
+namespace DNB\GND\Tests;
 
 use PHPUnit\Framework\TestCase;
 
