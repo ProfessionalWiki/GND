@@ -2,7 +2,7 @@
 
 declare( strict_types = 1 );
 
-namespace DNB\GND\Domain;
+namespace DNB\GND\Application\Domain;
 
 interface ItemSource {
 

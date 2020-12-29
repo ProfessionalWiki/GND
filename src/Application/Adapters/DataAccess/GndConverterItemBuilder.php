@@ -2,7 +2,7 @@
 
 declare( strict_types = 1 );
 
-namespace DNB\GND\Adapters\DataAccess;
+namespace DNB\GND\Application\Adapters\DataAccess;
 
 use DNB\WikibaseConverter\WikibaseRecord;
 use Wikibase\DataModel\Entity\Item;

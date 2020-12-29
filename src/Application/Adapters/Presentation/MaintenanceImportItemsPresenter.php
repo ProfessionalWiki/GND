@@ -2,9 +2,9 @@
 
 declare( strict_types = 1 );
 
-namespace DNB\GND\Adapters\Presentation;
+namespace DNB\GND\Application\Adapters\Presentation;
 
-use DNB\GND\UseCases\ImportItemsPresenter;
+use DNB\GND\Application\UseCases\ImportItemsPresenter;
 
 class MaintenanceImportItemsPresenter implements ImportItemsPresenter {
 

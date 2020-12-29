@@ -2,9 +2,9 @@
 
 declare( strict_types = 1 );
 
-namespace DNB\GND\Adapters\DataAccess;
+namespace DNB\GND\Application\Adapters\DataAccess;
 
-use DNB\GND\Domain\ItemSource;
+use DNB\GND\Application\Domain\ItemSource;
 
 class GndConverterItemSource implements ItemSource {
 
