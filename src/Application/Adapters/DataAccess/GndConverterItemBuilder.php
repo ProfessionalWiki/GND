@@ -17,6 +17,10 @@ use Wikibase\DataModel\Statement\StatementList;
  */
 class GndConverterItemBuilder {
 
+	public function __construct() {
+		// TODO: inject value builder
+	}
+
 	public function build( WikibaseRecord $record ): Item {
 		$statements = new StatementList();
 
@@ -25,7 +29,7 @@ class GndConverterItemBuilder {
 				$statements->addNewStatement(
 					new PropertyValueSnak(
 						new PropertyId( $id ),
-						new StringValue( $value )
+						new StringValue( $value ) // TODO: handle types
 					)
 				);
 			}
