@@ -2,9 +2,9 @@
 
 declare( strict_types = 1 );
 
-namespace DNB\GND\Application\Adapters\DataAccess;
+namespace DNB\GND\Adapters\DataAccess;
 
-use DNB\GND\Application\Domain\ItemStore;
+use DNB\GND\Domain\ItemStore;
 use Wikibase\DataModel\Entity\Item;
 
 class WikibaseRepoItemStore implements ItemStore {

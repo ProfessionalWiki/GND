@@ -2,11 +2,11 @@
 
 declare( strict_types = 1 );
 
-namespace DNB\GND\Application\UseCases\ImportItems;
+namespace DNB\GND\UseCases\ImportItems;
 
-use DNB\GND\Application\Domain\ItemSource;
-use DNB\GND\Application\Domain\ItemStore;
-use DNB\GND\Application\UseCases\ImportItemsPresenter;
+use DNB\GND\Domain\ItemSource;
+use DNB\GND\Domain\ItemStore;
+use DNB\GND\UseCases\ImportItemsPresenter;
 
 class ImportItems {
 

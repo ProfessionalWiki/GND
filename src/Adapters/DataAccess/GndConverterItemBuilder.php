@@ -2,7 +2,7 @@
 
 declare( strict_types = 1 );
 
-namespace DNB\GND\Application\Adapters\DataAccess;
+namespace DNB\GND\Adapters\DataAccess;
 
 use DataValues\StringValue;
 use DNB\WikibaseConverter\WikibaseRecord;

@@ -2,7 +2,7 @@
 
 declare( strict_types = 1 );
 
-namespace DNB\GND\Application\UseCases;
+namespace DNB\GND\UseCases;
 
 interface ImportItemsPresenter {
 

@@ -5,7 +5,7 @@ declare( strict_types = 1 );
 namespace DNB\GND\Tests\Adapters\DataAccess;
 
 use DataValues\StringValue;
-use DNB\GND\Application\Adapters\DataAccess\GndConverterItemBuilder;
+use DNB\GND\Adapters\DataAccess\GndConverterItemBuilder;
 use DNB\WikibaseConverter\PropertyWithValues;
 use DNB\WikibaseConverter\WikibaseRecord;
 use PHPUnit\Framework\TestCase;
@@ -14,7 +14,7 @@ use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
 
 /**
- * @covers \DNB\GND\Application\Adapters\DataAccess\GndConverterItemBuilder
+ * @covers \DNB\GND\Adapters\DataAccess\GndConverterItemBuilder
  */
 class GndConverterItemBuilderTest extends TestCase {
 
