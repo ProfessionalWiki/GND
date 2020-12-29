@@ -1,6 +1,6 @@
 <?php
 
-namespace Wikibase\Repo\Maintenance;
+namespace DNB\GND\Maintenance;
 
 use Maintenance;
 use User;
