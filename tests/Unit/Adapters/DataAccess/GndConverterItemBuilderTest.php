@@ -2,7 +2,7 @@
 
 declare( strict_types = 1 );
 
-namespace DNB\GND\Tests\Adapters\DataAccess;
+namespace DNB\GND\Tests\Unit\Adapters\DataAccess;
 
 use DataValues\StringValue;
 use DNB\GND\Adapters\DataAccess\GndConverterItemBuilder;

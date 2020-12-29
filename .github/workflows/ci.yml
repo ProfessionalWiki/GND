@@ -65,5 +65,5 @@ jobs:
         run: composer update
 
       - name: Run PHPUnit
-        run: php tests/phpunit/phpunit.php extensions/GND/tests/
+        run: php tests/phpunit/phpunit.php -c extensions/GND/
 

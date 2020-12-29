@@ -12,7 +12,10 @@ use DNB\GND\Domain\ItemStore;
 use DNB\GND\UseCases\ImportItems\ImportItems;
 use DNB\GND\UseCases\ImportItems\ImportItemsPresenter;
 use Maintenance;
+use User;
 use Wikibase\Lib\WikibaseSettings;
+use Wikibase\Repo\EditEntity\EditEntity;
+use Wikibase\Repo\WikibaseRepo;
 
 $basePath = getenv( 'MW_INSTALL_PATH' ) !== false ? getenv( 'MW_INSTALL_PATH' ) : __DIR__ . '/../../..';
 
@@ -64,13 +67,21 @@ class ImportGndDump extends Maintenance {
 	}
 
 	private function getItemStore(): ItemStore {
-		return new WikibaseRepoItemStore();
+		return new WikibaseRepoItemStore(
+			$this->newEntitySaver()
+		);
 	}
 
 	private function getImportItemsPresenter(): ImportItemsPresenter {
 		return new class() implements ImportItemsPresenter {
 
 		};
+	}
+
+	private function newEntitySaver(): EditEntity {
+		return WikibaseRepo::getDefaultInstance()->newEditEntityFactory()->newEditEntity(
+			User::newSystemUser( 'Import Script', [ 'steal' => true ] )
+		);
 	}
 
 }

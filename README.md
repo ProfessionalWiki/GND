@@ -40,7 +40,7 @@ You can verify the extension was enabled successfully by opening your wikis Spec
 
 ## Running the tests
 
-* PHP tests: `php tests/phpunit/phpunit.php extensions/GND/tests/`
+* PHP tests: `php tests/phpunit/phpunit.php -c extensions/GND/`
 
 ## Release notes
 
