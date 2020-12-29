@@ -4,18 +4,17 @@ declare( strict_types = 1 );
 
 namespace DNB\GND\Maintenance;
 
+use DNB\GND\Adapters\DataAccess\GndConverterItemBuilder;
+use DNB\GND\Adapters\DataAccess\GndConverterItemSource;
+use DNB\GND\Adapters\DataAccess\WikibaseRepoItemStore;
+use DNB\GND\Domain\ItemSource;
+use DNB\GND\Domain\ItemStore;
+use DNB\GND\UseCases\ImportItems\ImportItems;
+use DNB\GND\UseCases\ImportItems\ImportItemsPresenter;
 use Maintenance;
-use User;
-use Wikibase\DataModel\Entity\EntityDocument;
-use Wikibase\DataModel\Entity\Item;
-use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\Lib\WikibaseSettings;
-use Wikibase\Repo\EditEntity\EditEntity;
-use Wikibase\Repo\WikibaseRepo;
 
-$basePath = getenv( 'MW_INSTALL_PATH' ) !== false
-	? getenv( 'MW_INSTALL_PATH' )
-	: __DIR__ . '/../../../..';
+$basePath = getenv( 'MW_INSTALL_PATH' ) !== false ? getenv( 'MW_INSTALL_PATH' ) : __DIR__ . '/../../..';
 
 require_once $basePath . '/maintenance/Maintenance.php';
 
@@ -24,17 +23,21 @@ class ImportGndDump extends Maintenance {
 	public function __construct() {
 		parent::__construct();
 
+		$this->requireExtension( 'GND' );
 		$this->addDescription( 'Imports a GND dump in PICA+ format into Wikibase Repository' );
+
+		$this->addOption(
+			'path',
+			'Path to the PICA+ GND dump',
+			true,
+			true
+		);
 	}
 
 	public function execute() {
 		$this->ensureWikibaseIsLoaded();
 
-		$item = new Item();
-		$item->setId( new ItemId( 'Q50' ) );
-		$item->setLabel( 'en', 'testing' );
-
-		$this->saveItem( $item );
+		$this->newImportItemsUseCase()->import();
 
 		$this->output( 'done' );
 	}
@@ -46,24 +49,28 @@ class ImportGndDump extends Maintenance {
 		}
 	}
 
-	private function saveItem( Item $item ) {
-		$status = $this->createEntity( $item );
-
-		if ( $status->isOK() ) {
-			$this->output( "\n" . $status->getValue()['revision']->getEntity()->getId() . "\n" );
-		} else {
-			$this->output( "\n" . $status->getValue() . "\n" );
-		}
-	}
-
-	private function createEntity( EntityDocument $entity ): \Status {
-		return $this->newEntitySaver()->attemptSave( $entity, 'test summary', EDIT_NEW, false );
-	}
-
-	private function newEntitySaver(): EditEntity {
-		return WikibaseRepo::getDefaultInstance()->newEditEntityFactory()->newEditEntity(
-			User::newSystemUser( 'Import Script', [ 'steal' => true ] )
+	public function newImportItemsUseCase(): ImportItems {
+		return new ImportItems(
+			$this->getItemSource(),
+			$this->getItemStore(),
+			$this->getImportItemsPresenter(),
 		);
+	}
+
+	private function getItemSource(): ItemSource {
+		return new GndConverterItemSource(
+			new GndConverterItemBuilder()
+		);
+	}
+
+	private function getItemStore(): ItemStore {
+		return new WikibaseRepoItemStore();
+	}
+
+	private function getImportItemsPresenter(): ImportItemsPresenter {
+		return new class() implements ImportItemsPresenter {
+
+		};
 	}
 
 }

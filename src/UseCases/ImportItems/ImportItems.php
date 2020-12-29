@@ -6,15 +6,21 @@ namespace DNB\GND\UseCases\ImportItems;
 
 use DNB\GND\Domain\ItemSource;
 use DNB\GND\Domain\ItemStore;
-use DNB\GND\UseCases\ImportItemsPresenter;
+use DNB\GND\UseCases\ImportItems\ImportItemsPresenter;
 
 class ImportItems {
 
-	public function __construct( ItemSource $itemSource, ItemStore $store, ImportItemsPresenter $presenter ) {
+	private ItemSource $itemSource;
+	private ItemStore $store;
+	private ImportItemsPresenter $presenter;
 
+	public function __construct( ItemSource $itemSource, ItemStore $store, ImportItemsPresenter $presenter ) {
+		$this->itemSource = $itemSource;
+		$this->store = $store;
+		$this->presenter = $presenter;
 	}
 
-	public function import( ImportItemsRequest $requestModel ) {
+	public function import(): void {
 
 	}
 
