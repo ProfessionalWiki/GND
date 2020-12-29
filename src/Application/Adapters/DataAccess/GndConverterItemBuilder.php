@@ -4,8 +4,12 @@ declare( strict_types = 1 );
 
 namespace DNB\GND\Application\Adapters\DataAccess;
 
+use DataValues\StringValue;
 use DNB\WikibaseConverter\WikibaseRecord;
 use Wikibase\DataModel\Entity\Item;
+use Wikibase\DataModel\Entity\PropertyId;
+use Wikibase\DataModel\Snak\PropertyValueSnak;
+use Wikibase\DataModel\Statement\StatementList;
 
 /**
  * Builds a Wikibase Item (using the Wikibase DataModel classes) from
@@ -14,7 +18,20 @@ use Wikibase\DataModel\Entity\Item;
 class GndConverterItemBuilder {
 
 	public function build( WikibaseRecord $record ): Item {
-		return new Item();
+		$statements = new StatementList();
+
+		foreach ( $record->getPropertyIds() as $id ) {
+			foreach ( $record->getValuesForProperty( $id ) as $value ) {
+				$statements->addNewStatement(
+					new PropertyValueSnak(
+						new PropertyId( $id ),
+						new StringValue( $value )
+					)
+				);
+			}
+		}
+
+		return new Item( null, null, null, $statements );
 	}
 
 }
