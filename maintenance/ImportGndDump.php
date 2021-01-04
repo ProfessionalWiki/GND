@@ -12,6 +12,7 @@ use DNB\GND\Domain\ItemStore;
 use DNB\GND\UseCases\ImportItems\ImportItems;
 use DNB\GND\UseCases\ImportItems\ImportItemsPresenter;
 use Maintenance;
+use SplFileObject;
 use User;
 use Wikibase\Lib\WikibaseSettings;
 use Wikibase\Repo\EditEntity\EditEntity;
@@ -39,6 +40,7 @@ class ImportGndDump extends Maintenance {
 
 	public function execute() {
 		$this->ensureWikibaseIsLoaded();
+		$this->ensureFileExists();
 
 		$this->newImportItemsUseCase()->import();
 
@@ -48,6 +50,15 @@ class ImportGndDump extends Maintenance {
 	private function ensureWikibaseIsLoaded() {
 		if ( !WikibaseSettings::isRepoEnabled() ) {
 			$this->output( "You need to have Wikibase enabled in order to use this script!\n" );
+			exit;
+		}
+	}
+
+	private function ensureFileExists() {
+		$path = $this->getOption( 'path' );
+
+		if ( !is_readable( $path ) ) {
+			$this->output( "Could not read file: $path!\n" );
 			exit;
 		}
 	}
@@ -62,8 +73,17 @@ class ImportGndDump extends Maintenance {
 
 	private function getItemSource(): ItemSource {
 		return new GndConverterItemSource(
+			$this->getLineIterator(),
 			new GndConverterItemBuilder()
 		);
+	}
+
+	private function getLineIterator(): \Iterator {
+		$file = new SplFileObject( $this->getOption( 'path' ) );
+
+		while ( !$file->eof() ) {
+			yield $file->fgets();
+		}
 	}
 
 	private function getItemStore(): ItemStore {
@@ -79,6 +99,7 @@ class ImportGndDump extends Maintenance {
 	}
 
 	private function newEntitySaver(): EditEntity {
+		// FIXME: EditEntity is single-use. Need EditEntityFactory instead
 		return WikibaseRepo::getDefaultInstance()->newEditEntityFactory()->newEditEntity(
 			User::newSystemUser( 'Import Script', [ 'steal' => true ] )
 		);

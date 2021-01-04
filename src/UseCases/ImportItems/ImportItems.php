@@ -6,7 +6,6 @@ namespace DNB\GND\UseCases\ImportItems;
 
 use DNB\GND\Domain\ItemSource;
 use DNB\GND\Domain\ItemStore;
-use DNB\GND\UseCases\ImportItems\ImportItemsPresenter;
 
 class ImportItems {
 
@@ -20,8 +19,19 @@ class ImportItems {
 		$this->presenter = $presenter;
 	}
 
-	public function import(): void {
+	public function import(): void { // TODO: test
+		while ( true ) {
+			$item = $this->itemSource->nextItem();
 
+			if ( $item === null ) {
+				break;
+			}
+
+			$this->store->storeItem( $item );
+			// TODO: present
+		}
+
+		// TODO: present done
 	}
 
 }

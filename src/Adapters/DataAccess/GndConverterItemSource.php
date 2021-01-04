@@ -5,9 +5,7 @@ declare( strict_types = 1 );
 namespace DNB\GND\Adapters\DataAccess;
 
 use DNB\GND\Domain\ItemSource;
-use DNB\WikibaseConverter\Converter;
-use DNB\WikibaseConverter\PicaRecord;
-use DNB\WikibaseConverter\WikibaseRecord;
+use DNB\WikibaseConverter\PicaConverter;
 use Traversable;
 use Wikibase\DataModel\Entity\Item;
 
@@ -23,18 +21,11 @@ class GndConverterItemSource implements ItemSource {
 
 	public function nextItem(): ?Item {
 		foreach ( $this->jsonStringIterator as $jsonString ) {
-			return $this->itemBuilder->build( $this->jsonStringToWikibaseRecord( $jsonString ) );
+			// TODO
+			return $this->itemBuilder->build( PicaConverter::newWithDefaultMapping()->picaJsonToWikibaseRecord( $jsonString ) );
 		}
 
 		return null;
-	}
-
-	private function jsonStringToWikibaseRecord( string $json ): WikibaseRecord {
-		$converter = Converter::fromArrayMapping( [] ); // TODO
-
-		return $converter->picaToWikibase(
-			new PicaRecord( json_decode( $json, true ) )
-		);
 	}
 
 }
