@@ -8,6 +8,7 @@ use DNB\GND\Domain\ItemStore;
 use User;
 use Wikibase\DataModel\Entity\Item;
 use Wikibase\Lib\Store\EntityStore;
+use Wikibase\Lib\Store\StorageException;
 
 class WikibaseRepoItemStore implements ItemStore {
 
@@ -20,12 +21,16 @@ class WikibaseRepoItemStore implements ItemStore {
 	}
 
 	public function storeItem( Item $item ): void {
-		$this->entityStore->saveEntity(
-			$item,
-			'test summary',
-			$this->user,
-			EDIT_NEW
-		);
+		try {
+			$this->entityStore->saveEntity(
+				$item,
+				'test summary ' . $item->getId(),
+				$this->user,
+				$item->getId() === null ? EDIT_NEW : EDIT_UPDATE
+			);
+		} catch ( StorageException $ex ) {
+			throw new \RuntimeException( $item->getId()->getSerialization(), 0, $ex );
+		}
 	}
 
 }

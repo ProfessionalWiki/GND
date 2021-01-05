@@ -40,4 +40,16 @@ class WikibaseRepoItemStoreTest extends MediaWikiIntegrationTestCase {
 		return WikibaseRepo::getDefaultInstance()->getItemLookup()->getItemForId( $id );
 	}
 
+	public function testMultipleStorageCallsForOneItem() {
+		$item = new Item();
+
+		$this->newItemStore()->storeItem( $item );
+		$this->newItemStore()->storeItem( $item );
+
+		$this->assertEquals(
+			$item,
+			$this->getItemFromPersistence( $item->getId() )
+		);
+	}
+
 }

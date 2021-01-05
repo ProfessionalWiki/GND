@@ -7,6 +7,7 @@ namespace DNB\GND\Adapters\DataAccess;
 use DataValues\StringValue;
 use DNB\WikibaseConverter\WikibaseRecord;
 use Wikibase\DataModel\Entity\Item;
+use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
 use Wikibase\DataModel\Statement\StatementList;
@@ -23,9 +24,15 @@ class GndConverterItemBuilder {
 
 	public function build( WikibaseRecord $record ): Item {
 		$statements = new StatementList();
+		$itemId = null;
 
 		foreach ( $record->getPropertyIds() as $id ) {
 			foreach ( $record->getValuesForProperty( $id ) as $value ) {
+				// TODO: change when we know what to do item-ID wise
+				if ( $id === 'P2' ) {
+					$itemId = ItemId::newFromNumber( (int)preg_replace('/[^0-9]/', '', $value ) );
+				}
+
 				$statements->addNewStatement(
 					new PropertyValueSnak(
 						new PropertyId( $id ),
@@ -35,7 +42,7 @@ class GndConverterItemBuilder {
 			}
 		}
 
-		return new Item( null, null, null, $statements );
+		return new Item( $itemId, null, null, $statements );
 	}
 
 }
