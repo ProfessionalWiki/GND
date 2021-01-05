@@ -5,7 +5,6 @@ declare( strict_types = 1 );
 namespace DNB\GND\Tests\Integration\Adapters\DataAccess;
 
 use DNB\GND\Adapters\DataAccess\WikibaseRepoItemStore;
-use DNB\GND\Domain\ItemStore;
 use MediaWikiIntegrationTestCase;
 use User;
 use Wikibase\DataModel\Entity\Item;
@@ -32,9 +31,8 @@ class WikibaseRepoItemStoreTest extends MediaWikiIntegrationTestCase {
 
 	private function newItemStore(): WikibaseRepoItemStore {
 		return new WikibaseRepoItemStore(
-			WikibaseRepo::getDefaultInstance()->newEditEntityFactory()->newEditEntity(
-				User::newSystemUser( 'WikibaseRepoItemStoreTest', [ 'steal' => true ] )
-			)
+			WikibaseRepo::getDefaultInstance()->getEntityStore(),
+			User::newSystemUser( 'WikibaseRepoItemStoreTest', [ 'steal' => true ] )
 		);
 	}
 

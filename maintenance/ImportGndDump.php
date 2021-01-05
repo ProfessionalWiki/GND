@@ -14,6 +14,7 @@ use DNB\GND\UseCases\ImportItems\ImportItemsPresenter;
 use Maintenance;
 use SplFileObject;
 use User;
+use Wikibase\Lib\Store\EntityStore;
 use Wikibase\Lib\WikibaseSettings;
 use Wikibase\Repo\EditEntity\EditEntity;
 use Wikibase\Repo\WikibaseRepo;
@@ -88,7 +89,8 @@ class ImportGndDump extends Maintenance {
 
 	private function getItemStore(): ItemStore {
 		return new WikibaseRepoItemStore(
-			$this->newEntitySaver()
+			$this->newEntityStore(),
+			User::newSystemUser( 'Import Script', [ 'steal' => true ] )
 		);
 	}
 
@@ -98,11 +100,8 @@ class ImportGndDump extends Maintenance {
 		};
 	}
 
-	private function newEntitySaver(): EditEntity {
-		// FIXME: EditEntity is single-use. Need EditEntityFactory instead
-		return WikibaseRepo::getDefaultInstance()->newEditEntityFactory()->newEditEntity(
-			User::newSystemUser( 'Import Script', [ 'steal' => true ] )
-		);
+	private function newEntityStore(): EntityStore {
+		return WikibaseRepo::getDefaultInstance()->getEntityStore();
 	}
 
 }

@@ -5,25 +5,26 @@ declare( strict_types = 1 );
 namespace DNB\GND\Adapters\DataAccess;
 
 use DNB\GND\Domain\ItemStore;
-use Wikibase\DataModel\Entity\EntityDocument;
+use User;
 use Wikibase\DataModel\Entity\Item;
-use Wikibase\Repo\EditEntity\EditEntity;
-use Wikibase\Repo\WikibaseRepo;
+use Wikibase\Lib\Store\EntityStore;
 
 class WikibaseRepoItemStore implements ItemStore {
 
-	private EditEntity $entitySaver;
+	private EntityStore $entityStore;
+	private User $user;
 
-	public function __construct( EditEntity $entitySaver ) {
-		$this->entitySaver = $entitySaver;
+	public function __construct( EntityStore $entitySaver, User $user ) {
+		$this->entityStore = $entitySaver;
+		$this->user = $user;
 	}
 
 	public function storeItem( Item $item ): void {
-		$this->entitySaver->attemptSave(
+		$this->entityStore->saveEntity(
 			$item,
 			'test summary',
-			EDIT_NEW,
-			false
+			$this->user,
+			EDIT_NEW
 		);
 	}
 
