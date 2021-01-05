@@ -16,7 +16,6 @@ use SplFileObject;
 use User;
 use Wikibase\Lib\Store\EntityStore;
 use Wikibase\Lib\WikibaseSettings;
-use Wikibase\Repo\EditEntity\EditEntity;
 use Wikibase\Repo\WikibaseRepo;
 
 $basePath = getenv( 'MW_INSTALL_PATH' ) !== false ? getenv( 'MW_INSTALL_PATH' ) : __DIR__ . '/../../..';

@@ -5,27 +5,42 @@ declare( strict_types = 1 );
 namespace DNB\GND\Adapters\DataAccess;
 
 use DNB\GND\Domain\ItemSource;
+use DNB\WikibaseConverter\InvalidPica;
 use DNB\WikibaseConverter\PicaConverter;
-use Traversable;
+use Iterator;
 use Wikibase\DataModel\Entity\Item;
 
 class GndConverterItemSource implements ItemSource {
 
-	private Traversable $jsonStringIterator;
+	private Iterator $jsonStringIterator;
 	private GndConverterItemBuilder $itemBuilder;
 
-	public function __construct( Traversable $jsonStringIterator, GndConverterItemBuilder $itemBuilder ) {
+	public function __construct( Iterator $jsonStringIterator, GndConverterItemBuilder $itemBuilder ) {
 		$this->jsonStringIterator = $jsonStringIterator;
 		$this->itemBuilder = $itemBuilder;
 	}
 
 	public function nextItem(): ?Item {
-		foreach ( $this->jsonStringIterator as $jsonString ) {
-			// TODO
-			return $this->itemBuilder->build( PicaConverter::newWithDefaultMapping()->picaJsonToWikibaseRecord( $jsonString ) );
-		}
+		while ( true ) {
+			$line = $this->jsonStringIterator->current();
 
-		return null;
+			if ( $line === null ) {
+				return null;
+			}
+
+			$this->jsonStringIterator->next();
+
+			try {
+				// TODO: do not re-create
+				$wikibaseRecord = PicaConverter::newWithDefaultMapping()->picaJsonToWikibaseRecord( $line );
+			} catch ( InvalidPica $ex ) {
+				continue;
+			}
+
+			//if ( $wikibaseRecord->getPropertyIds() !== [] ) {
+			return $this->itemBuilder->build( $wikibaseRecord );
+			//}
+		}
 	}
 
 }
