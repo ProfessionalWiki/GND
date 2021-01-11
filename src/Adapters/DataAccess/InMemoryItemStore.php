@@ -11,6 +11,7 @@ use Wikibase\DataModel\Entity\ItemId;
 class InMemoryItemStore implements ItemStore {
 
 	private array $items = [];
+	private array $idsToThrowOn = [];
 	private int $nextId = 1000;
 
 	public function __construct( Item ...$items ) {
@@ -23,6 +24,9 @@ class InMemoryItemStore implements ItemStore {
 		if ( $item->getId() === null ) {
 			$item->setId( ItemId::newFromNumber( $this->nextId++ ) );
 		}
+		else if ( in_array( $item->getId()->getSerialization(), $this->idsToThrowOn ) ) {
+			throw new \RuntimeException( $item->getId()->getSerialization() );
+		}
 
 		$this->items[$item->getId()->getSerialization()] = $item;
 	}
@@ -32,6 +36,10 @@ class InMemoryItemStore implements ItemStore {
 	 */
 	public function getItems(): array {
 		return array_values( $this->items );
+	}
+
+	public function throwOnId( string $itemId ): void {
+		$this->idsToThrowOn[] = $itemId;
 	}
 
 }

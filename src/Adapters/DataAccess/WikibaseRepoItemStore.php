@@ -5,10 +5,10 @@ declare( strict_types = 1 );
 namespace DNB\GND\Adapters\DataAccess;
 
 use DNB\GND\Domain\ItemStore;
+use Exception;
 use User;
 use Wikibase\DataModel\Entity\Item;
 use Wikibase\Lib\Store\EntityStore;
-use Wikibase\Lib\Store\StorageException;
 
 class WikibaseRepoItemStore implements ItemStore {
 
@@ -28,7 +28,7 @@ class WikibaseRepoItemStore implements ItemStore {
 				$this->user,
 				$item->getId() === null ? EDIT_NEW : EDIT_UPDATE
 			);
-		} catch ( StorageException $ex ) {
+		} catch ( Exception $ex ) {
 			throw new \RuntimeException( $item->getId()->getSerialization(), 0, $ex );
 		}
 	}

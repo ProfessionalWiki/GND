@@ -29,14 +29,16 @@ class ImportItems {
 				break;
 			}
 
-			$this->presenter->presentStartStoring( $item );
+			$this->presenter->presentStorageStarted( $item );
 
 			try {
 				$this->store->storeItem( $item );
 			} catch ( \Exception $exception ) {
+				$this->presenter->presentStorageFailed( $item, $exception );
+				continue;
 			}
 
-			$this->presenter->presentDoneStoring( $item );
+			$this->presenter->presentStorageSucceeded( $item );
 		}
 
 		$this->presenter->presentImportFinished();

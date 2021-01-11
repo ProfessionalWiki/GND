@@ -27,10 +27,18 @@ class ImportItemsTest extends TestCase {
 		$this->itemSource = new InMemoryItemSource();
 		$this->store = new InMemoryItemStore();
 		$this->presenter = new class() implements ImportItemsPresenter {
-			public function presentStartStoring( Item $item ): void {
+			public array $stored = [];
+			public array $failed = [];
+
+			public function presentStorageStarted( Item $item ): void {
 			}
 
-			public function presentDoneStoring( Item $item ): void {
+			public function presentStorageSucceeded( Item $item ): void {
+				$this->stored[] = $item->getId()->getSerialization();
+			}
+
+			public function presentStorageFailed( Item $item, \Exception $exception ): void {
+				$this->failed[] = $item->getId()->getSerialization();
 			}
 
 			public function presentImportStarted(): void {
@@ -67,6 +75,20 @@ class ImportItemsTest extends TestCase {
 			[ $firstItem, $secondItem ],
 			$this->store->getItems()
 		);
+	}
+
+	public function testHandlesStorageException() {
+		$this->itemSource = new InMemoryItemSource(
+			new Item( new ItemId( 'Q1' ) ),
+			new Item( new ItemId( 'Q2' ) ),
+			new Item( new ItemId( 'Q3' ) )
+		);
+		$this->store->throwOnId( 'Q2' );
+
+		$this->newUseCase()->import();
+
+		$this->assertSame( [ 'Q1', 'Q3' ], $this->presenter->stored );
+		$this->assertSame( [ 'Q2' ], $this->presenter->failed );
 	}
 
 }

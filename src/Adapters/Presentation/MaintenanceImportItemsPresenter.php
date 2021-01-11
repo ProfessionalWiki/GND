@@ -17,18 +17,27 @@ class MaintenanceImportItemsPresenter implements ImportItemsPresenter {
 		$this->maintenance = $maintenance;
 	}
 
-	public function presentStartStoring( Item $item ): void {
+	public function presentStorageStarted( Item $item ): void {
 		$this->maintenance->outputChanneled(
 			'Importing Item ' . $item->getId()->getSerialization() . '... ',
 			$item->getId()->getSerialization()
 		);
 	}
 
-	public function presentDoneStoring( Item $item ): void {
+	public function presentStorageSucceeded( Item $item ): void {
 		$this->itemCount++;
 
 		$this->maintenance->outputChanneled(
 			'done',
+			$item->getId()->getSerialization()
+		);
+	}
+
+	public function presentStorageFailed( Item $item, \Exception $exception ): void {
+		// TODO: log stack trace
+
+		$this->maintenance->outputChanneled(
+			'failed: ' . $exception->getMessage(),
 			$item->getId()->getSerialization()
 		);
 	}
@@ -51,5 +60,6 @@ class MaintenanceImportItemsPresenter implements ImportItemsPresenter {
 	private function getItemsPerSecond(): float {
 		return $this->itemCount / $this->getDurationInSeconds();
 	}
+
 
 }
