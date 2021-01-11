@@ -7,11 +7,13 @@ namespace DNB\GND\Maintenance;
 use DNB\GND\Adapters\DataAccess\GndConverterItemBuilder;
 use DNB\GND\Adapters\DataAccess\GndConverterItemSource;
 use DNB\GND\Adapters\DataAccess\WikibaseRepoItemStore;
+use DNB\GND\Adapters\Presentation\MaintenanceImportItemsPresenter;
 use DNB\GND\Domain\ItemSource;
 use DNB\GND\Domain\ItemStore;
 use DNB\GND\UseCases\ImportItems\ImportItems;
 use DNB\GND\UseCases\ImportItems\ImportItemsPresenter;
 use Maintenance;
+use Onoi\MessageReporter\CallbackMessageReporter;
 use SplFileObject;
 use User;
 use Wikibase\Lib\Store\EntityStore;
@@ -94,9 +96,7 @@ class ImportGndDump extends Maintenance {
 	}
 
 	private function getImportItemsPresenter(): ImportItemsPresenter {
-		return new class() implements ImportItemsPresenter {
-
-		};
+		return new MaintenanceImportItemsPresenter( $this );
 	}
 
 	private function newEntityStore(): EntityStore {

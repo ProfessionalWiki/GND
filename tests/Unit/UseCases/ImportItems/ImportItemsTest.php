@@ -27,7 +27,11 @@ class ImportItemsTest extends TestCase {
 		$this->itemSource = new InMemoryItemSource();
 		$this->store = new InMemoryItemStore();
 		$this->presenter = new class() implements ImportItemsPresenter {
+			public function presentStartStoring( Item $item ): void {
+			}
 
+			public function presentDoneStoring( Item $item ): void {
+			}
 		};
 	}
 

@@ -19,7 +19,7 @@ class ImportItems {
 		$this->presenter = $presenter;
 	}
 
-	public function import(): void { // TODO: test
+	public function import(): void {
 		while ( true ) {
 			$item = $this->itemSource->nextItem();
 
@@ -27,8 +27,14 @@ class ImportItems {
 				break;
 			}
 
-			$this->store->storeItem( $item );
-			// TODO: present
+			$this->presenter->presentStartStoring( $item );
+
+			try {
+				$this->store->storeItem( $item );
+			} catch ( \Exception $exception ) {
+			}
+
+			$this->presenter->presentDoneStoring( $item );
 		}
 
 		// TODO: present done
