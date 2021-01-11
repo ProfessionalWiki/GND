@@ -11,6 +11,7 @@ class MaintenanceImportItemsPresenter implements ImportItemsPresenter {
 
 	private \Maintenance $maintenance;
 	private float $startTime;
+	private int $itemCount = 0;
 
 	public function __construct( \Maintenance $maintenance ) {
 		$this->maintenance = $maintenance;
@@ -24,6 +25,8 @@ class MaintenanceImportItemsPresenter implements ImportItemsPresenter {
 	}
 
 	public function presentDoneStoring( Item $item ): void {
+		$this->itemCount++;
+
 		$this->maintenance->outputChanneled(
 			'done',
 			$item->getId()->getSerialization()
@@ -36,11 +39,17 @@ class MaintenanceImportItemsPresenter implements ImportItemsPresenter {
 
 	public function presentImportFinished(): void {
 		$this->maintenance->outputChanneled( 'Import complete!' );
-		$this->maintenance->outputChanneled( 'Duration: ' . number_format( $this->getDurationInSeconds(), 2 ) . 's' );
+		$this->maintenance->outputChanneled( "Duration:\t" . number_format( $this->getDurationInSeconds(), 2 ) . ' seconds' );
+		$this->maintenance->outputChanneled( "Items:\t\t" . $this->itemCount );
+		$this->maintenance->outputChanneled( "Items/second:\t" . number_format( $this->getItemsPerSecond(), 2 ) );
 	}
 
 	private function getDurationInSeconds(): float {
 		return ( (float)hrtime(true) - $this->startTime ) / 1000000000;
+	}
+
+	private function getItemsPerSecond(): float {
+		return $this->itemCount / $this->getDurationInSeconds();
 	}
 
 }
