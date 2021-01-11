@@ -12,4 +12,8 @@ interface ImportItemsPresenter {
 
 	public function presentDoneStoring( Item $item ): void;
 
+	public function presentImportStarted(): void;
+
+	public function presentImportFinished(): void;
+
 }

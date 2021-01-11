@@ -10,6 +10,7 @@ use Wikibase\DataModel\Entity\Item;
 class MaintenanceImportItemsPresenter implements ImportItemsPresenter {
 
 	private \Maintenance $maintenance;
+	private float $startTime;
 
 	public function __construct( \Maintenance $maintenance ) {
 		$this->maintenance = $maintenance;
@@ -27,6 +28,19 @@ class MaintenanceImportItemsPresenter implements ImportItemsPresenter {
 			'done',
 			$item->getId()->getSerialization()
 		);
+	}
+
+	public function presentImportStarted(): void {
+		$this->startTime = (float)hrtime(true);
+	}
+
+	public function presentImportFinished(): void {
+		$this->maintenance->outputChanneled( 'Import complete!' );
+		$this->maintenance->outputChanneled( 'Duration: ' . number_format( $this->getDurationInSeconds(), 2 ) . 's' );
+	}
+
+	private function getDurationInSeconds(): float {
+		return ( (float)hrtime(true) - $this->startTime ) / 1000000000;
 	}
 
 }

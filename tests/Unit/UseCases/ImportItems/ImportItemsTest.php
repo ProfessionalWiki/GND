@@ -32,6 +32,12 @@ class ImportItemsTest extends TestCase {
 
 			public function presentDoneStoring( Item $item ): void {
 			}
+
+			public function presentImportStarted(): void {
+			}
+
+			public function presentImportFinished(): void {
+			}
 		};
 	}
 

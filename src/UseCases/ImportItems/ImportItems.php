@@ -20,6 +20,8 @@ class ImportItems {
 	}
 
 	public function import(): void {
+		$this->presenter->presentImportStarted();
+
 		while ( true ) {
 			$item = $this->itemSource->nextItem();
 
@@ -37,7 +39,7 @@ class ImportItems {
 			$this->presenter->presentDoneStoring( $item );
 		}
 
-		// TODO: present done
+		$this->presenter->presentImportFinished();
 	}
 
 }
