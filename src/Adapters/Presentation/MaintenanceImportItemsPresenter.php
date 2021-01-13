@@ -12,25 +12,31 @@ class MaintenanceImportItemsPresenter implements ImportItemsPresenter {
 	private \Maintenance $maintenance;
 	private float $startTime;
 	private int $itemCount = 0;
+	private bool $quiet;
 
-	public function __construct( \Maintenance $maintenance ) {
+	public function __construct( \Maintenance $maintenance, bool $quiet ) {
 		$this->maintenance = $maintenance;
+		$this->quiet = $quiet;
 	}
 
 	public function presentStorageStarted( Item $item ): void {
-		$this->maintenance->outputChanneled(
-			'Importing Item ' . $item->getId()->getSerialization() . '... ',
-			$item->getId()->getSerialization()
-		);
+		if ( !$this->quiet ) {
+			$this->maintenance->outputChanneled(
+				'Importing Item ' . $item->getId()->getSerialization() . '... ',
+				$item->getId()->getSerialization()
+			);
+		}
 	}
 
 	public function presentStorageSucceeded( Item $item ): void {
 		$this->itemCount++;
 
-		$this->maintenance->outputChanneled(
-			'done',
-			$item->getId()->getSerialization()
-		);
+		if ( !$this->quiet ) {
+			$this->maintenance->outputChanneled(
+				'done',
+				$item->getId()->getSerialization()
+			);
+		}
 	}
 
 	public function presentStorageFailed( Item $item, \Exception $exception ): void {

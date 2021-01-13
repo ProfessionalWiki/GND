@@ -59,8 +59,6 @@ class ImportGndDump extends Maintenance {
 		$this->ensureFileExists();
 
 		$this->newImportItemsUseCase()->import();
-
-		$this->output( 'done' );
 	}
 
 	private function ensureWikibaseIsLoaded() {
@@ -114,7 +112,10 @@ class ImportGndDump extends Maintenance {
 	}
 
 	private function getImportItemsPresenter(): ImportItemsPresenter {
-		return new MaintenanceImportItemsPresenter( $this );
+		return new MaintenanceImportItemsPresenter(
+			$this,
+			$this->hasOption( 'quiet' )
+		);
 	}
 
 	private function newEntityStore(): EntityStore {
