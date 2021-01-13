@@ -45,6 +45,13 @@ class ImportGndDump extends Maintenance {
 			false,
 			true
 		);
+
+		$this->addOption(
+			'offset',
+			'Number of records to skip over before starting the import',
+			false,
+			true
+		);
 	}
 
 	public function execute() {
@@ -90,7 +97,7 @@ class ImportGndDump extends Maintenance {
 	private function getLineIterator(): \Iterator {
 		$file = new \LimitIterator(
 			new SplFileObject( $this->getOption( 'path' ) ),
-			0,
+			(int)$this->getOption( 'offset', 0 ),
 			(int)$this->getOption( 'limit', -1 )
 		);
 
