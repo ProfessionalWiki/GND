@@ -12,10 +12,8 @@ interface ImportItemsPresenter {
 
 	public function presentStorageSucceeded( Item $item ): void;
 
-	public function presentImportStarted(): void;
-
-	public function presentImportFinished(): void;
-
 	public function presentStorageFailed( Item $item, \Exception $exception ): void;
+
+	public function presentImportFinished( ImportStats $stats ): void;
 
 }

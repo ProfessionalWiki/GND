@@ -20,7 +20,9 @@ class ImportItems {
 	}
 
 	public function import(): void {
-		$this->presenter->presentImportStarted();
+		$stats = new ImportStats();
+
+		$stats->recordStart();
 
 		while ( true ) {
 			$item = $this->itemSource->nextItem();
@@ -34,14 +36,16 @@ class ImportItems {
 			try {
 				$this->store->storeItem( $item );
 			} catch ( \Exception $exception ) {
+				$stats->recordFailure();
 				$this->presenter->presentStorageFailed( $item, $exception );
 				continue;
 			}
 
+			$stats->recordSuccess();
 			$this->presenter->presentStorageSucceeded( $item );
 		}
 
-		$this->presenter->presentImportFinished();
+		$this->presenter->presentImportFinished( $stats );
 	}
 
 }

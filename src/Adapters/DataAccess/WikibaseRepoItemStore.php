@@ -29,7 +29,7 @@ class WikibaseRepoItemStore implements ItemStore {
 			$this->entityStore->saveEntity(
 				$item,
 				'test summary ' . $item->getId(),
-				$this->user
+				$this->user,
 			);
 		} catch ( Exception $ex ) {
 			throw new \RuntimeException(

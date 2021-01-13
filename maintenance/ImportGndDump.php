@@ -16,6 +16,7 @@ use Maintenance;
 use Onoi\MessageReporter\CallbackMessageReporter;
 use SplFileObject;
 use User;
+use Wikibase\DataModel\Entity\Item;
 use Wikibase\Lib\Store\EntityStore;
 use Wikibase\Lib\WikibaseSettings;
 use Wikibase\Repo\WikibaseRepo;
@@ -49,6 +50,13 @@ class ImportGndDump extends Maintenance {
 		$this->addOption(
 			'offset',
 			'Number of records to skip over before starting the import',
+			false,
+			true
+		);
+
+		$this->addOption(
+			'error-log',
+			'Log file to append errors to',
 			false,
 			true
 		);
@@ -114,8 +122,28 @@ class ImportGndDump extends Maintenance {
 	private function getImportItemsPresenter(): ImportItemsPresenter {
 		return new MaintenanceImportItemsPresenter(
 			$this,
-			$this->hasOption( 'quiet' )
+			$this->hasOption( 'quiet' ),
+			$this->newExceptionLogger()
 		);
+	}
+
+	private function newExceptionLogger(): \Closure {
+		if ( !$this->hasOption( 'error-log' ) ) {
+			return function() {};
+		}
+
+		$fileHandle = fopen( $this->getOption( 'error-log' ), 'a' );
+
+		return function( \Exception $exception ) use ( $fileHandle ) {
+			fwrite(
+				$fileHandle,
+				$exception->getMessage() . "\n" .
+				$exception->getTraceAsString() . "\n" .
+				( $exception->getPrevious() ? $exception->getPrevious()->getTraceAsString() . "\n" : '' ) . "\n"
+			);
+
+			fflush( $fileHandle );
+		};
 	}
 
 	private function newEntityStore(): EntityStore {

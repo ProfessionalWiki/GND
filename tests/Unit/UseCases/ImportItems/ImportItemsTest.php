@@ -8,6 +8,7 @@ use DNB\GND\Adapters\DataAccess\InMemoryItemSource;
 use DNB\GND\Adapters\DataAccess\InMemoryItemStore;
 use DNB\GND\UseCases\ImportItems\ImportItems;
 use DNB\GND\UseCases\ImportItems\ImportItemsPresenter;
+use DNB\GND\UseCases\ImportItems\ImportStats;
 use PHPUnit\Framework\TestCase;
 use Wikibase\DataModel\Entity\Item;
 use Wikibase\DataModel\Entity\ItemId;
@@ -29,6 +30,7 @@ class ImportItemsTest extends TestCase {
 		$this->presenter = new class() implements ImportItemsPresenter {
 			public array $stored = [];
 			public array $failed = [];
+			public ImportStats $stats;
 
 			public function presentStorageStarted( Item $item ): void {
 			}
@@ -41,10 +43,8 @@ class ImportItemsTest extends TestCase {
 				$this->failed[] = $item->getId()->getSerialization();
 			}
 
-			public function presentImportStarted(): void {
-			}
-
-			public function presentImportFinished(): void {
+			public function presentImportFinished( ImportStats $stats ): void {
+				$this->stats = $stats;
 			}
 		};
 	}
@@ -89,6 +89,20 @@ class ImportItemsTest extends TestCase {
 
 		$this->assertSame( [ 'Q1', 'Q3' ], $this->presenter->stored );
 		$this->assertSame( [ 'Q2' ], $this->presenter->failed );
+	}
+
+	public function testStats() {
+		$this->itemSource = new InMemoryItemSource(
+			new Item( new ItemId( 'Q1' ) ),
+			new Item( new ItemId( 'Q2' ) ),
+			new Item( new ItemId( 'Q3' ) )
+		);
+		$this->store->throwOnId( 'Q2' );
+
+		$this->newUseCase()->import();
+
+		$this->assertSame( 3, $this->presenter->stats->getItemCount() );
+		$this->assertSame( 1, $this->presenter->stats->getFailureCount() );
 	}
 
 }
