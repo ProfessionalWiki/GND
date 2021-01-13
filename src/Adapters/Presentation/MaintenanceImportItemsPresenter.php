@@ -12,7 +12,8 @@ class MaintenanceImportItemsPresenter implements ImportItemsPresenter {
 
 	private \Maintenance $maintenance;
 	private float $startTime;
-	private int $itemCount = 0;
+	private int $successCount = 0;
+	private int $failureCount = 0;
 	private bool $quiet;
 
 	public function __construct( \Maintenance $maintenance, bool $quiet ) {
@@ -28,7 +29,7 @@ class MaintenanceImportItemsPresenter implements ImportItemsPresenter {
 	}
 
 	public function presentStorageSucceeded( Item $item ): void {
-		$this->itemCount++;
+		$this->successCount++;
 
 		$this->outputItemProgress(
 			$item->getId(),
@@ -37,7 +38,7 @@ class MaintenanceImportItemsPresenter implements ImportItemsPresenter {
 	}
 
 	public function presentStorageFailed( Item $item, \Exception $exception ): void {
-		$this->itemCount++;
+		$this->failureCount++;
 
 		// TODO: log stack trace
 
@@ -63,8 +64,13 @@ class MaintenanceImportItemsPresenter implements ImportItemsPresenter {
 	public function presentImportFinished(): void {
 		$this->maintenance->outputChanneled( 'Import complete!' );
 		$this->maintenance->outputChanneled( "Duration:\t" . number_format( $this->getDurationInSeconds(), 2 ) . ' seconds' );
-		$this->maintenance->outputChanneled( "Items:\t\t" . $this->itemCount );
+		$this->maintenance->outputChanneled( "Items:\t\t" . $this->getItemCount() );
 		$this->maintenance->outputChanneled( "Items/second:\t" . number_format( $this->getItemsPerSecond(), 2 ) );
+		$this->maintenance->outputChanneled( sprintf(
+			"Failures:\t%1d (%2.4f%%)",
+			$this->failureCount,
+			$this->getFailurePercentage()
+		) );
 	}
 
 	private function getDurationInSeconds(): float {
@@ -72,7 +78,15 @@ class MaintenanceImportItemsPresenter implements ImportItemsPresenter {
 	}
 
 	private function getItemsPerSecond(): float {
-		return $this->itemCount / $this->getDurationInSeconds();
+		return $this->getItemCount() / $this->getDurationInSeconds();
+	}
+
+	private function getItemCount(): int {
+		return $this->successCount + $this->failureCount;
+	}
+
+	private function getFailurePercentage(): float {
+		return $this->failureCount / $this->getItemCount() * 100;
 	}
 
 
