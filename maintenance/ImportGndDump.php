@@ -38,6 +38,13 @@ class ImportGndDump extends Maintenance {
 			true,
 			true
 		);
+
+		$this->addOption(
+			'limit',
+			'Limit how many records are imported',
+			false,
+			true
+		);
 	}
 
 	public function execute() {
@@ -81,10 +88,14 @@ class ImportGndDump extends Maintenance {
 	}
 
 	private function getLineIterator(): \Iterator {
-		$file = new SplFileObject( $this->getOption( 'path' ) );
+		$file = new \LimitIterator(
+			new SplFileObject( $this->getOption( 'path' ) ),
+			0,
+			(int)$this->getOption( 'limit', -1 )
+		);
 
-		while ( !$file->eof() ) {
-			yield $file->fgets();
+		foreach ( $file as $line ) {
+			yield $line;
 		}
 	}
 
