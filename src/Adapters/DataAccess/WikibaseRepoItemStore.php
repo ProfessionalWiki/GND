@@ -21,15 +21,22 @@ class WikibaseRepoItemStore implements ItemStore {
 	}
 
 	public function storeItem( Item $item ): void {
+		if ( $item->getId() === null ) {
+			throw new \RuntimeException( 'Cannot store items that do not have an ID' );
+		}
+
 		try {
 			$this->entityStore->saveEntity(
 				$item,
 				'test summary ' . $item->getId(),
-				$this->user,
-				$item->getId() === null ? EDIT_NEW : EDIT_UPDATE
+				$this->user
 			);
 		} catch ( Exception $ex ) {
-			throw new \RuntimeException( $item->getId()->getSerialization(), 0, $ex );
+			throw new \RuntimeException(
+				'Could not save '  . $item->getId()->getSerialization() . '. ' .  $ex->getMessage(),
+				0,
+				$ex
+			);
 		}
 	}
 

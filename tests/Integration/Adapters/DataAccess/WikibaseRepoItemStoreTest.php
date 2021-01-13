@@ -16,12 +16,10 @@ use Wikibase\Repo\WikibaseRepo;
  */
 class WikibaseRepoItemStoreTest extends MediaWikiIntegrationTestCase {
 
-	public function testStoreItem() {
-		$item = new Item();
+	public function testCanStoreNewItemWithId() {
+		$item = new Item( new ItemId( 'Q1042' ) );
 
 		$this->newItemStore()->storeItem( $item );
-
-		$this->assertNotNull( $item->getId() );
 
 		$this->assertEquals(
 			$item,
@@ -41,7 +39,7 @@ class WikibaseRepoItemStoreTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testMultipleStorageCallsForOneItem() {
-		$item = new Item();
+		$item = new Item( new ItemId( 'Q1043' ) );
 
 		$this->newItemStore()->storeItem( $item );
 		$this->newItemStore()->storeItem( $item );
@@ -50,6 +48,11 @@ class WikibaseRepoItemStoreTest extends MediaWikiIntegrationTestCase {
 			$item,
 			$this->getItemFromPersistence( $item->getId() )
 		);
+	}
+
+	public function testExceptionWhenItemHasNoId() {
+		$this->expectException( \RuntimeException::class );
+		$this->newItemStore()->storeItem( new Item() );
 	}
 
 }
