@@ -6,6 +6,7 @@ namespace DNB\GND\Adapters\Presentation;
 
 use DNB\GND\UseCases\ImportItems\ImportItemsPresenter;
 use Wikibase\DataModel\Entity\Item;
+use Wikibase\DataModel\Entity\ItemId;
 
 class MaintenanceImportItemsPresenter implements ImportItemsPresenter {
 
@@ -20,32 +21,39 @@ class MaintenanceImportItemsPresenter implements ImportItemsPresenter {
 	}
 
 	public function presentStorageStarted( Item $item ): void {
-		if ( !$this->quiet ) {
-			$this->maintenance->outputChanneled(
-				'Importing Item ' . $item->getId()->getSerialization() . '... ',
-				$item->getId()->getSerialization()
-			);
-		}
+		$this->outputItemProgress(
+			$item->getId(),
+			'Importing Item ' . $item->getId()->getSerialization() . '... '
+		);
 	}
 
 	public function presentStorageSucceeded( Item $item ): void {
 		$this->itemCount++;
 
-		if ( !$this->quiet ) {
-			$this->maintenance->outputChanneled(
-				'done',
-				$item->getId()->getSerialization()
-			);
-		}
+		$this->outputItemProgress(
+			$item->getId(),
+			'done'
+		);
 	}
 
 	public function presentStorageFailed( Item $item, \Exception $exception ): void {
+		$this->itemCount++;
+
 		// TODO: log stack trace
 
-		$this->maintenance->outputChanneled(
-			'failed: ' . $exception->getMessage(),
-			$item->getId()->getSerialization()
+		$this->outputItemProgress(
+			$item->getId(),
+			'failed: ' . $exception->getMessage()
 		);
+	}
+
+	private function outputItemProgress( ItemId $id, string $message ): void {
+		if ( !$this->quiet ) {
+			$this->maintenance->outputChanneled(
+				$message,
+				$id->getSerialization()
+			);
+		}
 	}
 
 	public function presentImportStarted(): void {
