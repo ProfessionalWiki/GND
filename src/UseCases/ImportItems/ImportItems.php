@@ -21,8 +21,10 @@ class ImportItems {
 
 	public function import(): void {
 		$stats = new ImportStats();
-
 		$stats->recordStart();
+
+//		$factory = \MediaWiki\MediaWikiServices::getInstance()->getDBLoadBalancerFactory();
+//		$factory->beginMasterChanges(__METHOD__);
 
 		while ( true ) {
 			$item = $this->itemSource->nextItem();
@@ -45,6 +47,7 @@ class ImportItems {
 			$this->presenter->presentStorageSucceeded( $item );
 		}
 
+//		$factory->commitMasterChanges(__METHOD__);
 		$this->presenter->presentImportFinished( $stats );
 	}
 
