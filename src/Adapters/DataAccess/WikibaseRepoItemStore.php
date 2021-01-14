@@ -28,8 +28,8 @@ class WikibaseRepoItemStore implements ItemStore {
 		try {
 			$this->entityStore->saveEntity(
 				$item,
-				'test summary ' . $item->getId(),
-				$this->user,
+				'test summary ' . $item->getId(), // TODO
+				$this->user
 			);
 		} catch ( Exception $ex ) {
 			throw new \RuntimeException(

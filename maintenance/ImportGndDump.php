@@ -4,6 +4,7 @@ declare( strict_types = 1 );
 
 namespace DNB\GND\Maintenance;
 
+use Amp\Parallel\Worker\DefaultPool;
 use DNB\GND\Adapters\DataAccess\GndConverterItemBuilder;
 use DNB\GND\Adapters\DataAccess\GndConverterItemSource;
 use DNB\GND\Adapters\DataAccess\WikibaseRepoItemStore;
@@ -20,6 +21,11 @@ use Wikibase\DataModel\Entity\Item;
 use Wikibase\Lib\Store\EntityStore;
 use Wikibase\Lib\WikibaseSettings;
 use Wikibase\Repo\WikibaseRepo;
+use Amp\Parallel\Worker;
+use Amp\Promise;
+use Amp\Loop;
+use Amp\Parallel\Worker\CallableTask;
+use function Amp\call;
 
 $basePath = getenv( 'MW_INSTALL_PATH' ) !== false ? getenv( 'MW_INSTALL_PATH' ) : __DIR__ . '/../../..';
 
