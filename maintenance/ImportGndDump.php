@@ -6,6 +6,7 @@ namespace DNB\GND\Maintenance;
 
 use DNB\GND\Adapters\DataAccess\GndConverterItemBuilder;
 use DNB\GND\Adapters\DataAccess\GndConverterItemSource;
+use DNB\GND\Adapters\DataAccess\MediaWikiItemStore;
 use DNB\GND\Adapters\DataAccess\WikibaseRepoItemStore;
 use DNB\GND\Adapters\Presentation\MaintenanceImportItemsPresenter;
 use DNB\GND\Domain\ItemSource;
@@ -113,10 +114,16 @@ class ImportGndDump extends Maintenance {
 	}
 
 	private function getItemStore(): ItemStore {
+		return new MediaWikiItemStore( $this->newUser() );
+
 		return new WikibaseRepoItemStore(
 			$this->newEntityStore(),
-			User::newSystemUser( 'Import Script', [ 'steal' => true ] )
+			$this->newUser()
 		);
+	}
+
+	private function newUser(): User {
+		return User::newSystemUser( 'Import Script', [ 'steal' => true ] );
 	}
 
 	private function getImportItemsPresenter(): ImportItemsPresenter {
