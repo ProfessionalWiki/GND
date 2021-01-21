@@ -114,7 +114,7 @@ class ImportGndDump extends Maintenance {
 	}
 
 	private function getItemStore(): ItemStore {
-		return new MediaWikiItemStore( $this->newUser() );
+		//return new MediaWikiItemStore( $this->newUser() );
 
 		return new WikibaseRepoItemStore(
 			$this->newEntityStore(),
