@@ -8,7 +8,7 @@ use CommentStoreComment;
 use DNB\GND\Domain\ItemStore;
 use User;
 use Wikibase\DataModel\Entity\Item;
-use Wikibase\Repo\Content\ItemContent;
+use Wikibase\Repo\WikibaseRepo;
 
 class MediaWikiItemStore implements ItemStore {
 
@@ -23,11 +23,13 @@ class MediaWikiItemStore implements ItemStore {
 			throw new \RuntimeException( 'Cannot store items that do not have an ID' );
 		}
 
-		$titleObject = \Title::newFromText( $item->getId()->getSerialization(), WB_NS_ITEM );
+		$titleObject = \Title::newFromText( $item->getId()->getSerialization() );
 		$page = new \WikiPage( $titleObject );
 
 		$updater = $page->newPageUpdater( $this->user );
-		$updater->setContent( 'main', ItemContent::newFromItem( $item ) );
+		$updater->setContent( 'main', new \WikitextContent(
+			json_encode( WikibaseRepo::getDefaultInstance()->getBaseDataModelSerializerFactory()->newEntitySerializer()->serialize( $item ) )
+		) );
 		$updater->saveRevision( CommentStoreComment::newUnsavedComment( 'test summary ' . $item->getId() ) );
 	}
 
