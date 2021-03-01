@@ -6,8 +6,8 @@ namespace DNB\GND\Tests\Unit\Adapters\DataAccess;
 
 use DataValues\StringValue;
 use DNB\GND\Adapters\DataAccess\GndConverterItemBuilder;
-use DNB\WikibaseConverter\PropertyWithValues;
-use DNB\WikibaseConverter\WikibaseRecord;
+use DNB\WikibaseConverter\GndItem;
+use DNB\WikibaseConverter\GndStatement;
 use PHPUnit\Framework\TestCase;
 use Wikibase\DataModel\Entity\Item;
 use Wikibase\DataModel\Entity\PropertyId;
@@ -20,12 +20,12 @@ class GndConverterItemBuilderTest extends TestCase {
 
 	public function testEmptyRecordResultsInEmptyItem() {
 		$this->testItemIsBuild(
-			new WikibaseRecord(),
+			new GndItem(),
 			new Item()
 		);
 	}
 
-	private function testItemIsBuild( WikibaseRecord $input, Item $expected ) {
+	private function testItemIsBuild( GndItem $input, Item $expected ) {
 		$builder = new GndConverterItemBuilder();
 
 		$this->assertEquals(
@@ -35,19 +35,12 @@ class GndConverterItemBuilderTest extends TestCase {
 	}
 
 	public function testMultipleValuesForMultipleProperties() {
-		$record = new WikibaseRecord();
-		$record->addValuesOfOneProperty(
-			new PropertyWithValues(
-				'P42',
-				[ 'a', 'b', 'c' ]
-			)
-		);
-		$record->addValuesOfOneProperty(
-			new PropertyWithValues(
-				'P1337',
-				[ 'x', 'a' ]
-			)
-		);
+		$gndItem = new GndItem();
+		$gndItem->addGndStatement( new GndStatement( 'P42', 'a' ) );
+		$gndItem->addGndStatement( new GndStatement( 'P42', 'b' ) );
+		$gndItem->addGndStatement( new GndStatement( 'P42', 'c' ) );
+		$gndItem->addGndStatement( new GndStatement( 'P1337', 'x' ) );
+		$gndItem->addGndStatement( new GndStatement( 'P1337', 'a' ) );
 
 		$item = new Item();
 		$item->getStatements()->addNewStatement(
@@ -67,7 +60,7 @@ class GndConverterItemBuilderTest extends TestCase {
 		);
 
 		$this->testItemIsBuild(
-			$record,
+			$gndItem,
 			$item
 		);
 	}

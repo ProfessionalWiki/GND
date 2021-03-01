@@ -7,16 +7,18 @@ namespace DNB\GND\Adapters\Presentation;
 use Closure;
 use DNB\GND\UseCases\ImportItems\ImportItemsPresenter;
 use DNB\GND\UseCases\ImportItems\ImportStats;
+use Exception;
+use Maintenance;
 use Wikibase\DataModel\Entity\Item;
 use Wikibase\DataModel\Entity\ItemId;
 
 class MaintenanceImportItemsPresenter implements ImportItemsPresenter {
 
-	private \Maintenance $maintenance;
+	private Maintenance $maintenance;
 	private bool $quiet;
 	private Closure $exceptionLogger;
 
-	public function __construct( \Maintenance $maintenance, bool $quiet, Closure $exceptionLogger ) {
+	public function __construct( Maintenance $maintenance, bool $quiet, Closure $exceptionLogger ) {
 		$this->maintenance = $maintenance;
 		$this->quiet = $quiet;
 		$this->exceptionLogger = $exceptionLogger;
@@ -36,7 +38,7 @@ class MaintenanceImportItemsPresenter implements ImportItemsPresenter {
 		);
 	}
 
-	public function presentStorageFailed( Item $item, \Exception $exception ): void {
+	public function presentStorageFailed( Item $item, Exception $exception ): void {
 		$exceptionLogger = $this->exceptionLogger;
 		$exceptionLogger( $exception );
 

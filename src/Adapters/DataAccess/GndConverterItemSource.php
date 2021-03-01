@@ -32,13 +32,13 @@ class GndConverterItemSource implements ItemSource {
 
 			try {
 				// TODO: do not re-create
-				$wikibaseRecord = PicaConverter::newWithDefaultMapping()->picaJsonToWikibaseRecord( $line );
+				$gndItem = PicaConverter::newWithDefaultMapping()->picaJsonToGndItem( $line );
 			} catch ( InvalidPica $ex ) {
 				continue;
 			}
 
-			//if ( $wikibaseRecord->getPropertyIds() !== [] ) {
-			return $this->itemBuilder->build( $wikibaseRecord );
+			//if ( $gndItem->getPropertyIds() !== [] ) {
+			return $this->itemBuilder->build( $gndItem );
 			//}
 		}
 	}

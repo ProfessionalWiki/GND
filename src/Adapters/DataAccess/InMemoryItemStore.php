@@ -5,6 +5,7 @@ declare( strict_types = 1 );
 namespace DNB\GND\Adapters\DataAccess;
 
 use DNB\GND\Domain\ItemStore;
+use RuntimeException;
 use Wikibase\DataModel\Entity\Item;
 use Wikibase\DataModel\Entity\ItemId;
 
@@ -25,7 +26,7 @@ class InMemoryItemStore implements ItemStore {
 			$item->setId( ItemId::newFromNumber( $this->nextId++ ) );
 		}
 		else if ( in_array( $item->getId()->getSerialization(), $this->idsToThrowOn ) ) {
-			throw new \RuntimeException( $item->getId()->getSerialization() );
+			throw new RuntimeException( $item->getId()->getSerialization() );
 		}
 
 		$this->items[$item->getId()->getSerialization()] = $item;

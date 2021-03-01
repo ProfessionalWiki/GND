@@ -6,6 +6,7 @@ namespace DNB\GND\UseCases\ImportItems;
 
 use DNB\GND\Domain\ItemSource;
 use DNB\GND\Domain\ItemStore;
+use Exception;
 
 class ImportItems {
 
@@ -37,7 +38,7 @@ class ImportItems {
 
 			try {
 				$this->store->storeItem( $item );
-			} catch ( \Exception $exception ) {
+			} catch ( Exception $exception ) {
 				$stats->recordFailure();
 				$this->presenter->presentStorageFailed( $item, $exception );
 				continue;

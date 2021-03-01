@@ -6,6 +6,7 @@ namespace DNB\GND\Adapters\DataAccess;
 
 use DNB\GND\Domain\ItemStore;
 use Exception;
+use RuntimeException;
 use User;
 use Wikibase\DataModel\Entity\Item;
 use Wikibase\Lib\Store\EntityStore;
@@ -22,7 +23,7 @@ class WikibaseRepoItemStore implements ItemStore {
 
 	public function storeItem( Item $item ): void {
 		if ( $item->getId() === null ) {
-			throw new \RuntimeException( 'Cannot store items that do not have an ID' );
+			throw new RuntimeException( 'Cannot store items that do not have an ID' );
 		}
 
 		try {
@@ -32,7 +33,7 @@ class WikibaseRepoItemStore implements ItemStore {
 				$this->user,
 			);
 		} catch ( Exception $ex ) {
-			throw new \RuntimeException(
+			throw new RuntimeException(
 				'Could not save '  . $item->getId()->getSerialization() . '. ' .  $ex->getMessage(),
 				0,
 				$ex
