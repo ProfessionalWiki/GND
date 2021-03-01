@@ -5,7 +5,7 @@ declare( strict_types = 1 );
 namespace DNB\GND\Maintenance;
 
 use DNB\GND\Adapters\DataAccess\GndConverter\ItemBuilder;
-use DNB\GND\Adapters\DataAccess\GndConverter\StubValueBuilder;
+use DNB\GND\Adapters\DataAccess\GndConverter\ProductionValueBuilder;
 use DNB\GND\Adapters\DataAccess\GndConverterItemSource;
 use DNB\GND\Adapters\DataAccess\MediaWikiItemStore;
 use DNB\GND\Adapters\DataAccess\WikibaseRepoItemStore;
@@ -116,7 +116,7 @@ class ImportGndDump extends Maintenance {
 
 	private function newItemBuilder(): ItemBuilder {
 		return new ItemBuilder(
-			new StubValueBuilder()
+			new ProductionValueBuilder()
 		);
 	}
 

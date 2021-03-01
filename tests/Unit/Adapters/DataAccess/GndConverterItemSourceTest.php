@@ -5,7 +5,7 @@ declare( strict_types = 1 );
 namespace DNB\GND\Tests\Unit\Adapters\DataAccess;
 
 use DNB\GND\Adapters\DataAccess\GndConverter\ItemBuilder;
-use DNB\GND\Adapters\DataAccess\GndConverter\StubValueBuilder;
+use DNB\GND\Adapters\DataAccess\GndConverter\ProductionValueBuilder;
 use DNB\GND\Adapters\DataAccess\GndConverterItemSource;
 use DNB\GND\Domain\ItemSource;
 use PHPUnit\Framework\TestCase;
@@ -26,7 +26,7 @@ class GndConverterItemSourceTest extends TestCase {
 	}
 
 	private function newItemBuilder(): ItemBuilder {
-		return new ItemBuilder( new StubValueBuilder() );
+		return new ItemBuilder( new ProductionValueBuilder() );
 	}
 
 	public function testWithTestGndJson() {
