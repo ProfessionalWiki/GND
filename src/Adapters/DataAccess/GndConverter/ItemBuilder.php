@@ -4,7 +4,6 @@ declare( strict_types = 1 );
 
 namespace DNB\GND\Adapters\DataAccess\GndConverter;
 
-use DataValues\StringValue;
 use DNB\WikibaseConverter\GndItem;
 use Wikibase\DataModel\Entity\Item;
 use Wikibase\DataModel\Entity\ItemId;
@@ -38,6 +37,7 @@ class ItemBuilder {
 				$statements->addNewStatement(
 					new PropertyValueSnak(
 						new PropertyId( $id ),
+						// TODO: look up property type based on ID (PropertyDataTypeLookup)
 						$this->valueBuilder->stringToDataValue( $gndStatement->getValue(), 'todo' )
 					)
 				);
