@@ -10,7 +10,9 @@ use DNB\GND\Adapters\DataAccess\GndConverter\ProductionValueBuilder;
 use DNB\WikibaseConverter\GndItem;
 use DNB\WikibaseConverter\GndStatement;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Wikibase\DataModel\Entity\Item;
+use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
 
@@ -19,7 +21,8 @@ use Wikibase\DataModel\Snak\PropertyValueSnak;
  */
 class ItemBuilderTest extends TestCase {
 
-	public function testEmptyRecordResultsInEmptyItem() {
+	public function testEmptyRecordResultsInNoIdException(): void {
+		$this->expectException( RuntimeException::class );
 		$this->testItemIsBuild(
 			new GndItem(),
 			new Item()
@@ -37,13 +40,17 @@ class ItemBuilderTest extends TestCase {
 
 	public function testMultipleValuesForMultipleProperties() {
 		$gndItem = new GndItem();
+		$gndItem->addGndStatement( new GndStatement( 'P150', '123' ) );
 		$gndItem->addGndStatement( new GndStatement( 'P42', 'a' ) );
 		$gndItem->addGndStatement( new GndStatement( 'P42', 'b' ) );
 		$gndItem->addGndStatement( new GndStatement( 'P42', 'c' ) );
 		$gndItem->addGndStatement( new GndStatement( 'P1337', 'x' ) );
 		$gndItem->addGndStatement( new GndStatement( 'P1337', 'a' ) );
 
-		$item = new Item();
+		$item = new Item( new ItemId( 'Q123' ) );
+		$item->getStatements()->addNewStatement(
+			new PropertyValueSnak( new PropertyId( 'P150' ), new StringValue( '123' ) )
+		);
 		$item->getStatements()->addNewStatement(
 			new PropertyValueSnak( new PropertyId( 'P42' ), new StringValue( 'a' ) )
 		);
