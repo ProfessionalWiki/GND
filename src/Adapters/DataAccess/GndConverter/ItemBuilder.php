@@ -2,7 +2,7 @@
 
 declare( strict_types = 1 );
 
-namespace DNB\GND\Adapters\DataAccess;
+namespace DNB\GND\Adapters\DataAccess\GndConverter;
 
 use DataValues\StringValue;
 use DNB\WikibaseConverter\GndItem;
@@ -16,10 +16,12 @@ use Wikibase\DataModel\Statement\StatementList;
  * Builds a Wikibase Item (using the Wikibase DataModel classes) from
  * an item representation coming from the GND Wikibase Converter library.
  */
-class GndConverterItemBuilder {
+class ItemBuilder {
 
-	public function __construct() {
-		// TODO: inject value builder
+	private ValueBuilder $valueBuilder;
+
+	public function __construct( ValueBuilder $valueBuilder ) {
+		$this->valueBuilder = $valueBuilder;
 	}
 
 	public function build( GndItem $record ): Item {
@@ -36,7 +38,7 @@ class GndConverterItemBuilder {
 				$statements->addNewStatement(
 					new PropertyValueSnak(
 						new PropertyId( $id ),
-						new StringValue( $gndStatement->getValue() ) // TODO: handle types
+						$this->valueBuilder->stringToDataValue( $gndStatement->getValue(), 'todo' )
 					)
 				);
 			}

@@ -4,6 +4,7 @@ declare( strict_types = 1 );
 
 namespace DNB\GND\Adapters\DataAccess;
 
+use DNB\GND\Adapters\DataAccess\GndConverter\ItemBuilder;
 use DNB\GND\Domain\ItemSource;
 use DNB\WikibaseConverter\InvalidPica;
 use DNB\WikibaseConverter\PicaConverter;
@@ -13,9 +14,9 @@ use Wikibase\DataModel\Entity\Item;
 class GndConverterItemSource implements ItemSource {
 
 	private Iterator $jsonStringIterator;
-	private GndConverterItemBuilder $itemBuilder;
+	private ItemBuilder $itemBuilder;
 
-	public function __construct( Iterator $jsonStringIterator, GndConverterItemBuilder $itemBuilder ) {
+	public function __construct( Iterator $jsonStringIterator, ItemBuilder $itemBuilder ) {
 		$this->jsonStringIterator = $jsonStringIterator;
 		$this->itemBuilder = $itemBuilder;
 	}

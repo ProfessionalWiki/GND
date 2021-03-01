@@ -5,7 +5,8 @@ declare( strict_types = 1 );
 namespace DNB\GND\Tests\Unit\Adapters\DataAccess;
 
 use DataValues\StringValue;
-use DNB\GND\Adapters\DataAccess\GndConverterItemBuilder;
+use DNB\GND\Adapters\DataAccess\GndConverter\ItemBuilder;
+use DNB\GND\Adapters\DataAccess\GndConverter\StubValueBuilder;
 use DNB\WikibaseConverter\GndItem;
 use DNB\WikibaseConverter\GndStatement;
 use PHPUnit\Framework\TestCase;
@@ -14,7 +15,7 @@ use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
 
 /**
- * @covers \DNB\GND\Adapters\DataAccess\GndConverterItemBuilder
+ * @covers \DNB\GND\Adapters\DataAccess\GndConverter\ItemBuilder
  */
 class GndConverterItemBuilderTest extends TestCase {
 
@@ -26,7 +27,7 @@ class GndConverterItemBuilderTest extends TestCase {
 	}
 
 	private function testItemIsBuild( GndItem $input, Item $expected ) {
-		$builder = new GndConverterItemBuilder();
+		$builder = new ItemBuilder( new StubValueBuilder() );
 
 		$this->assertEquals(
 			$expected,

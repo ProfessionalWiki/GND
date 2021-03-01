@@ -4,7 +4,8 @@ declare( strict_types = 1 );
 
 namespace DNB\GND\Tests\Unit\Adapters\DataAccess;
 
-use DNB\GND\Adapters\DataAccess\GndConverterItemBuilder;
+use DNB\GND\Adapters\DataAccess\GndConverter\ItemBuilder;
+use DNB\GND\Adapters\DataAccess\GndConverter\StubValueBuilder;
 use DNB\GND\Adapters\DataAccess\GndConverterItemSource;
 use DNB\GND\Domain\ItemSource;
 use PHPUnit\Framework\TestCase;
@@ -18,16 +19,20 @@ class GndConverterItemSourceTest extends TestCase {
 	public function testReturnsNullWhenIteratorIsEmpty() {
 		$itemSource = new GndConverterItemSource(
 			new \ArrayIterator( [] ),
-			new GndConverterItemBuilder()
+			$this->newItemBuilder()
 		);
 
 		$this->assertNull( $itemSource->nextItem() );
 	}
 
+	private function newItemBuilder(): ItemBuilder {
+		return new ItemBuilder( new StubValueBuilder() );
+	}
+
 	public function testWithTestGndJson() {
 		$itemSource = new GndConverterItemSource(
 			$this->getTestGndIterator(),
-			new GndConverterItemBuilder()
+			$this->newItemBuilder()
 		);
 
 		$this->assertFiveItems( $itemSource );
@@ -58,7 +63,7 @@ class GndConverterItemSourceTest extends TestCase {
 				yield '{"fields": "invalid json"}';
 				yield from $this->getTestGndIterator();
 			} )(),
-			new GndConverterItemBuilder()
+			$this->newItemBuilder()
 		);
 
 		$this->assertFiveItems( $itemSource );
