@@ -6,7 +6,9 @@ namespace DNB\GND\Adapters\DataAccess\GndConverter;
 
 use DataValues\DataValue;
 use DataValues\StringValue;
+use DataValues\TimeValue;
 use InvalidArgumentException;
+use ValueParsers\YearMonthDayTimeParser;
 use Wikibase\DataModel\Entity\EntityIdValue;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\Repo\WikibaseRepo;
@@ -16,12 +18,13 @@ class ProductionValueBuilder implements ValueBuilder {
 	public function stringToDataValue( string $value, string $propertyTypeId ): DataValue {
 		$valueTypeId = $this->propertyTypeToValueTypeId( $propertyTypeId );
 
-		if ( $valueTypeId === 'string' ) {
-			return new StringValue( $value );
-		}
-
-		if ( $valueTypeId === 'wikibase-entityid' ) {
-			return $this->stringToEntityIdValue( $value );
+		switch ( $valueTypeId ) {
+			case 'string':
+				return new StringValue( $value );
+			case 'wikibase-entityid':
+				return $this->stringToEntityIdValue( $value );
+			case 'time':
+				return $this->stringToTimeValue( $value );
 		}
 
 		throw new InvalidArgumentException( 'Value type not supported' );
@@ -40,6 +43,10 @@ class ProductionValueBuilder implements ValueBuilder {
 		}
 
 		return $map[$propertyTypeId];
+	}
+
+	private function stringToTimeValue( string $value ): TimeValue {
+		return ( new YearMonthDayTimeParser() )->parse( $value );
 	}
 
 }

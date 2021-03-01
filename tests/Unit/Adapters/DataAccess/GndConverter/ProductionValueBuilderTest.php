@@ -5,6 +5,7 @@ declare( strict_types = 1 );
 namespace DNB\GND\Tests\Unit\Adapters\DataAccess\GndConverter;
 
 use DataValues\StringValue;
+use DataValues\TimeValue;
 use DNB\GND\Adapters\DataAccess\GndConverter\ProductionValueBuilder;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
@@ -44,6 +45,13 @@ class ProductionValueBuilderTest extends TestCase {
 	public function testUnknownPropertyType(): void {
 		$this->expectException( InvalidArgumentException::class );
 		$this->newBuilder()->stringToDataValue( 'maw', '404' );
+	}
+
+	public function testTimeValue(): void {
+		$this->assertEquals(
+			new TimeValue( '+1749-08-28T00:00:00Z', 0, 0, 0, TimeValue::PRECISION_DAY, TimeValue::CALENDAR_GREGORIAN ),
+			$this->newBuilder()->stringToDataValue( '28.08.1749', 'time' )
+		);
 	}
 
 }
