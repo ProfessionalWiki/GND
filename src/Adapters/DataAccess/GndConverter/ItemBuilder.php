@@ -38,7 +38,7 @@ class ItemBuilder {
 					new PropertyValueSnak(
 						new PropertyId( $id ),
 						// TODO: look up property type based on ID (PropertyDataTypeLookup)
-						$this->valueBuilder->stringToDataValue( $gndStatement->getValue(), 'todo' )
+						$this->valueBuilder->stringToDataValue( $gndStatement->getValue(), 'string' )
 					)
 				);
 			}

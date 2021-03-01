@@ -8,6 +8,9 @@ use DataValues\DataValue;
 
 interface ValueBuilder {
 
-	public function stringToDataValue( string $value, string $typeId ): DataValue;
+	/**
+	 * @thorws InvalidArgumentException
+	 */
+	public function stringToDataValue( string $value, string $propertyTypeId ): DataValue;
 
 }
