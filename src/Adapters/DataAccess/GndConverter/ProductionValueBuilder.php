@@ -8,9 +8,9 @@ use DataValues\DataValue;
 use DataValues\StringValue;
 use DataValues\TimeValue;
 use InvalidArgumentException;
-use ValueParsers\YearMonthDayTimeParser;
 use Wikibase\DataModel\Entity\EntityIdValue;
 use Wikibase\DataModel\Entity\ItemId;
+use Wikibase\Repo\Parsers\TimeParserFactory;
 use Wikibase\Repo\WikibaseRepo;
 
 class ProductionValueBuilder implements ValueBuilder {
@@ -36,6 +36,7 @@ class ProductionValueBuilder implements ValueBuilder {
 	}
 
 	private function propertyTypeToValueTypeId( string $propertyTypeId ): string {
+		// TODO: inject
 		$map = WikibaseRepo::getDefaultInstance()->getDataTypeDefinitions()->getValueTypes();
 
 		if ( !array_key_exists( $propertyTypeId, $map ) ) {
@@ -46,7 +47,9 @@ class ProductionValueBuilder implements ValueBuilder {
 	}
 
 	private function stringToTimeValue( string $value ): TimeValue {
-		return ( new YearMonthDayTimeParser() )->parse( $value );
+		// TODO: inject
+		// TODO: error cases
+		return ( new TimeParserFactory() )->getTimeParser()->parse( $value );
 	}
 
 }
