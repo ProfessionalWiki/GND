@@ -8,6 +8,7 @@ use DataValues\StringValue;
 use DNB\GND\Adapters\DataAccess\GndConverter\ItemBuilder;
 use DNB\GND\Adapters\DataAccess\GndConverter\ProductionValueBuilder;
 use DNB\WikibaseConverter\GndItem;
+use DNB\WikibaseConverter\GndQualifier;
 use DNB\WikibaseConverter\GndStatement;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
@@ -65,6 +66,40 @@ class ItemBuilderTest extends TestCase {
 		);
 		$item->getStatements()->addNewStatement(
 			new PropertyValueSnak( new PropertyId( 'P1337' ), new StringValue( 'a' ) )
+		);
+
+		$this->testItemIsBuild(
+			$gndItem,
+			$item
+		);
+	}
+
+	public function testQualifiers(): void {
+		$gndItem = new GndItem();
+		$gndItem->addGndStatement( new GndStatement( 'P150', '42X' ) );
+
+		$gndItem->addGndStatement( new GndStatement(
+			'P1',
+			'main value',
+			[
+				new GndQualifier( 'P50', 'A1' ),
+				new GndQualifier( 'P52', 'C1' ),
+				new GndQualifier( 'P52', 'C2' ),
+			]
+		) );
+
+		$item = new Item( new ItemId( 'Q42' ) );
+		$item->getStatements()->addNewStatement(
+			new PropertyValueSnak( new PropertyId( 'P150' ), new StringValue( '42X' ) )
+		);
+
+		$item->getStatements()->addNewStatement(
+			new PropertyValueSnak( new PropertyId( 'P1' ), new StringValue( 'main value' ) ),
+			[
+				new PropertyValueSnak( new PropertyId( 'P50' ), new StringValue( 'A1' ) ),
+				new PropertyValueSnak( new PropertyId( 'P52' ), new StringValue( 'C1' ) ),
+				new PropertyValueSnak( new PropertyId( 'P52' ), new StringValue( 'C2' ) ),
+			]
 		);
 
 		$this->testItemIsBuild(

@@ -5,6 +5,7 @@ declare( strict_types = 1 );
 namespace DNB\GND\Adapters\DataAccess\GndConverter;
 
 use DNB\WikibaseConverter\GndItem;
+use DNB\WikibaseConverter\GndQualifier;
 use RuntimeException;
 use Wikibase\DataModel\Entity\Item;
 use Wikibase\DataModel\Entity\ItemId;
@@ -50,16 +51,27 @@ class ItemBuilder {
 		foreach ( $gndItem->getPropertyIds() as $id ) {
 			foreach ( $gndItem->getStatementsForProperty( $id ) as $gndStatement ) {
 				$statements->addNewStatement(
-					new PropertyValueSnak(
-						new PropertyId( $id ),
-						// TODO: look up property type based on ID (PropertyDataTypeLookup)
-						$this->valueBuilder->stringToDataValue( $gndStatement->getValue(), 'string' )
+					$this->newWikibaseQualifier( $id, $gndStatement->getValue() ),
+					array_map(
+						fn( GndQualifier $qualifier ) => $this->newWikibaseQualifier(
+							$qualifier->getPropertyId(),
+							$qualifier->getValue()
+						),
+						$gndStatement->getQualifiers()
 					)
 				);
 			}
 		}
 
 		return $statements;
+	}
+
+	private function newWikibaseQualifier( string $propertyId, string $value ): PropertyValueSnak {
+		return new PropertyValueSnak(
+			new PropertyId( $propertyId ),
+			// TODO: look up property type based on ID (PropertyDataTypeLookup)
+			$this->valueBuilder->stringToDataValue( $value, 'string' )
+		);
 	}
 
 }
