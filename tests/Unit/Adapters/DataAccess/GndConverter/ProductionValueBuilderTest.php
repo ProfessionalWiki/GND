@@ -61,4 +61,11 @@ class ProductionValueBuilderTest extends TestCase {
 		);
 	}
 
+	public function testExternalIdValue(): void {
+		$this->assertEquals(
+			new StringValue( 'hi' ),
+			$this->newBuilder()->stringToDataValue( 'hi', 'external-id' )
+		);
+	}
+
 }
