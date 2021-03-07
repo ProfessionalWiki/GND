@@ -9,8 +9,8 @@ use DNB\GND\UseCases\ImportItems\ImportEntitiesPresenter;
 use DNB\GND\UseCases\ImportItems\ImportStats;
 use Exception;
 use Maintenance;
-use Wikibase\DataModel\Entity\Item;
-use Wikibase\DataModel\Entity\ItemId;
+use Wikibase\DataModel\Entity\EntityDocument;
+use Wikibase\DataModel\Entity\EntityId;
 
 class MaintenanceImportEntitiesPresenter implements ImportEntitiesPresenter {
 
@@ -24,31 +24,31 @@ class MaintenanceImportEntitiesPresenter implements ImportEntitiesPresenter {
 		$this->exceptionLogger = $exceptionLogger;
 	}
 
-	public function presentStorageStarted( Item $item ): void {
+	public function presentStorageStarted( EntityDocument $entity ): void {
 		$this->outputItemProgress(
-			$item->getId(),
-			'Importing Item ' . $item->getId()->getSerialization() . '... '
+			$entity->getId(),
+			'Importing Item ' . $entity->getId()->getSerialization() . '... '
 		);
 	}
 
-	public function presentStorageSucceeded( Item $item ): void {
+	public function presentStorageSucceeded( EntityDocument $entity ): void {
 		$this->outputItemProgress(
-			$item->getId(),
+			$entity->getId(),
 			'done'
 		);
 	}
 
-	public function presentStorageFailed( Item $item, Exception $exception ): void {
+	public function presentStorageFailed( EntityDocument $entity, Exception $exception ): void {
 		$exceptionLogger = $this->exceptionLogger;
 		$exceptionLogger( $exception );
 
 		$this->outputItemProgress(
-			$item->getId(),
+			$entity->getId(),
 			'failed: ' . $exception->getMessage()
 		);
 	}
 
-	private function outputItemProgress( ItemId $id, string $message ): void {
+	private function outputItemProgress( EntityId $id, string $message ): void {
 		if ( !$this->quiet ) {
 			$this->maintenance->outputChanneled(
 				$message,

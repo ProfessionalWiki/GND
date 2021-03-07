@@ -9,11 +9,11 @@ use Wikibase\DataModel\Entity\EntityDocument;
 
 interface ImportEntitiesPresenter {
 
-	public function presentStorageStarted( EntityDocument $item ): void;
+	public function presentStorageStarted( EntityDocument $entity ): void;
 
-	public function presentStorageSucceeded( EntityDocument $item ): void;
+	public function presentStorageSucceeded( EntityDocument $entity ): void;
 
-	public function presentStorageFailed( EntityDocument $item, Exception $exception ): void;
+	public function presentStorageFailed( EntityDocument $entity, Exception $exception ): void;
 
 	public function presentImportFinished( ImportStats $stats ): void;
 

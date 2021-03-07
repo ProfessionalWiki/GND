@@ -33,15 +33,15 @@ class ImportItemsTest extends TestCase {
 			public array $failed = [];
 			public ImportStats $stats;
 
-			public function presentStorageStarted( EntityDocument $item ): void {
+			public function presentStorageStarted( EntityDocument $entity ): void {
 			}
 
-			public function presentStorageSucceeded( EntityDocument $item ): void {
-				$this->stored[] = $item->getId()->getSerialization();
+			public function presentStorageSucceeded( EntityDocument $entity ): void {
+				$this->stored[] = $entity->getId()->getSerialization();
 			}
 
-			public function presentStorageFailed( EntityDocument $item, \Exception $exception ): void {
-				$this->failed[] = $item->getId()->getSerialization();
+			public function presentStorageFailed( EntityDocument $entity, \Exception $exception ): void {
+				$this->failed[] = $entity->getId()->getSerialization();
 			}
 
 			public function presentImportFinished( ImportStats $stats ): void {
