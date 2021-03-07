@@ -4,7 +4,7 @@ declare( strict_types = 1 );
 
 namespace DNB\GND\Tests\Integration\Adapters\DataAccess;
 
-use DNB\GND\Adapters\DataAccess\WikibaseRepoItemStore;
+use DNB\GND\Adapters\DataAccess\WikibaseRepoEntitySaver;
 use MediaWikiIntegrationTestCase;
 use User;
 use Wikibase\DataModel\Entity\Item;
@@ -12,14 +12,14 @@ use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\Repo\WikibaseRepo;
 
 /**
- * @covers \DNB\GND\Adapters\DataAccess\WikibaseRepoItemStore
+ * @covers \DNB\GND\Adapters\DataAccess\WikibaseRepoEntitySaver
  */
-class WikibaseRepoItemStoreTest extends MediaWikiIntegrationTestCase {
+class WikibaseRepoEntitySaverTest extends MediaWikiIntegrationTestCase {
 
 	public function testCanStoreNewItemWithId() {
 		$item = new Item( new ItemId( 'Q1042' ) );
 
-		$this->newItemStore()->storeItem( $item );
+		$this->newItemStore()->storeEntity( $item );
 
 		$this->assertEquals(
 			$item,
@@ -27,8 +27,8 @@ class WikibaseRepoItemStoreTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	private function newItemStore(): WikibaseRepoItemStore {
-		return new WikibaseRepoItemStore(
+	private function newItemStore(): WikibaseRepoEntitySaver {
+		return new WikibaseRepoEntitySaver(
 			WikibaseRepo::getDefaultInstance()->getEntityStore(),
 			User::newSystemUser( 'WikibaseRepoItemStoreTest', [ 'steal' => true ] )
 		);
@@ -41,8 +41,8 @@ class WikibaseRepoItemStoreTest extends MediaWikiIntegrationTestCase {
 	public function testMultipleStorageCallsForOneItem() {
 		$item = new Item( new ItemId( 'Q1043' ) );
 
-		$this->newItemStore()->storeItem( $item );
-		$this->newItemStore()->storeItem( $item );
+		$this->newItemStore()->storeEntity( $item );
+		$this->newItemStore()->storeEntity( $item );
 
 		$this->assertEquals(
 			$item,
@@ -52,7 +52,7 @@ class WikibaseRepoItemStoreTest extends MediaWikiIntegrationTestCase {
 
 	public function testExceptionWhenItemHasNoId() {
 		$this->expectException( \RuntimeException::class );
-		$this->newItemStore()->storeItem( new Item() );
+		$this->newItemStore()->storeEntity( new Item() );
 	}
 
 }

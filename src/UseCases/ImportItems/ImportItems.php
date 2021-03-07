@@ -5,16 +5,16 @@ declare( strict_types = 1 );
 namespace DNB\GND\UseCases\ImportItems;
 
 use DNB\GND\Domain\ItemSource;
-use DNB\GND\Domain\ItemStore;
+use DNB\GND\Domain\EntitySaver;
 use Exception;
 
 class ImportItems {
 
 	private ItemSource $itemSource;
-	private ItemStore $store;
+	private EntitySaver $store;
 	private ImportItemsPresenter $presenter;
 
-	public function __construct( ItemSource $itemSource, ItemStore $store, ImportItemsPresenter $presenter ) {
+	public function __construct( ItemSource $itemSource, EntitySaver $store, ImportItemsPresenter $presenter ) {
 		$this->itemSource = $itemSource;
 		$this->store = $store;
 		$this->presenter = $presenter;
@@ -28,7 +28,7 @@ class ImportItems {
 //		$factory->beginMasterChanges(__METHOD__);
 
 		while ( true ) {
-			$item = $this->itemSource->nextItem();
+			$item = $this->itemSource->next();
 
 			if ( $item === null ) {
 				break;
@@ -37,7 +37,7 @@ class ImportItems {
 			$this->presenter->presentStorageStarted( $item );
 
 			try {
-				$this->store->storeItem( $item );
+				$this->store->storeEntity( $item );
 			} catch ( Exception $exception ) {
 				$stats->recordFailure();
 				$this->presenter->presentStorageFailed( $item, $exception );

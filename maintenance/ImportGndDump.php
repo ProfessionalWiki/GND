@@ -7,11 +7,11 @@ namespace DNB\GND\Maintenance;
 use DNB\GND\Adapters\DataAccess\GndConverter\ItemBuilder;
 use DNB\GND\Adapters\DataAccess\GndConverter\ProductionValueBuilder;
 use DNB\GND\Adapters\DataAccess\GndConverterItemSource;
-use DNB\GND\Adapters\DataAccess\MediaWikiItemStore;
-use DNB\GND\Adapters\DataAccess\WikibaseRepoItemStore;
+use DNB\GND\Adapters\DataAccess\MediaWikiEntitySaver;
+use DNB\GND\Adapters\DataAccess\WikibaseRepoEntitySaver;
 use DNB\GND\Adapters\Presentation\MaintenanceImportItemsPresenter;
 use DNB\GND\Domain\ItemSource;
-use DNB\GND\Domain\ItemStore;
+use DNB\GND\Domain\EntitySaver;
 use DNB\GND\UseCases\ImportItems\ImportItems;
 use DNB\GND\UseCases\ImportItems\ImportItemsPresenter;
 use Maintenance;
@@ -120,10 +120,10 @@ class ImportGndDump extends Maintenance {
 		);
 	}
 
-	private function getItemStore(): ItemStore {
+	private function getItemStore(): EntitySaver {
 		//return new MediaWikiItemStore( $this->newUser() );
 
-		return new WikibaseRepoItemStore(
+		return new WikibaseRepoEntitySaver(
 			$this->newEntityStore(),
 			$this->newUser()
 		);

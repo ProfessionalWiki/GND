@@ -21,7 +21,7 @@ class GndConverterItemSource implements ItemSource {
 		$this->itemBuilder = $itemBuilder;
 	}
 
-	public function nextItem(): ?Item {
+	public function next(): ?Item {
 		while ( true ) {
 			$line = $this->jsonStringIterator->current();
 

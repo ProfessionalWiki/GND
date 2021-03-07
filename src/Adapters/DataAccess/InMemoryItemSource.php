@@ -15,7 +15,7 @@ class InMemoryItemSource implements ItemSource {
 		$this->items = $items;
 	}
 
-	public function nextItem(): ?Item {
+	public function next(): ?Item {
 		return array_shift( $this->items );
 	}
 

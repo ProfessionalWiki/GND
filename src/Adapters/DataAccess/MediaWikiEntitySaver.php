@@ -5,16 +5,16 @@ declare( strict_types = 1 );
 namespace DNB\GND\Adapters\DataAccess;
 
 use CommentStoreComment;
-use DNB\GND\Domain\ItemStore;
+use DNB\GND\Domain\EntitySaver;
 use RuntimeException;
 use Title;
 use User;
-use Wikibase\DataModel\Entity\Item;
+use Wikibase\DataModel\Entity\EntityDocument;
 use Wikibase\Repo\WikibaseRepo;
 use WikiPage;
 use WikitextContent;
 
-class MediaWikiItemStore implements ItemStore {
+class MediaWikiEntitySaver implements EntitySaver {
 
 	private User $user;
 
@@ -22,19 +22,19 @@ class MediaWikiItemStore implements ItemStore {
 		$this->user = $user;
 	}
 
-	public function storeItem( Item $item ): void {
-		if ( $item->getId() === null ) {
+	public function storeEntity( EntityDocument $entity ): void {
+		if ( $entity->getId() === null ) {
 			throw new RuntimeException( 'Cannot store items that do not have an ID' );
 		}
 
-		$titleObject = Title::newFromText( $item->getId()->getSerialization() );
+		$titleObject = Title::newFromText( $entity->getId()->getSerialization() );
 		$page = new WikiPage( $titleObject );
 
 		$updater = $page->newPageUpdater( $this->user );
 		$updater->setContent( 'main', new WikitextContent(
-			json_encode( WikibaseRepo::getDefaultInstance()->getBaseDataModelSerializerFactory()->newEntitySerializer()->serialize( $item ) )
+			json_encode( WikibaseRepo::getDefaultInstance()->getBaseDataModelSerializerFactory()->newEntitySerializer()->serialize( $entity ) )
 		) );
-		$updater->saveRevision( CommentStoreComment::newUnsavedComment( 'test summary ' . $item->getId() ) );
+		$updater->saveRevision( CommentStoreComment::newUnsavedComment( 'test summary ' . $entity->getId() ) );
 	}
 
 }

@@ -6,8 +6,8 @@ namespace DNB\GND\Domain;
 
 use Wikibase\DataModel\Entity\Item;
 
-interface ItemSource {
+interface ItemSource extends EntitySource {
 
-	public function nextItem(): ?Item;
+	public function next(): ?Item;
 
 }

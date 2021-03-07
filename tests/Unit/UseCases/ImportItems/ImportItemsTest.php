@@ -5,7 +5,7 @@ declare( strict_types = 1 );
 namespace DNB\GND\Tests\Unit\UseCases\ImportItems;
 
 use DNB\GND\Adapters\DataAccess\InMemoryItemSource;
-use DNB\GND\Adapters\DataAccess\InMemoryItemStore;
+use DNB\GND\Adapters\DataAccess\InMemoryEntitySaver;
 use DNB\GND\UseCases\ImportItems\ImportItems;
 use DNB\GND\UseCases\ImportItems\ImportItemsPresenter;
 use DNB\GND\UseCases\ImportItems\ImportStats;
@@ -16,17 +16,17 @@ use Wikibase\DataModel\Entity\ItemId;
 /**
  * @covers \DNB\GND\UseCases\ImportItems\ImportItems
  * @covers \DNB\GND\Adapters\DataAccess\InMemoryItemSource
- * @covers \DNB\GND\Adapters\DataAccess\InMemoryItemStore
+ * @covers \DNB\GND\Adapters\DataAccess\InMemoryEntitySaver
  */
 class ImportItemsTest extends TestCase {
 
 	private InMemoryItemSource $itemSource;
-	private InMemoryItemStore $store;
+	private InMemoryEntitySaver $store;
 	private ImportItemsPresenter $presenter;
 
 	public function setUp(): void {
 		$this->itemSource = new InMemoryItemSource();
-		$this->store = new InMemoryItemStore();
+		$this->store = new InMemoryEntitySaver();
 		$this->presenter = new class() implements ImportItemsPresenter {
 			public array $stored = [];
 			public array $failed = [];
@@ -60,7 +60,7 @@ class ImportItemsTest extends TestCase {
 	public function testNoItems() {
 		$this->newUseCase()->import();
 
-		$this->assertSame( [], $this->store->getItems() );
+		$this->assertSame( [], $this->store->getEntities() );
 	}
 
 	public function testSomeItems() {
@@ -73,7 +73,7 @@ class ImportItemsTest extends TestCase {
 
 		$this->assertEquals(
 			[ $firstItem, $secondItem ],
-			$this->store->getItems()
+			$this->store->getEntities()
 		);
 	}
 

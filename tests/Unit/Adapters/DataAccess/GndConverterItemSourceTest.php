@@ -22,7 +22,7 @@ class GndConverterItemSourceTest extends TestCase {
 			$this->newItemBuilder()
 		);
 
-		$this->assertNull( $itemSource->nextItem() );
+		$this->assertNull( $itemSource->next() );
 	}
 
 	private function newItemBuilder(): ItemBuilder {
@@ -39,12 +39,12 @@ class GndConverterItemSourceTest extends TestCase {
 	}
 
 	private function assertFiveItems( ItemSource $itemSource ) {
-		$this->assertNotNull( $itemSource->nextItem(), 'first item should not be null' );
-		$this->assertNotNull( $itemSource->nextItem(), 'second item should not be null' );
-		$this->assertNotNull( $itemSource->nextItem(), 'third item should not be null' );
-		$this->assertNotNull( $itemSource->nextItem(), 'fourth item should not be null' );
-		$this->assertNotNull( $itemSource->nextItem(), 'fifth item should not be null' );
-		$this->assertNull( $itemSource->nextItem(), 'there should be no sixth item' );
+		$this->assertNotNull( $itemSource->next(), 'first item should not be null' );
+		$this->assertNotNull( $itemSource->next(), 'second item should not be null' );
+		$this->assertNotNull( $itemSource->next(), 'third item should not be null' );
+		$this->assertNotNull( $itemSource->next(), 'fourth item should not be null' );
+		$this->assertNotNull( $itemSource->next(), 'fifth item should not be null' );
+		$this->assertNull( $itemSource->next(), 'there should be no sixth item' );
 	}
 
 	private function getTestGndIterator(): \Iterator {
