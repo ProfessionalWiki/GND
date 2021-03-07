@@ -9,11 +9,11 @@ use DNB\GND\Adapters\DataAccess\GndConverter\ProductionValueBuilder;
 use DNB\GND\Adapters\DataAccess\GndConverterItemSource;
 use DNB\GND\Adapters\DataAccess\MediaWikiEntitySaver;
 use DNB\GND\Adapters\DataAccess\WikibaseRepoEntitySaver;
-use DNB\GND\Adapters\Presentation\MaintenanceImportItemsPresenter;
+use DNB\GND\Adapters\Presentation\MaintenanceImportEntitiesPresenter;
 use DNB\GND\Domain\ItemSource;
 use DNB\GND\Domain\EntitySaver;
-use DNB\GND\UseCases\ImportItems\ImportItems;
-use DNB\GND\UseCases\ImportItems\ImportItemsPresenter;
+use DNB\GND\UseCases\ImportItems\ImportEntities;
+use DNB\GND\UseCases\ImportItems\ImportEntitiesPresenter;
 use Maintenance;
 use Onoi\MessageReporter\CallbackMessageReporter;
 use SplFileObject;
@@ -87,8 +87,8 @@ class ImportGndDump extends Maintenance {
 		}
 	}
 
-	public function newImportItemsUseCase(): ImportItems {
-		return new ImportItems(
+	public function newImportItemsUseCase(): ImportEntities {
+		return new ImportEntities(
 			$this->getItemSource(),
 			$this->getItemStore(),
 			$this->getImportItemsPresenter(),
@@ -133,8 +133,8 @@ class ImportGndDump extends Maintenance {
 		return User::newSystemUser( 'Import Script', [ 'steal' => true ] );
 	}
 
-	private function getImportItemsPresenter(): ImportItemsPresenter {
-		return new MaintenanceImportItemsPresenter(
+	private function getImportItemsPresenter(): ImportEntitiesPresenter {
+		return new MaintenanceImportEntitiesPresenter(
 			$this,
 			$this->hasOption( 'quiet' ),
 			$this->newExceptionLogger()

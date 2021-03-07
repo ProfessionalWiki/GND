@@ -4,17 +4,18 @@ declare( strict_types = 1 );
 
 namespace DNB\GND\Tests\Unit\UseCases\ImportItems;
 
-use DNB\GND\Adapters\DataAccess\InMemoryItemSource;
 use DNB\GND\Adapters\DataAccess\InMemoryEntitySaver;
-use DNB\GND\UseCases\ImportItems\ImportItems;
-use DNB\GND\UseCases\ImportItems\ImportItemsPresenter;
+use DNB\GND\Adapters\DataAccess\InMemoryItemSource;
+use DNB\GND\UseCases\ImportItems\ImportEntities;
+use DNB\GND\UseCases\ImportItems\ImportEntitiesPresenter;
 use DNB\GND\UseCases\ImportItems\ImportStats;
 use PHPUnit\Framework\TestCase;
+use Wikibase\DataModel\Entity\EntityDocument;
 use Wikibase\DataModel\Entity\Item;
 use Wikibase\DataModel\Entity\ItemId;
 
 /**
- * @covers \DNB\GND\UseCases\ImportItems\ImportItems
+ * @covers \DNB\GND\UseCases\ImportItems\ImportEntities
  * @covers \DNB\GND\Adapters\DataAccess\InMemoryItemSource
  * @covers \DNB\GND\Adapters\DataAccess\InMemoryEntitySaver
  */
@@ -22,24 +23,24 @@ class ImportItemsTest extends TestCase {
 
 	private InMemoryItemSource $itemSource;
 	private InMemoryEntitySaver $store;
-	private ImportItemsPresenter $presenter;
+	private ImportEntitiesPresenter $presenter;
 
 	public function setUp(): void {
 		$this->itemSource = new InMemoryItemSource();
 		$this->store = new InMemoryEntitySaver();
-		$this->presenter = new class() implements ImportItemsPresenter {
+		$this->presenter = new class() implements ImportEntitiesPresenter {
 			public array $stored = [];
 			public array $failed = [];
 			public ImportStats $stats;
 
-			public function presentStorageStarted( Item $item ): void {
+			public function presentStorageStarted( EntityDocument $item ): void {
 			}
 
-			public function presentStorageSucceeded( Item $item ): void {
+			public function presentStorageSucceeded( EntityDocument $item ): void {
 				$this->stored[] = $item->getId()->getSerialization();
 			}
 
-			public function presentStorageFailed( Item $item, \Exception $exception ): void {
+			public function presentStorageFailed( EntityDocument $item, \Exception $exception ): void {
 				$this->failed[] = $item->getId()->getSerialization();
 			}
 
@@ -49,8 +50,8 @@ class ImportItemsTest extends TestCase {
 		};
 	}
 
-	private function newUseCase(): ImportItems {
-		return new ImportItems(
+	private function newUseCase(): ImportEntities {
+		return new ImportEntities(
 			$this->itemSource,
 			$this->store,
 			$this->presenter

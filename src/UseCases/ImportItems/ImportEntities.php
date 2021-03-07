@@ -4,18 +4,18 @@ declare( strict_types = 1 );
 
 namespace DNB\GND\UseCases\ImportItems;
 
-use DNB\GND\Domain\ItemSource;
 use DNB\GND\Domain\EntitySaver;
+use DNB\GND\Domain\EntitySource;
 use Exception;
 
-class ImportItems {
+class ImportEntities {
 
-	private ItemSource $itemSource;
+	private EntitySource $entitySource;
 	private EntitySaver $store;
-	private ImportItemsPresenter $presenter;
+	private ImportEntitiesPresenter $presenter;
 
-	public function __construct( ItemSource $itemSource, EntitySaver $store, ImportItemsPresenter $presenter ) {
-		$this->itemSource = $itemSource;
+	public function __construct( EntitySource $entitySource, EntitySaver $store, ImportEntitiesPresenter $presenter ) {
+		$this->entitySource = $entitySource;
 		$this->store = $store;
 		$this->presenter = $presenter;
 	}
@@ -28,24 +28,24 @@ class ImportItems {
 //		$factory->beginMasterChanges(__METHOD__);
 
 		while ( true ) {
-			$item = $this->itemSource->next();
+			$entity = $this->entitySource->next();
 
-			if ( $item === null ) {
+			if ( $entity === null ) {
 				break;
 			}
 
-			$this->presenter->presentStorageStarted( $item );
+			$this->presenter->presentStorageStarted( $entity );
 
 			try {
-				$this->store->storeEntity( $item );
+				$this->store->storeEntity( $entity );
 			} catch ( Exception $exception ) {
 				$stats->recordFailure();
-				$this->presenter->presentStorageFailed( $item, $exception );
+				$this->presenter->presentStorageFailed( $entity, $exception );
 				continue;
 			}
 
 			$stats->recordSuccess();
-			$this->presenter->presentStorageSucceeded( $item );
+			$this->presenter->presentStorageSucceeded( $entity );
 		}
 
 //		$factory->commitMasterChanges(__METHOD__);

@@ -5,14 +5,14 @@ declare( strict_types = 1 );
 namespace DNB\GND\Adapters\Presentation;
 
 use Closure;
-use DNB\GND\UseCases\ImportItems\ImportItemsPresenter;
+use DNB\GND\UseCases\ImportItems\ImportEntitiesPresenter;
 use DNB\GND\UseCases\ImportItems\ImportStats;
 use Exception;
 use Maintenance;
 use Wikibase\DataModel\Entity\Item;
 use Wikibase\DataModel\Entity\ItemId;
 
-class MaintenanceImportItemsPresenter implements ImportItemsPresenter {
+class MaintenanceImportEntitiesPresenter implements ImportEntitiesPresenter {
 
 	private Maintenance $maintenance;
 	private bool $quiet;
