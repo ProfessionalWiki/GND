@@ -38,6 +38,16 @@ wfLoadExtension( 'GND' );
 
 You can verify the extension was enabled successfully by opening your wikis Special:Version page in your browser.
 
+## Usage
+
+GND import via `ImportGndDump.php`. Example:
+
+    php extensions/GND/maintenance/ImportGndDump.php --path extensions/GND/data/GND.json --limit 10
+
+Doku-wiki vocabulary sync via `SyncDokuVocabulary`. Example:
+
+    php extensions/GND/maintenance/SyncDokuVocabulary.php
+
 ## Running the tests
 
 * PHP tests: `php tests/phpunit/phpunit.php -c extensions/GND/`
