@@ -8,7 +8,7 @@
 
 ## Platform requirements
 
-* [PHP] 7.4 or later, including PHP 8.0
+* [PHP] 7.4 or later, including PHP 8
 * [MediaWiki] 1.35
 * [Wikibase Repository] REL1_35
 
