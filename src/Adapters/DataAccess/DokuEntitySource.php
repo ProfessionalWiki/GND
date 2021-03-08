@@ -11,21 +11,23 @@ use Wikibase\DataModel\Entity\EntityDocument;
 
 class DokuEntitySource implements EntitySource {
 
+	private array $entityIds;
 	private FileFetcher $fileFetcher;
 	private Deserializer $entityDeserializer;
-	private array $idSource = [];
 
-	public function __construct( FileFetcher $fileFetcher, Deserializer $entityDeserializer ) {
+	/**
+	 * @param string[] $entityIds
+	 * @param FileFetcher $fileFetcher
+	 * @param Deserializer $entityDeserializer
+	 */
+	public function __construct( array $entityIds, FileFetcher $fileFetcher, Deserializer $entityDeserializer ) {
 		$this->fileFetcher = $fileFetcher;
 		$this->entityDeserializer = $entityDeserializer;
+		$this->entityIds = $entityIds;
 	}
 
 	public function next(): ?EntityDocument {
-		if ( $this->idSource === [] ) {
-			$this->idSource = $this->newIdSource();
-		}
-
-		$id = array_shift( $this->idSource );
+		$id = array_shift( $this->entityIds );
 
 		if ( $id === null ) {
 			return null;
@@ -34,17 +36,15 @@ class DokuEntitySource implements EntitySource {
 		// Purposefully not catching exception
 		$apiResult = $this->fileFetcher->fetchFile( $this->buildApiFetchUrl( $id ) );
 
-		$deserialization = $this->entityDeserializer->deserialize( $apiResult );
+		$deserialization = $this->entityDeserializer->deserialize(
+			json_decode( $apiResult, true )['entities'][$id]
+		);
 
 		if ( $deserialization instanceof EntityDocument ) {
 			return $deserialization;
 		}
 
 		throw new \RuntimeException();
-	}
-
-	private function newIdSource(): array {
-		return [ 'P61', 'Q150', 'Q151', 'Q152', 'P62', 'Q250', 'Q251' ];
 	}
 
 	private function buildApiFetchUrl( string $id ): string {
