@@ -41,6 +41,7 @@ class DokuEntitySource implements EntitySource {
 		);
 
 		if ( $deserialization instanceof EntityDocument ) {
+			// TODO: null out statements
 			return $deserialization;
 		}
 
