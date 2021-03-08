@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<sparql xmlns='http://www.w3.org/2005/sparql-results#'>
+	<head>
+		<variable name='item'/>
+	</head>
+	<results>
+		<result>
+			<binding name='item'>
+				<uri>http://www.wikidata.org/entity/Q378619</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='item'>
+				<uri>http://www.wikidata.org/entity/Q498787</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='item'>
+				<uri>http://www.wikidata.org/entity/Q677525</uri>
+			</binding>
+		</result>
+	</results>
+</sparql>

@@ -24,6 +24,7 @@
 	"require": {
 		"php": ">=7.4",
 		"composer/installers": "^1.0.1",
+		"jeroen/file-fetcher": "^6|^5|^4.2",
 		"dnb/wikibase-converter": "dev-master"
 	},
 	"require-dev": {
