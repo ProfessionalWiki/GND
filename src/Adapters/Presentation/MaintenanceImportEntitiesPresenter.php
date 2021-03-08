@@ -27,7 +27,7 @@ class MaintenanceImportEntitiesPresenter implements ImportEntitiesPresenter {
 	public function presentStorageStarted( EntityDocument $entity ): void {
 		$this->outputItemProgress(
 			$entity->getId(),
-			'Importing Item ' . $entity->getId()->getSerialization() . '... '
+			'Importing ' . $entity->getId()->getSerialization() . '... '
 		);
 	}
 

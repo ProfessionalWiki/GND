@@ -4,8 +4,19 @@ declare( strict_types = 1 );
 
 namespace DNB\GND\Maintenance;
 
+use DNB\GND\Adapters\DataAccess\DokuEntitySource;
+use DNB\GND\Adapters\DataAccess\WikibaseRepoEntitySaver;
+use DNB\GND\Adapters\Presentation\MaintenanceImportEntitiesPresenter;
+use DNB\GND\Domain\EntitySaver;
+use DNB\GND\Domain\EntitySource;
+use DNB\GND\UseCases\ImportItems\ImportEntities;
+use DNB\GND\UseCases\ImportItems\ImportEntitiesPresenter;
+use FileFetcher\SimpleFileFetcher;
 use Maintenance;
+use User;
+use Wikibase\Lib\Store\EntityStore;
 use Wikibase\Lib\WikibaseSettings;
+use Wikibase\Repo\WikibaseRepo;
 
 $basePath = getenv( 'MW_INSTALL_PATH' ) !== false ? getenv( 'MW_INSTALL_PATH' ) : __DIR__ . '/../../..';
 
@@ -26,7 +37,46 @@ class SyncDokuVocabulary extends Maintenance {
 			exit;
 		}
 
-		$this->output( "done\n" );
+		$this->newImportItemsUseCase()->import();
+	}
+
+	public function newImportItemsUseCase(): ImportEntities {
+		return new ImportEntities(
+			$this->getEntitySource(),
+			$this->getEntitySaver(),
+			$this->getImportItemsPresenter(),
+		);
+	}
+
+	private function getEntitySource(): EntitySource {
+		return new DokuEntitySource(
+			[ 'P2', 'P4', 'Q4', 'P61', 'Q150', 'P62' ], // TODO
+			new SimpleFileFetcher(),
+			WikibaseRepo::getDefaultInstance()->getBaseDataModelDeserializerFactory()->newEntityDeserializer()
+		);
+	}
+
+	private function getEntitySaver(): EntitySaver {
+		return new WikibaseRepoEntitySaver(
+			$this->newEntityStore(),
+			$this->newUser()
+		);
+	}
+
+	private function newEntityStore(): EntityStore {
+		return WikibaseRepo::getDefaultInstance()->getEntityStore();
+	}
+
+	private function newUser(): User {
+		return User::newSystemUser( 'Doku Sync Script', [ 'steal' => true ] );
+	}
+
+	private function getImportItemsPresenter(): ImportEntitiesPresenter {
+		return new MaintenanceImportEntitiesPresenter(
+			$this,
+			$this->hasOption( 'quiet' ),
+			function() {}
+		);
 	}
 
 }
