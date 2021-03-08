@@ -8,6 +8,7 @@ use Deserializers\Deserializer;
 use DNB\GND\Domain\EntitySource;
 use FileFetcher\FileFetcher;
 use Wikibase\DataModel\Entity\EntityDocument;
+use Wikibase\DataModel\Statement\StatementListProvider;
 
 class DokuEntitySource implements EntitySource {
 
@@ -41,7 +42,9 @@ class DokuEntitySource implements EntitySource {
 		);
 
 		if ( $deserialization instanceof EntityDocument ) {
-			// TODO: null out statements
+			if ( $deserialization instanceof StatementListProvider ) {
+				$deserialization->getStatements()->clear();
+			}
 			return $deserialization;
 		}
 
