@@ -16,14 +16,13 @@ class DokuEntitySourceTest extends TestCase {
 
 	public function testCanGetEntitiesFromDokuWiki(): void {
 		$entitySource = new DokuEntitySource(
-			[ 'P61', 'Q150', 'P62' ],
+			[ 'P61', 'Q150' ],
 			new SimpleFileFetcher(),
 			WikibaseRepo::getDefaultInstance()->getBaseDataModelDeserializerFactory()->newEntityDeserializer()
 		);
 
 		$this->assertSame( 'P61', $entitySource->next()->getId()->getSerialization() );
 		$this->assertSame( 'Q150', $entitySource->next()->getId()->getSerialization() );
-		$this->assertSame( 'P62', $entitySource->next()->getId()->getSerialization() );
 		$this->assertNull( $entitySource->next() );
 	}
 

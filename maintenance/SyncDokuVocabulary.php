@@ -5,6 +5,7 @@ declare( strict_types = 1 );
 namespace DNB\GND\Maintenance;
 
 use DNB\GND\Adapters\DataAccess\DokuEntitySource;
+use DNB\GND\Adapters\DataAccess\DokuSparqlIdSource;
 use DNB\GND\Adapters\DataAccess\WikibaseRepoEntitySaver;
 use DNB\GND\Adapters\Presentation\MaintenanceImportEntitiesPresenter;
 use DNB\GND\Domain\EntitySaver;
@@ -49,11 +50,27 @@ class SyncDokuVocabulary extends Maintenance {
 	}
 
 	private function getEntitySource(): EntitySource {
+
 		return new DokuEntitySource(
-			[ 'P2', 'P4', 'Q4', 'P61', 'Q150', 'P62' ], // TODO
+			$this->getEntityIds(),
 			new SimpleFileFetcher(),
 			WikibaseRepo::getDefaultInstance()->getBaseDataModelDeserializerFactory()->newEntityDeserializer()
 		);
+	}
+
+	private function getEntityIds(): array {
+		if ( !$this->hasOption( 'quiet' ) ) {
+			$this->outputChanneled( 'Finding vocabulary entities via SPARQL... ', 'sparql' );
+		}
+
+		$ids = ( new DokuSparqlIdSource() )->getVocabularyIds();
+
+		if ( !$this->hasOption( 'quiet' ) ) {
+			$this->outputChanneled( 'done', 'sparql' );
+			$this->output( "\nStarting import of " . count( $ids ) . " entities\n" );
+		}
+
+		return $ids;
 	}
 
 	private function getEntitySaver(): EntitySaver {
