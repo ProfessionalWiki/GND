@@ -6,6 +6,8 @@
 
 [MediaWiki] extension that adds scripts to import GND PICA+ into [Wikibase].
 
+The GND extension was created by [Professional.Wiki] for the [German National Library]. [Professional.Wiki] provides commercial [Wikibase hosting], [MediaWiki development] and support.
+
 ## Platform requirements
 
 * [PHP] 7.4 or later, including PHP 8
@@ -67,3 +69,6 @@ Under development
 [Wikibase Repository]: https://www.mediawiki.org/wiki/Extension:Wikibase_Repository
 [Composer]: https://getcomposer.org
 [Composer install]: https://professional.wiki/en/articles/installing-mediawiki-extensions-with-composer
+[MediaWiki development]: https://professional.wiki/en/mediawiki-development
+[Wikibase hosting]: https://professional.wiki/en/hosting/wikibase
+[German National Library]: https://www.dnb.de/EN/Home/home_node.html
