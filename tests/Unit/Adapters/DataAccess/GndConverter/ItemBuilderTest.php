@@ -48,7 +48,7 @@ class ItemBuilderTest extends TestCase {
 		$gndItem->addGndStatement( new GndStatement( 'P1337', 'x' ) );
 		$gndItem->addGndStatement( new GndStatement( 'P1337', 'a' ) );
 
-		$item = new Item( new ItemId( 'Q123' ) );
+		$item = new Item( new ItemId( 'Q1230' ) );
 		$item->getStatements()->addNewStatement(
 			new PropertyValueSnak( new PropertyId( 'P150' ), new StringValue( '123' ) )
 		);
@@ -88,7 +88,7 @@ class ItemBuilderTest extends TestCase {
 			]
 		) );
 
-		$item = new Item( new ItemId( 'Q42' ) );
+		$item = new Item( new ItemId( 'Q421' ) );
 		$item->getStatements()->addNewStatement(
 			new PropertyValueSnak( new PropertyId( 'P150' ), new StringValue( '42X' ) )
 		);
