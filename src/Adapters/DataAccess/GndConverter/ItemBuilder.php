@@ -6,11 +6,11 @@ namespace DNB\GND\Adapters\DataAccess\GndConverter;
 
 use DNB\WikibaseConverter\GndItem;
 use DNB\WikibaseConverter\GndQualifier;
-use DNB\WikibaseConverter\IdConverter;
 use RuntimeException;
 use Wikibase\DataModel\Entity\Item;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Entity\PropertyId;
+use Wikibase\DataModel\Services\Lookup\PropertyDataTypeLookup;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
 use Wikibase\DataModel\Statement\StatementList;
 
@@ -20,12 +20,12 @@ use Wikibase\DataModel\Statement\StatementList;
  */
 class ItemBuilder {
 
-	private const GND_ID = 'P150';
-
 	private ValueBuilder $valueBuilder;
+	private PropertyDataTypeLookup $propertyTypeLookup;
 
-	public function __construct( ValueBuilder $valueBuilder ) {
+	public function __construct( ValueBuilder $valueBuilder, PropertyDataTypeLookup $propertyTypeLookup ) {
 		$this->valueBuilder = $valueBuilder;
+		$this->propertyTypeLookup = $propertyTypeLookup;
 	}
 
 	public function build( GndItem $gndItem ): Item {
@@ -67,8 +67,10 @@ class ItemBuilder {
 	private function newWikibaseQualifier( string $propertyId, string $value ): PropertyValueSnak {
 		return new PropertyValueSnak(
 			new PropertyId( $propertyId ),
-			// TODO: look up property type based on ID (PropertyDataTypeLookup)
-			$this->valueBuilder->stringToDataValue( $value, 'string' )
+			$this->valueBuilder->stringToDataValue(
+				$value,
+				$this->propertyTypeLookup->getDataTypeIdForProperty( new PropertyId( $propertyId ) )
+			)
 		);
 	}
 

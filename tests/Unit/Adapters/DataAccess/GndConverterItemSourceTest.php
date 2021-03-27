@@ -8,6 +8,7 @@ use DNB\GND\Adapters\DataAccess\GndConverter\ItemBuilder;
 use DNB\GND\Adapters\DataAccess\GndConverter\ProductionValueBuilder;
 use DNB\GND\Adapters\DataAccess\GndConverterItemSource;
 use DNB\GND\Domain\ItemSource;
+use DNB\GND\Tests\TestDoubles\StubDataTypeLookup;
 use PHPUnit\Framework\TestCase;
 use SplFileObject;
 
@@ -26,7 +27,10 @@ class GndConverterItemSourceTest extends TestCase {
 	}
 
 	private function newItemBuilder(): ItemBuilder {
-		return new ItemBuilder( new ProductionValueBuilder() );
+		return new ItemBuilder(
+			new ProductionValueBuilder(),
+			new StubDataTypeLookup( 'string' )
+		);
 	}
 
 	public function testWithTestGndJson() {

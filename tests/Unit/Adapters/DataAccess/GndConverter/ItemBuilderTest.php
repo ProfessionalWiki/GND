@@ -7,6 +7,7 @@ namespace DNB\GND\Tests\Unit\Adapters\DataAccess\GndConverter;
 use DataValues\StringValue;
 use DNB\GND\Adapters\DataAccess\GndConverter\ItemBuilder;
 use DNB\GND\Adapters\DataAccess\GndConverter\ProductionValueBuilder;
+use DNB\GND\Tests\TestDoubles\StubDataTypeLookup;
 use DNB\WikibaseConverter\GndItem;
 use DNB\WikibaseConverter\GndQualifier;
 use DNB\WikibaseConverter\GndStatement;
@@ -31,7 +32,10 @@ class ItemBuilderTest extends TestCase {
 	}
 
 	private function testItemIsBuild( GndItem $input, Item $expected ) {
-		$builder = new ItemBuilder( new ProductionValueBuilder() );
+		$builder = new ItemBuilder(
+			new ProductionValueBuilder(),
+			new StubDataTypeLookup( 'string' )
+		);
 
 		$this->assertEquals(
 			$expected,

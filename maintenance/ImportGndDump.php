@@ -116,13 +116,12 @@ class ImportGndDump extends Maintenance {
 
 	private function newItemBuilder(): ItemBuilder {
 		return new ItemBuilder(
-			new ProductionValueBuilder()
+			new ProductionValueBuilder(),
+			WikibaseRepo::getDefaultInstance()->getPropertyDataTypeLookup()
 		);
 	}
 
 	private function getItemStore(): EntitySaver {
-		//return new MediaWikiItemStore( $this->newUser() );
-
 		return new WikibaseRepoEntitySaver(
 			$this->newEntityStore(),
 			$this->newUser()
