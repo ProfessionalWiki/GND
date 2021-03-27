@@ -32,7 +32,7 @@ class DokuSparqlIdSource {
 
 	private function getIdsFromSparqlXmlResult( string $xml ): array {
 		$matches= [];
-		preg_match_all('~entity/(.*?)</uri>~s', $xml, $matches);
+		preg_match_all( '~entity/(.*?)</uri>~s', $xml, $matches );
 		return $matches[1];
 	}
 
