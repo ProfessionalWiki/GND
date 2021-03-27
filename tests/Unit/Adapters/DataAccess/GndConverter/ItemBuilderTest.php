@@ -16,7 +16,9 @@ use RuntimeException;
 use Wikibase\DataModel\Entity\Item;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Entity\PropertyId;
+use Wikibase\DataModel\Services\Lookup\InMemoryDataTypeLookup;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
+use Wikibase\DataModel\Statement\StatementList;
 
 /**
  * @covers \DNB\GND\Adapters\DataAccess\GndConverter\ItemBuilder
@@ -45,7 +47,7 @@ class ItemBuilderTest extends TestCase {
 
 	public function testMultipleValuesForMultipleProperties() {
 		$gndItem = new GndItem();
-		$gndItem->addGndStatement( new GndStatement( 'P150', '123' ) );
+		$gndItem->addGndStatement( new GndStatement( GndItem::GND_ID, '123' ) );
 		$gndItem->addGndStatement( new GndStatement( 'P42', 'a' ) );
 		$gndItem->addGndStatement( new GndStatement( 'P42', 'b' ) );
 		$gndItem->addGndStatement( new GndStatement( 'P42', 'c' ) );
@@ -54,7 +56,7 @@ class ItemBuilderTest extends TestCase {
 
 		$item = new Item( new ItemId( 'Q1230' ) );
 		$item->getStatements()->addNewStatement(
-			new PropertyValueSnak( new PropertyId( 'P150' ), new StringValue( '123' ) )
+			new PropertyValueSnak( new PropertyId( GndItem::GND_ID ), new StringValue( '123' ) )
 		);
 		$item->getStatements()->addNewStatement(
 			new PropertyValueSnak( new PropertyId( 'P42' ), new StringValue( 'a' ) )
@@ -80,7 +82,7 @@ class ItemBuilderTest extends TestCase {
 
 	public function testQualifiers(): void {
 		$gndItem = new GndItem();
-		$gndItem->addGndStatement( new GndStatement( 'P150', '42X' ) );
+		$gndItem->addGndStatement( new GndStatement( GndItem::GND_ID, '42X' ) );
 
 		$gndItem->addGndStatement( new GndStatement(
 			'P1',
@@ -94,7 +96,7 @@ class ItemBuilderTest extends TestCase {
 
 		$item = new Item( new ItemId( 'Q421' ) );
 		$item->getStatements()->addNewStatement(
-			new PropertyValueSnak( new PropertyId( 'P150' ), new StringValue( '42X' ) )
+			new PropertyValueSnak( new PropertyId( GndItem::GND_ID ), new StringValue( '42X' ) )
 		);
 
 		$item->getStatements()->addNewStatement(
@@ -109,6 +111,21 @@ class ItemBuilderTest extends TestCase {
 		$this->testItemIsBuild(
 			$gndItem,
 			$item
+		);
+	}
+
+	public function testSkipsPropertiesWithUnknownTypes(): void {
+		$builder = new ItemBuilder(
+			new ProductionValueBuilder(),
+			new InMemoryDataTypeLookup()
+		);
+
+		$gndItem = new GndItem();
+		$gndItem->addGndStatement( new GndStatement( GndItem::GND_ID, '42X' ) );
+
+		$this->assertEquals(
+			new StatementList(),
+			$builder->build( $gndItem )->getStatements()
 		);
 	}
 

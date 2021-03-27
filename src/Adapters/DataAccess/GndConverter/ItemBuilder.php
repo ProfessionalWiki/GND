@@ -6,12 +6,16 @@ namespace DNB\GND\Adapters\DataAccess\GndConverter;
 
 use DNB\WikibaseConverter\GndItem;
 use DNB\WikibaseConverter\GndQualifier;
+use DNB\WikibaseConverter\GndStatement;
 use RuntimeException;
 use Wikibase\DataModel\Entity\Item;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\DataModel\Services\Lookup\PropertyDataTypeLookup;
+use Wikibase\DataModel\Services\Lookup\PropertyDataTypeLookupException;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
+use Wikibase\DataModel\Snak\SnakList;
+use Wikibase\DataModel\Statement\Statement;
 use Wikibase\DataModel\Statement\StatementList;
 
 /**
@@ -48,20 +52,33 @@ class ItemBuilder {
 
 		foreach ( $gndItem->getPropertyIds() as $id ) {
 			foreach ( $gndItem->getStatementsForProperty( $id ) as $gndStatement ) {
-				$statements->addNewStatement(
-					$this->newWikibaseQualifier( $id, $gndStatement->getValue() ),
-					array_map(
-						fn( GndQualifier $qualifier ) => $this->newWikibaseQualifier(
-							$qualifier->getPropertyId(),
-							$qualifier->getValue()
-						),
-						$gndStatement->getQualifiers()
-					)
-				);
+				try {
+					$statement = $this->newStatement( $id, $gndStatement );
+				}
+				catch ( PropertyDataTypeLookupException $exception ) {
+					continue;
+				}
+
+				$statements->addStatement( $statement );
 			}
 		}
 
 		return $statements;
+	}
+
+	private function newStatement( string $id, GndStatement $gndStatement ): Statement {
+		return new Statement(
+			$this->newWikibaseQualifier( $id, $gndStatement->getValue() ),
+			new SnakList(
+				array_map(
+					fn( GndQualifier $qualifier ) => $this->newWikibaseQualifier(
+						$qualifier->getPropertyId(),
+						$qualifier->getValue()
+					),
+					$gndStatement->getQualifiers()
+				)
+			)
+		);
 	}
 
 	private function newWikibaseQualifier( string $propertyId, string $value ): PropertyValueSnak {
