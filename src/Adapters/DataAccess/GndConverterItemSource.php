@@ -6,6 +6,7 @@ namespace DNB\GND\Adapters\DataAccess;
 
 use DNB\GND\Adapters\DataAccess\GndConverter\ItemBuilder;
 use DNB\GND\Domain\ItemSource;
+use DNB\WikibaseConverter\GndItem;
 use DNB\WikibaseConverter\InvalidPica;
 use DNB\WikibaseConverter\PicaConverter;
 use Iterator;
@@ -15,6 +16,7 @@ class GndConverterItemSource implements ItemSource {
 
 	private Iterator $jsonStringIterator;
 	private ItemBuilder $itemBuilder;
+	private ?PicaConverter $picaConverter = null;
 
 	public function __construct( Iterator $jsonStringIterator, ItemBuilder $itemBuilder ) {
 		$this->jsonStringIterator = $jsonStringIterator;
@@ -32,16 +34,24 @@ class GndConverterItemSource implements ItemSource {
 			$this->jsonStringIterator->next();
 
 			try {
-				// TODO: do not re-create
-				$gndItem = PicaConverter::newWithDefaultMapping()->picaJsonToGndItem( $line );
+				$gndItem = $this->picaJsonToGndItem( $line );
 			} catch ( InvalidPica $ex ) {
 				continue;
 			}
 
-			//if ( $gndItem->getPropertyIds() !== [] ) {
 			return $this->itemBuilder->build( $gndItem );
-			//}
 		}
+	}
+
+	/**
+	 * @throws InvalidPica
+	 */
+	private function picaJsonToGndItem( string $json ): GndItem {
+		if ( $this->picaConverter === null ) {
+			$this->picaConverter = PicaConverter::newWithDefaultMapping();
+		}
+
+		return $this->picaConverter->picaJsonToGndItem( $json );
 	}
 
 }
