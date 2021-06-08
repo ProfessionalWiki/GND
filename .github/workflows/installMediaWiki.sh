@@ -29,7 +29,7 @@ echo 'wfLoadExtension( "'$EXTENSION_NAME'" );' >> LocalSettings.php
 cat <<EOT >> composer.local.json
 {
   "require": {
-    "wikibase/wikibase": "dev-$MW_BRANCH"
+    "wikibase/wikibase": "dev-REL1_35"
   },
 	"extra": {
 		"merge-plugin": {
