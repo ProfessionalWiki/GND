@@ -22,12 +22,10 @@ class DokuSparqlIdSource {
 	}
 
 	private function buildSparqlUrl(): string {
-		// TODO
 		// https://jira.dnb.de/browse/GNDWIKIBAS-10
-		// SELECT ?item WHERE { ?item wdt:P110 wd:Q1 }
-		// https://query.wikidata.org/#SELECT%20%3Fitem%20WHERE%20%7B%20%3Fitem%20wdt%3AP31%20wd%3AQ146%20%7D
+		// https://doku.wikibase.wiki/query/#%0ASELECT%20%3Fentity%20WHERE%20%7B%20%3Fentity%20%3Chttps%3A%2F%2Fdoku.wikibase.wiki%2Fprop%2Fdirect%2FP110%3E%20%3Chttps%3A%2F%2Fdoku.wikibase.wiki%2Fentity%2FQ1%3E%20%7D%20ORDER%20BY%20%3Fentity
 
-		return 'https://query.wikidata.org/#SELECT%20%3Fitem%20WHERE%20%7B%20%3Fitem%20wdt%3AP31%20wd%3AQ146%20%7D';
+		return 'https://doku.wikibase.wiki/query/proxy/wdqs/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fentity%20WHERE%20%7B%20%3Fentity%20%3Chttps%3A%2F%2Fdoku.wikibase.wiki%2Fprop%2Fdirect%2FP110%3E%20%3Chttps%3A%2F%2Fdoku.wikibase.wiki%2Fentity%2FQ1%3E%20%7D%20ORDER%20BY%20%3Fentity';
 	}
 
 	private function getIdsFromSparqlXmlResult( string $xml ): array {

@@ -6,13 +6,13 @@ namespace DNB\GND\Maintenance;
 
 use DNB\GND\Adapters\DataAccess\DokuEntitySource;
 use DNB\GND\Adapters\DataAccess\DokuSparqlIdSource;
+use DNB\GND\Adapters\DataAccess\MediaWikiFileFetcher;
 use DNB\GND\Adapters\DataAccess\WikibaseRepoEntitySaver;
 use DNB\GND\Adapters\Presentation\MaintenanceImportEntitiesPresenter;
 use DNB\GND\Domain\EntitySaver;
 use DNB\GND\Domain\EntitySource;
 use DNB\GND\UseCases\ImportItems\ImportEntities;
 use DNB\GND\UseCases\ImportItems\ImportEntitiesPresenter;
-use FileFetcher\SimpleFileFetcher;
 use Maintenance;
 use User;
 use Wikibase\Lib\Store\EntityStore;
@@ -53,7 +53,7 @@ class SyncDokuVocabulary extends Maintenance {
 
 		return new DokuEntitySource(
 			$this->getEntityIds(),
-			new SimpleFileFetcher(),
+			new MediaWikiFileFetcher(),
 			WikibaseRepo::getDefaultInstance()->getBaseDataModelDeserializerFactory()->newEntityDeserializer()
 		);
 	}
@@ -63,7 +63,7 @@ class SyncDokuVocabulary extends Maintenance {
 			$this->outputChanneled( 'Finding vocabulary entities via SPARQL... ', 'sparql' );
 		}
 
-		$ids = ( new DokuSparqlIdSource() )->getVocabularyIds();
+		$ids = ( new DokuSparqlIdSource( new MediaWikiFileFetcher() ) )->getVocabularyIds();
 
 		if ( !$this->hasOption( 'quiet' ) ) {
 			$this->outputChanneled( 'done', 'sparql' );

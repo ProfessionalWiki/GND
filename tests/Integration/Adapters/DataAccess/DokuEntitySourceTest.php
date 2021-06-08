@@ -5,7 +5,7 @@ declare( strict_types = 1 );
 namespace DNB\GND\Tests\Integration\Adapters\DataAccess;
 
 use DNB\GND\Adapters\DataAccess\DokuEntitySource;
-use FileFetcher\SimpleFileFetcher;
+use DNB\GND\Adapters\DataAccess\MediaWikiFileFetcher;
 use PHPUnit\Framework\TestCase;
 use Wikibase\DataModel\Entity\EntityDocument;
 use Wikibase\DataModel\Statement\StatementListProvider;
@@ -18,8 +18,8 @@ class DokuEntitySourceTest extends TestCase {
 
 	public function testCanGetEntitiesFromDokuWiki(): void {
 		$entitySource = new DokuEntitySource(
-			[ 'P61', 'Q150' ],
-			new SimpleFileFetcher(),
+			[ 'P61', 'Q1' ],
+			new MediaWikiFileFetcher(),
 			WikibaseRepo::getDefaultInstance()->getBaseDataModelDeserializerFactory()->newEntityDeserializer()
 		);
 
@@ -27,7 +27,7 @@ class DokuEntitySourceTest extends TestCase {
 		$secondEntity = $entitySource->next();
 
 		$this->assertSame( 'P61', $firstEntity->getId()->getSerialization() );
-		$this->assertSame( 'Q150', $secondEntity->getId()->getSerialization() );
+		$this->assertSame( 'Q1', $secondEntity->getId()->getSerialization() );
 		$this->assertNull( $entitySource->next() );
 
 		$this->assertNoStatements( $firstEntity );

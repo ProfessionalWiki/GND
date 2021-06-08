@@ -1,22 +1,1352 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <sparql xmlns='http://www.w3.org/2005/sparql-results#'>
 	<head>
-		<variable name='item'/>
+		<variable name='entity'/>
 	</head>
 	<results>
 		<result>
-			<binding name='item'>
-				<uri>http://www.wikidata.org/entity/Q378619</uri>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P101</uri>
 			</binding>
 		</result>
 		<result>
-			<binding name='item'>
-				<uri>http://www.wikidata.org/entity/Q498787</uri>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P103</uri>
 			</binding>
 		</result>
 		<result>
-			<binding name='item'>
-				<uri>http://www.wikidata.org/entity/Q677525</uri>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P104</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P105</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P106</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P107</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P108</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P148</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P149</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P150</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P151</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P152</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P153</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P154</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P155</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P156</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P157</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P158</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P159</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P166</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P167</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P169</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P171</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P172</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P173</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P174</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P175</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P176</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P177</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P178</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P179</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P180</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P181</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P182</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P183</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P184</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P185</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P53</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P55</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P56</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P58</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P59</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P61</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P62</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P63</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P65</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P66</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P68</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P69</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P70</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P71</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P72</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P73</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P80</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P81</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P83</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P85</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P86</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P87</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P89</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P90</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P91</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P93</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P94</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P95</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P96</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P97</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P98</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/P99</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q10</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q100</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q101</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q102</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q103</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q104</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q105</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q106</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q107</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q108</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q109</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q11</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q110</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q111</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q112</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q113</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q114</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q115</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q116</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q117</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q118</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q119</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q12</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q120</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q121</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q122</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q123</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q124</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q125</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q127</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q128</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q129</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q13</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q130</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q1316</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q132</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q1324</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q133</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q1333</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q1334</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q1337</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q137</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q138</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q139</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q140</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q141</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q142</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q143</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q144</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q145</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q146</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q147</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q148</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q149</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q151</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q152</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q153</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q154</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q155</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q156</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q157</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q159</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q160</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q162</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q163</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q166</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q168</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q169</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q17</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q172</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q183</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q184</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q185</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q186</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q187</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q192</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q2</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q201</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q206</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q21</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q212</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q213</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q214</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q215</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q216</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q217</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q218</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q219</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q220</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q221</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q222</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q223</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q224</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q225</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q226</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q227</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q228</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q229</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q23</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q230</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q231</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q232</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q233</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q234</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q235</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q236</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q237</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q238</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q239</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q240</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q241</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q242</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q243</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q244</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q245</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q246</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q247</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q248</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q249</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q250</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q251</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q252</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q253</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q254</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q255</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q256</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q257</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q258</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q259</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q260</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q27</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q28</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q29</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q3</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q30</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q31</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q32</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q33</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q34</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q35</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q36</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q38</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q39</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q4</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q41</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q42</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q43</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q44</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q45</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q46</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q47</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q48</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q49</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q5</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q50</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q51</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q52</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q53</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q54</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q55</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q56</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q57</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q58</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q59</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q6</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q60</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q63</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q64</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q65</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q66</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q67</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q68</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q69</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q7</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q70</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q71</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q72</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q73</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q74</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q75</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q76</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q77</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q78</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q79</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q8</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q80</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q81</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q82</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q83</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q85</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q9</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q90</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q91</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q92</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q93</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q94</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q95</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q96</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q97</uri>
+			</binding>
+		</result>
+		<result>
+			<binding name='entity'>
+				<uri>https://doku.wikibase.wiki/entity/Q99</uri>
 			</binding>
 		</result>
 	</results>

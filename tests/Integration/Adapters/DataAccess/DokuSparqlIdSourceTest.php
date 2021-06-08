@@ -5,6 +5,7 @@ declare( strict_types = 1 );
 namespace DNB\GND\Tests\Integration\Adapters\DataAccess;
 
 use DNB\GND\Adapters\DataAccess\DokuSparqlIdSource;
+use DNB\GND\Adapters\DataAccess\MediaWikiFileFetcher;
 use FileFetcher\StubFileFetcher;
 use PHPUnit\Framework\TestCase;
 
@@ -13,17 +14,26 @@ use PHPUnit\Framework\TestCase;
  */
 class DokuSparqlIdSourceTest extends TestCase {
 
-	public function testFoo(): void {
-		// https://query.wikidata.org/sparql?query=SELECT%20%3Fitem%20WHERE%20%7B%20%3Fitem%20wdt%3AP31%20wd%3AQ146%20%7D
-
+	public function testGetIds(): void {
 		$idSource = new DokuSparqlIdSource(
 			new StubFileFetcher( file_get_contents( __DIR__ . '/SparqlResult.xml' ) )
 		);
 
-		$this->assertSame(
-			[ 'Q378619', 'Q498787', 'Q677525' ],
-			$idSource->getVocabularyIds()
-		);
+		$ids = $idSource->getVocabularyIds();
+
+		$this->assertSame( 'P101', $ids[0] );
+		$this->assertSame( 'P103', $ids[1] );
+		$this->assertSame( 'P104', $ids[2] );
+		$this->assertSame( 'Q99', $ids[268] );
+		$this->assertSame( 269, count( $ids ) );
+	}
+
+	public function testIntegrationWithLiveSystem(): void {
+		$idSource = new DokuSparqlIdSource( new MediaWikiFileFetcher() );
+
+		$ids = $idSource->getVocabularyIds();
+
+		$this->assertSame( 'P101', $ids[0] );
 	}
 
 }
