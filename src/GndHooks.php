@@ -4,6 +4,8 @@ declare( strict_types = 1 );
 
 namespace DNB\GND;
 
+use DNB\GND\Adapters\Presentation\ParserFunctionDokuPresenter;
+use DNB\GND\UseCases\GetGndDoku\GetGndDoku;
 use Parser;
 
 final class GndHooks {
@@ -13,17 +15,17 @@ final class GndHooks {
 	}
 
 	public static function onParserFirstCallInit( Parser $parser ): void {
-		$parser->setFunctionHook( 'gnd_doku', [ self::class, 'spikySpike' ] );
-	}
+		$parser->setFunctionHook(
+			'gnd_doku',
+			function( Parser $parser, string ...$parameters ) {
+				$presenter = new ParserFunctionDokuPresenter();
 
-	/**
-	 * @param Parser $parser
-	 * @param string ...$parameters
-	 *
-	 * @return mixed[]|string
-	 */
-	public static function spikySpike( Parser $parser, string ...$parameters ) {
-		return 'hi there';
+				$useCase = new GetGndDoku( $presenter );
+				$useCase->showGndDoku();
+
+				return $presenter->getParserFunctionReturnValue();
+			}
+		);
 	}
 
 }
