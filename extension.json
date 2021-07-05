@@ -26,14 +26,19 @@
 		]
 	},
 
+	"ExtensionMessagesFiles": {
+		"GndMagic": "i18n/magic/MagicWords.php"
+	},
+
 	"AutoloadNamespaces": {
 		"DNB\\GND\\": "src/",
 		"DNB\\GND\\Tests\\": "tests/"
 	},
 
-	"callback": "DNB\\GND\\HookHandlers::onExtensionRegistration",
+	"callback": "DNB\\GND\\GndHooks::onExtensionRegistration",
 
 	"Hooks": {
+		"ParserFirstCallInit": "DNB\\GND\\GndHooks::onParserFirstCallInit"
 	},
 
 	"config": {
