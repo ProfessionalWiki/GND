@@ -14,6 +14,9 @@ class ParserFunctionDokuPresenter implements GndDokuPresenter {
 	 */
 	private $parserFunctionReturnValue = '';
 
+	/**
+	 * @return mixed[]|string
+	 */
 	public function getParserFunctionReturnValue() {
 		return $this->parserFunctionReturnValue;
 	}
