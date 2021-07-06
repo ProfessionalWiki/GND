@@ -20,29 +20,30 @@ class GetGndDoku {
 		try {
 			$codings = $this->queryCodings();
 			$subfields = $this->querySubfields();
+			$subfieldCodes = $this->querySubfieldCodings();
 		}
 		catch ( \Exception $exception ) {
 			$this->presenter->showErrorMessage( 'Could not obtain SPARQL result' );
 			return;
 		}
 
-		$this->presenter->showGndDoku( ...$this->fieldDocsFromSparqlResults( $codings, $subfields ) );
+		$this->presenter->showGndDoku( ...$this->fieldDocsFromSparqlResults( $codings, $subfields, $subfieldCodes ) );
 	}
 
 	/**
 	 * @return FieldDoku[]
 	 */
-	private function fieldDocsFromSparqlResults( array $codings, array $subfields ): array {
+	private function fieldDocsFromSparqlResults( array $codings, array $subfields, array $subfieldCodes ): array {
 		$fieldDocs = [];
 
-		foreach ( $this->getInfoPerProperty( $codings, $subfields ) as $propertyInfo ) {
+		foreach ( $this->getInfoPerProperty( $codings, $subfields, $subfieldCodes ) as $propertyInfo ) {
 			$fieldDocs[] = $this->newFieldDokuFromResult( $propertyInfo );
 		}
 
 		return $fieldDocs;
 	}
 
-	private function getInfoPerProperty( array $codings, array $subfields ): array {
+	private function getInfoPerProperty( array $codings, array $subfields, array $subfieldCodes ): array {
 		$propInfo = [];
 
 		foreach ( $codings['results']['bindings'] as $resultRow ) {
@@ -51,7 +52,7 @@ class GetGndDoku {
 			$propInfo[$resultRow['pId']['value']]['codings'][$resultRow['codingTypeLabel']['value']] = $resultRow['coding']['value'];
 		}
 
-		foreach( $propInfo as $pId => $prop ) {
+		foreach( $propInfo as $pId => $_ ) {
 			foreach ( $subfields['results']['bindings'] as $subfieldRow ) {
 				if ( $subfieldRow['pId']['value'] === $pId ) {
 					if ( $subfieldRow['subfieldQualifierPropLabel']['value'] === 'https://doku.wikibase.wiki/prop/qualifier/P8' ) {
@@ -61,6 +62,18 @@ class GetGndDoku {
 
 					if ( $subfieldRow['subfieldQualifierPropLabel']['value'] === 'https://doku.wikibase.wiki/prop/qualifier/P7' ) {
 						$propInfo[$pId]['subfields'][$subfieldRow['subfieldProperty']['value']]['description'] = $subfieldRow['subfieldQualifierValueLabel']['value'];
+					}
+
+					$propInfo[$pId]['subfields'][$subfieldRow['subfieldProperty']['value']]['label'] = $subfieldRow['subfieldPropertyLabel']['value'];
+				}
+			}
+		}
+
+		foreach ( $propInfo as $pId => $prop ) {
+			foreach ( $prop['subfields'] ?? [] as $subfieldPropUri => $subfield ) {
+				foreach ( $subfieldCodes['results']['bindings'] as $sfCodeRow ) {
+					if ( $subfieldPropUri === $sfCodeRow['property']['value'] ) {
+						$propInfo[$pId]['subfields'][$subfieldPropUri]['codes'][$sfCodeRow['codingType']['value']] = $sfCodeRow['subfieldCoding']['value'];
 					}
 				}
 			}
@@ -78,7 +91,9 @@ class GetGndDoku {
 				array_map(
 					fn( array $subfield ) => new SubfieldDoku(
 						$subfield['description'] ?? '',
-						$subfield['possibleValues'] ?? []
+						$subfield['label'] ?? '',
+						$subfield['possibleValues'] ?? [],
+						$subfield['codes'] ?? [],
 					),
 					$propertyInfo['subfields'] ?? []
 				)
@@ -122,12 +137,34 @@ PREFIX statement: <https://doku.wikibase.wiki/prop/statement/>
 SELECT ?pId ?subfieldProperty ?subfieldPropertyLabel ?subfieldQualifierPropLabel ?subfieldQualifierValue ?subfieldQualifierValueLabel WHERE {
   ?property prop:P2 item:Q2 .
   ?property p:P15 ?subfieldsProp .
-  ?subfieldsProp statement:P15 ?subfieldProperty .
+  ?subfieldsProp statement:P15 ?subfieldProperty . # OPTIONAL{ ?subfieldsProp statement:P15 ?subfieldProperty }
   ?subfieldsProp ?subfieldQualifierProp ?subfieldQualifierValue
 
   SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],de" }
 
   BIND(STRAFTER(STR(?property), '/entity/') as ?pId)
+}
+ORDER BY ASC(xsd:integer(STRAFTER(STR(?property), '/entity/P')))
+SPARQL
+		);
+	}
+
+	public function querySubfieldCodings(): array {
+		return $this->queryDispatcher->query(
+			<<< 'SPARQL'
+PREFIX p: <https://doku.wikibase.wiki/prop/>
+PREFIX prop: <https://doku.wikibase.wiki/prop/direct/>
+PREFIX item: <https://doku.wikibase.wiki/entity/>
+PREFIX qualifier: <https://doku.wikibase.wiki/prop/qualifier/>
+PREFIX statement: <https://doku.wikibase.wiki/prop/statement/>
+
+SELECT ?property ?subfieldCoding ?codingType WHERE {
+  ?property prop:P2 item:Q3 .
+  ?property p:P4 ?subfieldCodingProp .
+  ?subfieldCodingProp statement:P4 ?subfieldCoding .
+  ?subfieldCodingProp qualifier:P3 ?codingType
+
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],de" }
 }
 ORDER BY ASC(xsd:integer(STRAFTER(STR(?property), '/entity/P')))
 SPARQL

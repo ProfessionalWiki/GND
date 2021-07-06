@@ -61,6 +61,7 @@ class GetGndDokuTest extends TestCase {
 
 		$this->assertSame( 'Satzart', $presenter->fieldDocs[0]->getLabel() );
 		$this->assertSame( 'https://doku.wikibase.wiki/entity/P53', $presenter->fieldDocs[0]->getUrl() );
+
 		$this->assertSame(
 			[
 				'PICA+' => '002@',
@@ -69,6 +70,7 @@ class GetGndDokuTest extends TestCase {
 			],
 			$presenter->fieldDocs[0]->getFieldCodes()
 		);
+
 		$this->assertEquals(
 			[
 				'https://doku.wikibase.wiki/entity/Q151' => 'Körperschaft',
@@ -80,8 +82,15 @@ class GetGndDokuTest extends TestCase {
 			],
 			$presenter->fieldDocs[0]->getSubfields()[1]->getPossibleValues()
 		);
+
+		$this->assertEquals(
+			[
+				'https://doku.wikibase.wiki/entity/Q1316' => '-ohne- Position 2',
+				'https://doku.wikibase.wiki/entity/Q1320' => '$b',
+				'https://doku.wikibase.wiki/entity/Q1317' => '$0 Position 2'
+			],
+			$presenter->fieldDocs[0]->getSubfields()[1]->getSubfieldCodes()
+		);
 	}
-
-
 
 }

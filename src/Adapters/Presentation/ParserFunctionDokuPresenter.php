@@ -84,14 +84,17 @@ HTML . $this->fieldDocsToHtmlRows( ...$fieldDocs ) . '</tbody></table>';
 		return
 			\Html::element(
 				'a',
-				[ 'href' => $fieldDoku->getUrl() ],
+				[ 'href' => $fieldDoku->getUrl(), 'style' => 'font-weight: bold' ],
 				$fieldDoku->getLabel()
 			)
 			. <<< 'HTML'
 <table class="wikitable">
 <thead>
 	<tr>
-		<th>Unterfelder</th>
+		<th>MARC 21</th>
+		<th>PICA+</th>
+		<th>PICA3</th>
+		<th>Unterfeld beschreibung</th>
 	</tr>
 </thead>
 <tbody>
@@ -105,13 +108,22 @@ HTML
 
 	private function subfieldsToTableRows( SubfieldDoku ...$subfieldDocs ): array {
 		return array_map(
-			fn( SubfieldDoku $subfield ) => \Html::rawElement( 'tr', [], \Html::rawElement( 'td', [], $this->subfieldToCellContent( $subfield ) ) ),
+			function( SubfieldDoku $subfield ) {
+				return \Html::rawElement(
+					'tr',
+					[],
+					\Html::element( 'td', [], $subfield->getSubfieldCodes()['https://doku.wikibase.wiki/entity/Q1320'] )
+					. \Html::element( 'td', [], $subfield->getSubfieldCodes()['https://doku.wikibase.wiki/entity/Q1317'] )
+					. \Html::element( 'td', [], $subfield->getSubfieldCodes()['https://doku.wikibase.wiki/entity/Q1316'] )
+					. \Html::rawElement( 'td', [], $this->subfieldToCellContent( $subfield ) )
+				);
+			},
 			$subfieldDocs
 		);
 	}
 
 	private function subfieldToCellContent( SubfieldDoku $subfield ): string {
-		return $subfield->getDescription()
+		return $subfield->getLabel()
 			. $this->escapedArrayToHtmlList( $this->getAllowedValueLinks( $subfield ) );
 	}
 
