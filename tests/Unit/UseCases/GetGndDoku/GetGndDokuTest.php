@@ -80,7 +80,7 @@ class GetGndDokuTest extends TestCase {
 				'https://doku.wikibase.wiki/entity/Q17' => 'Person',
 				'https://doku.wikibase.wiki/entity/Q312' => 'Werk'
 			],
-			$presenter->fieldDocs[0]->getSubfields()[1]->getPossibleValues()
+			$presenter->fieldDocs[0]->getSubfields()[2]->getPossibleValues()
 		);
 
 		$this->assertEquals(
@@ -89,7 +89,7 @@ class GetGndDokuTest extends TestCase {
 				'https://doku.wikibase.wiki/entity/Q1320' => '$b',
 				'https://doku.wikibase.wiki/entity/Q1317' => '$0 Position 2'
 			],
-			$presenter->fieldDocs[0]->getSubfields()[1]->getSubfieldCodes()
+			$presenter->fieldDocs[0]->getSubfields()[2]->getSubfieldCodes()
 		);
 	}
 
