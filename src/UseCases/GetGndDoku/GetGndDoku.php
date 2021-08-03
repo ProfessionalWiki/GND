@@ -16,11 +16,20 @@ class GetGndDoku {
 		$this->queryDispatcher = $sparqlQueryDispatcher;
 	}
 
-	public function showGndDoku(): void {
+	// TODO: 'MARC 21', 'PICA+', 'PICA3'
+	// TODO: fixme MARC21 on non-de
+	public function showGndDoku( ?string $langCode, array $codings ): void {
+		$langCode ??= 'de';
+
+		if ( !in_array( $langCode, [ 'en', 'de' ] ) ) {
+			$this->presenter->showErrorMessage( 'Invalid language code. Supported: en, de' );
+			return;
+		}
+
 		try {
-			$codings = $this->queryCodings();
-			$subfields = $this->querySubfields();
-			$subfieldCodes = $this->querySubfieldCodings();
+			$codings = $this->queryCodings( $langCode );
+			$subfields = $this->querySubfields( $langCode );
+			$subfieldCodes = $this->querySubfieldCodings( $langCode );
 		}
 		catch ( \Exception $exception ) {
 			$this->presenter->showErrorMessage( 'Could not obtain SPARQL result' );
@@ -101,9 +110,8 @@ class GetGndDoku {
 		);
 	}
 
-	private function queryCodings(): array {
-		return $this->queryDispatcher->query(
-			<<< 'SPARQL'
+	private function queryCodings( string $langCode ): array {
+		$sparql = <<< 'SPARQL'
 PREFIX p: <https://doku.wikibase.wiki/prop/>
 PREFIX prop: <https://doku.wikibase.wiki/prop/direct/>
 PREFIX item: <https://doku.wikibase.wiki/entity/>
@@ -116,18 +124,20 @@ SELECT ?property ?pId ?propertyLabel ?coding ?codingTypeLabel WHERE {
   ?codingProp statement:P4 ?coding .
   ?codingProp qualifier:P3 ?codingType
 
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],de" }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],langCodePlaceholder" }
 
   BIND(STRAFTER(STR(?property), '/entity/') as ?pId)
 }
 ORDER BY ASC(xsd:integer(STRAFTER(STR(?property), '/entity/P')))
-SPARQL
+SPARQL;
+
+		return $this->queryDispatcher->query(
+			str_replace( 'langCodePlaceholder', $langCode, $sparql )
 		);
 	}
 
-	private function querySubfields(): array {
-		return $this->queryDispatcher->query(
-			<<< 'SPARQL'
+	private function querySubfields( string $langCode ): array {
+		$sparql = <<< 'SPARQL'
 PREFIX p: <https://doku.wikibase.wiki/prop/>
 PREFIX prop: <https://doku.wikibase.wiki/prop/direct/>
 PREFIX item: <https://doku.wikibase.wiki/entity/>
@@ -140,18 +150,20 @@ SELECT ?pId ?subfieldProperty ?subfieldPropertyLabel ?subfieldQualifierPropLabel
   ?subfieldsProp statement:P15 ?subfieldProperty . # OPTIONAL{ ?subfieldsProp statement:P15 ?subfieldProperty }
   ?subfieldsProp ?subfieldQualifierProp ?subfieldQualifierValue
 
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],de" }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],langCodePlaceholder" }
 
   BIND(STRAFTER(STR(?property), '/entity/') as ?pId)
 }
 ORDER BY ASC(xsd:integer(STRAFTER(STR(?property), '/entity/P')))
-SPARQL
+SPARQL;
+
+		return $this->queryDispatcher->query(
+			str_replace( 'langCodePlaceholder', $langCode, $sparql )
 		);
 	}
 
-	public function querySubfieldCodings(): array {
-		return $this->queryDispatcher->query(
-			<<< 'SPARQL'
+	public function querySubfieldCodings( string $langCode ): array {
+		$sparql = <<< 'SPARQL'
 PREFIX p: <https://doku.wikibase.wiki/prop/>
 PREFIX prop: <https://doku.wikibase.wiki/prop/direct/>
 PREFIX item: <https://doku.wikibase.wiki/entity/>
@@ -164,10 +176,13 @@ SELECT ?property ?subfieldCoding ?codingType WHERE {
   ?subfieldCodingProp statement:P4 ?subfieldCoding .
   ?subfieldCodingProp qualifier:P3 ?codingType
 
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],de" }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],langCodePlaceholder" }
 }
 ORDER BY ASC(xsd:integer(STRAFTER(STR(?property), '/entity/P')))
-SPARQL
+SPARQL;
+
+		return $this->queryDispatcher->query(
+			str_replace( 'langCodePlaceholder', $langCode, $sparql )
 		);
 	}
 

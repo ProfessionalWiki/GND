@@ -27,11 +27,30 @@ final class GndHooks {
 					$presenter,
 					new NetworkSparqlQueryDispatcher( self::DOKU_SPARQL_ENDPOINT )
 				);
-				$useCase->showGndDoku();
+
+				$parameters = self::parserArgumentsToKeyValuePairs( $parameters );
+
+				$useCase->showGndDoku(
+					$parameters['language'] ?? null,
+					explode( ',', $parameters['codings'] ?? '' )
+				);
 
 				return $presenter->getParserFunctionReturnValue();
 			}
 		);
+	}
+
+	private static function parserArgumentsToKeyValuePairs( array $arguments ): array {
+		$pairs = [];
+
+		foreach ( $arguments as $argument ) {
+			if ( false !== strpos( $argument, '=' ) ) {
+				[$key, $value] = explode( '=', $argument );
+				$pairs[trim($key)] = trim($value);
+			}
+		}
+
+		return $pairs;
 	}
 
 }

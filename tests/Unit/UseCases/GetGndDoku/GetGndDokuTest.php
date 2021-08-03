@@ -16,6 +16,8 @@ use PHPUnit\Framework\TestCase;
  */
 class GetGndDokuTest extends TestCase {
 
+	private const VALID_CODINGS = [ 'MARC 21', 'PICA+', 'PICA3' ];
+
 	public function testNetworkErrorLeadsToErrorMessage(): void {
 		$presenter = $this->newSpyPresenter();
 
@@ -24,7 +26,7 @@ class GetGndDokuTest extends TestCase {
 			new NetworkSparqlQueryDispatcher( 'http://zsdjklsdfjklsdrjkl.wikibase.wiki/404' )
 		);
 
-		$useCase->showGndDoku();
+		$useCase->showGndDoku( 'de', self::VALID_CODINGS );
 
 		$this->assertSame( 'Could not obtain SPARQL result', $presenter->errorMessage );
 	}
@@ -55,7 +57,7 @@ class GetGndDokuTest extends TestCase {
 			new NetworkSparqlQueryDispatcher( GndHooks::DOKU_SPARQL_ENDPOINT )
 		);
 
-		$useCase->showGndDoku();
+		$useCase->showGndDoku( null, self::VALID_CODINGS );
 
 		$this->assertNull( $presenter->errorMessage );
 
@@ -90,6 +92,46 @@ class GetGndDokuTest extends TestCase {
 				'https://doku.wikibase.wiki/entity/Q1317' => '$0 Position 2'
 			],
 			$presenter->fieldDocs[0]->getSubfields()[2]->getSubfieldCodes()
+		);
+	}
+
+	public function testInvalidLanguageCodeLeadsToErrorMessage(): void {
+		$presenter = $this->newSpyPresenter();
+
+		$useCase = new GetGndDoku(
+			$presenter,
+			new NetworkSparqlQueryDispatcher( GndHooks::DOKU_SPARQL_ENDPOINT )
+		);
+
+		$useCase->showGndDoku( 'NOPE', self::VALID_CODINGS );
+
+		$this->assertSame( 'Invalid language code. Supported: en, de', $presenter->errorMessage );
+	}
+
+	public function testEnglishViaNetwork(): void {
+		$presenter = $this->newSpyPresenter();
+
+		$useCase = new GetGndDoku(
+			$presenter,
+			new NetworkSparqlQueryDispatcher( GndHooks::DOKU_SPARQL_ENDPOINT )
+		);
+
+		$useCase->showGndDoku( 'en', self::VALID_CODINGS );
+
+		$this->assertNull( $presenter->errorMessage );
+
+		$this->assertSame( 'Type of record', $presenter->fieldDocs[0]->getLabel() );
+
+		$this->assertEquals(
+			[
+				'https://doku.wikibase.wiki/entity/Q151' => 'Corporate body',
+				'https://doku.wikibase.wiki/entity/Q153' => 'Place',
+				'https://doku.wikibase.wiki/entity/Q17' => 'Person',
+				'https://doku.wikibase.wiki/entity/Q152' => 'Conference',
+				'https://doku.wikibase.wiki/entity/Q154' => 'Subject',
+				'https://doku.wikibase.wiki/entity/Q312' => 'Work'
+			],
+			$presenter->fieldDocs[0]->getSubfields()[2]->getPossibleValues()
 		);
 	}
 
