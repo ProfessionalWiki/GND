@@ -36,7 +36,7 @@ class ParserFunctionDokuPresenter implements GndDokuPresenter {
 
 	private function fieldDocsToTable( FieldDoku ...$fieldDocs ): string {
 		return <<< 'HTML'
-<table class="wikitable">
+<table class="wikitable sortable">
 <thead>
 	<tr>
 		<th>MARC 21</th>
@@ -90,7 +90,7 @@ HTML . $this->fieldDocsToHtmlRows( ...$fieldDocs ) . '</tbody></table>';
 			. <<< 'HTML'
 <details>
 	<summary style="cursor: pointer">Unterfelder anzeigen</summary>
-<table class="wikitable" style="margin-top: 0">
+<table class="wikitable sortable" style="margin-top: 0">
 <thead>
 	<tr>
 		<th>MARC 21</th>
