@@ -88,7 +88,9 @@ HTML . $this->fieldDocsToHtmlRows( ...$fieldDocs ) . '</tbody></table>';
 				$fieldDoku->getLabel()
 			)
 			. <<< 'HTML'
-<table class="wikitable">
+<details>
+	<summary style="cursor: pointer">Unterfelder anzeigen</summary>
+<table class="wikitable" style="margin-top: 0">
 <thead>
 	<tr>
 		<th>MARC 21</th>
@@ -103,7 +105,7 @@ HTML
 				'',
 				$this->subfieldsToTableRows( ...$fieldDoku->getSubfields() )
 			)
-			. '</tbody></table>';
+			. '</tbody></table></details>';
 	}
 
 	private function subfieldsToTableRows( SubfieldDoku ...$subfieldDocs ): array {
