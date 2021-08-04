@@ -7,7 +7,6 @@ namespace DNB\GND;
 use DNB\GND\Adapters\DataAccess\NetworkSparqlQueryDispatcher;
 use DNB\GND\Adapters\Presentation\ParserFunctionDokuPresenter;
 use DNB\GND\UseCases\GetGndDoku\GetGndDoku;
-use MediaWiki\MediaWikiServices;
 use Parser;
 
 final class GndDokuFunction {
