@@ -7,6 +7,7 @@ namespace DNB\GND;
 use DNB\GND\Adapters\DataAccess\NetworkSparqlQueryDispatcher;
 use DNB\GND\Adapters\Presentation\ParserFunctionDokuPresenter;
 use DNB\GND\UseCases\GetGndDoku\GetGndDoku;
+use MediaWiki\MediaWikiServices;
 use Parser;
 
 final class GndDokuFunction {
@@ -17,14 +18,15 @@ final class GndDokuFunction {
 		$parser->setFunctionHook(
 			'gnd_doku',
 			function( Parser $parser, string ...$parameters ) {
+				global $wgLang;
 				$parser->getOutput()->updateCacheExpiry( 0 );
 				$parser->getOutput()->addModules( 'ext.gnd' );
-				return ( new self() )->render( $parameters );
+				return ( new self() )->render( $parameters, $wgLang->getCode() );
 			}
 		);
 	}
 
-	public function render( array $rawParameters ) {
+	public function render( array $rawParameters, string $userLangCode ) {
 		$presenter = new ParserFunctionDokuPresenter();
 
 		$useCase = new GetGndDoku(
@@ -35,7 +37,7 @@ final class GndDokuFunction {
 		$parameters = $this->parserArgumentsToKeyValuePairs( $rawParameters );
 
 		$useCase->showGndDoku(
-			$parameters['language'] ?? null,
+			$parameters['language'] ?? ( in_array( $userLangCode, [ 'en', 'de' ] ) ? $userLangCode : null ),
 			$this->normalizeCodingsParameter( $parameters )
 		);
 
