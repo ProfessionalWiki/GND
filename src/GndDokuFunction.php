@@ -57,11 +57,15 @@ final class GndDokuFunction {
 	}
 
 	private function normalizeCodingsParameter( array $parameters ): array {
+		if ( trim( $parameters['codings'] ?? '' ) === '' ) {
+			return [ 'PICA3', 'PICA+', 'MARC21' ];
+		}
+
 		return array_map(
 			'strtoupper',
 			array_map(
 				fn ( string $s ) => preg_replace( '/\s+/', '', $s ),
-				explode( ',', $parameters['codings'] ?? '' )
+				explode( ',', $parameters['codings'] )
 			)
 		);
 	}

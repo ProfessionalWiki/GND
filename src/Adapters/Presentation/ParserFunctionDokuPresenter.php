@@ -158,9 +158,15 @@ HTML
 				return \Html::rawElement(
 					'tr',
 					[],
-					\Html::element( 'td', [], $subfield->getSubfieldCodes()['https://doku.wikibase.wiki/entity/Q1316'] ?? '' )
-					. \Html::element( 'td', [], $subfield->getSubfieldCodes()['https://doku.wikibase.wiki/entity/Q1317'] ?? '' )
-					. \Html::element( 'td', [], $subfield->getSubfieldCodes()['https://doku.wikibase.wiki/entity/Q1320'] ?? '' )
+					( $this->shouldShow( self::CODING_PICA3 ) ?
+						\Html::element( 'td', [], $subfield->getSubfieldCodes()['https://doku.wikibase.wiki/entity/Q1316'] ?? '' ) : ''
+					)
+					. ( $this->shouldShow( self::CODING_PICA_PLUS ) ?
+						\Html::element( 'td', [], $subfield->getSubfieldCodes()['https://doku.wikibase.wiki/entity/Q1317'] ?? '' ) : ''
+					)
+					. ( $this->shouldShow( self::CODING_MARC21 ) ?
+						\Html::element( 'td', [], $subfield->getSubfieldCodes()['https://doku.wikibase.wiki/entity/Q1320'] ?? '' ) : ''
+					)
 					. \Html::rawElement( 'td', [], $this->subfieldToCellContent( $subfield ) )
 				);
 			},
