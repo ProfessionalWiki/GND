@@ -39,9 +39,9 @@ class ParserFunctionDokuPresenter implements GndDokuPresenter {
 <table class="wikitable sortable gnd-doku">
 <thead>
 	<tr>
-		<th>MARC 21</th>
-		<th>PICA+</th>
 		<th>PICA3</th>
+		<th>PICA+</th>
+		<th>MARC 21</th>
 		<th>gnd-table-description</th>
 	</tr>
 </thead>
@@ -92,9 +92,9 @@ HTML . $this->fieldDocsToHtmlRows( ...$fieldDocs ) . '</tbody></table>';
 	private function fieldDokuToCellContent( FieldDoku $fieldDoku ): array {
 		return [
 			// Note: can be improved by using URIs to avoid break when a label changes or another language is used
-			$fieldDoku->getFieldCodes()['MARC 21 Format für Normdaten'] ?? $fieldDoku->getFieldCodes()['MARC 21 Format for Authority Data'] ?? '',
-			$fieldDoku->getFieldCodes()['PICA+'] ?? '',
 			$fieldDoku->getFieldCodes()['PICA3'] ?? '',
+			$fieldDoku->getFieldCodes()['PICA+'] ?? '',
+			$fieldDoku->getFieldCodes()['MARC 21 Format für Normdaten'] ?? $fieldDoku->getFieldCodes()['MARC 21 Format for Authority Data'] ?? '',
 			$this->getDescriptionCellContent( $fieldDoku )
 		];
 	}
@@ -112,9 +112,9 @@ HTML . $this->fieldDocsToHtmlRows( ...$fieldDocs ) . '</tbody></table>';
 <table class="wikitable sortable gnd-subfields">
 <thead>
 	<tr>
-		<th>MARC 21</th>
-		<th>PICA+</th>
 		<th>PICA3</th>
+		<th>PICA+</th>
+		<th>MARC 21</th>
 		<th>gnd-table-subfield-description</th>
 	</tr>
 </thead>
@@ -133,9 +133,9 @@ HTML
 				return \Html::rawElement(
 					'tr',
 					[],
-					\Html::element( 'td', [], $subfield->getSubfieldCodes()['https://doku.wikibase.wiki/entity/Q1320'] ?? '' )
+					\Html::element( 'td', [], $subfield->getSubfieldCodes()['https://doku.wikibase.wiki/entity/Q1316'] ?? '' )
 					. \Html::element( 'td', [], $subfield->getSubfieldCodes()['https://doku.wikibase.wiki/entity/Q1317'] ?? '' )
-					. \Html::element( 'td', [], $subfield->getSubfieldCodes()['https://doku.wikibase.wiki/entity/Q1316'] ?? '' )
+					. \Html::element( 'td', [], $subfield->getSubfieldCodes()['https://doku.wikibase.wiki/entity/Q1320'] ?? '' )
 					. \Html::rawElement( 'td', [], $this->subfieldToCellContent( $subfield ) )
 				);
 			},
