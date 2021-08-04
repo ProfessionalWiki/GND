@@ -9,8 +9,8 @@ use PHPUnit\Framework\TestCase;
 
 class GndDokuParserFunctionTest extends TestCase {
 
-	public function testDefaultLanguageWithCodingsParameter(): void {
-		$output = $this->parse( '{{#gnd_doku:codings=PICA+, pica 3}}' );
+	public function testHappyPathWithAllParameters(): void {
+		$output = $this->parse( '{{#gnd_doku:language=de | codings=PICA+, pica 3}}' );
 
 		$this->assertStringContainsString(
 			'Unterfelder anzeigen',

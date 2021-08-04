@@ -18,6 +18,7 @@ class GetGndDokuTest extends TestCase {
 
 	private const VALID_CODINGS = [ 'MARC 21', 'PICA+', 'PICA3' ];
 
+	// TODO: stop using network now we have a system test via GndDokuParserFunctionTest
 	public function testNetworkErrorLeadsToErrorMessage(): void {
 		$presenter = $this->newSpyPresenter();
 
@@ -49,6 +50,7 @@ class GetGndDokuTest extends TestCase {
 		};
 	}
 
+	// TODO: stop using network now we have a system test via GndDokuParserFunctionTest
 	public function testHappyPathViaNetwork(): void {
 		$presenter = $this->newSpyPresenter();
 
