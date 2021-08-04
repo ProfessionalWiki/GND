@@ -1,0 +1,15 @@
+table.gnd-doku tr {
+	vertical-align: top;
+}
+
+table.gnd-doku summary {
+	cursor: pointer;
+}
+
+table.gnd-subfields {
+	margin-top: 0;
+}
+
+a.gnd-property {
+	font-weight: bold;
+}

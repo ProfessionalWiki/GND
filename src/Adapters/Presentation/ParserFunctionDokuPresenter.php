@@ -35,7 +35,7 @@ class ParserFunctionDokuPresenter implements GndDokuPresenter {
 	}
 
 	private function fieldDocsToTable( FieldDoku ...$fieldDocs ): string {
-		return <<< 'HTML'
+		$tableHtml = <<< 'HTML'
 <table class="wikitable sortable gnd-doku">
 <thead>
 	<tr>
@@ -47,6 +47,8 @@ class ParserFunctionDokuPresenter implements GndDokuPresenter {
 </thead>
 <tbody>
 HTML . $this->fieldDocsToHtmlRows( ...$fieldDocs ) . '</tbody></table>';
+
+		return $tableHtml;
 	}
 
 	private function fieldDocsToHtmlRows( FieldDoku ...$fieldDocs ): string {
@@ -85,13 +87,13 @@ HTML . $this->fieldDocsToHtmlRows( ...$fieldDocs ) . '</tbody></table>';
 		return
 			\Html::element(
 				'a',
-				[ 'href' => $fieldDoku->getUrl(), 'style' => 'font-weight: bold' ],
+				[ 'href' => $fieldDoku->getUrl(), 'class' => 'gnd-property' ],
 				$fieldDoku->getLabel()
 			)
 			. <<< 'HTML'
 <details>
-	<summary style="cursor: pointer">Unterfelder anzeigen</summary>
-<table class="wikitable sortable" style="margin-top: 0">
+	<summary>Unterfelder anzeigen</summary>
+<table class="wikitable sortable gnd-subfields">
 <thead>
 	<tr>
 		<th>MARC 21</th>
