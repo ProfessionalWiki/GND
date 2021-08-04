@@ -73,7 +73,8 @@ HTML . $this->fieldDocsToHtmlRows( ...$fieldDocs ) . '</tbody></table>';
 
 	private function fieldDokuToCellContent( FieldDoku $fieldDoku ): array {
 		return [
-			$fieldDoku->getFieldCodes()['MARC 21 Format für Normdaten'] ?? '',
+			// Note: can be improved by using URIs to avoid break when a label changes or another language is used
+			$fieldDoku->getFieldCodes()['MARC 21 Format für Normdaten'] ?? $fieldDoku->getFieldCodes()['MARC 21 Format for Authority Data'] ?? '',
 			$fieldDoku->getFieldCodes()['PICA+'] ?? '',
 			$fieldDoku->getFieldCodes()['PICA3'] ?? '',
 			$this->getDescriptionCellContent( $fieldDoku )

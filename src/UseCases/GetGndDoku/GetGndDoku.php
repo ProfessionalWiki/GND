@@ -17,7 +17,6 @@ class GetGndDoku {
 	}
 
 	// TODO: 'MARC 21', 'PICA+', 'PICA3'
-	// TODO: fixme MARC21 on non-de
 	public function showGndDoku( ?string $langCode, array $codings ): void {
 		$langCode ??= 'de';
 
