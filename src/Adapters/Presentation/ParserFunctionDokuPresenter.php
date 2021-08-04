@@ -10,10 +10,21 @@ use DNB\GND\UseCases\GetGndDoku\SubfieldDoku;
 
 class ParserFunctionDokuPresenter implements GndDokuPresenter {
 
+	private const CODING_PICA3 = 'PICA3';
+	private const CODING_PICA_PLUS = 'PICA+';
+	private const CODING_MARC21 = 'MARC21';
+
 	/**
 	 * @var mixed[]|string
 	 */
 	private $parserFunctionReturnValue = '';
+
+	private string $langCode;
+
+	/**
+	 * @var array<int, string>
+	 */
+	private array $codingsToShow;
 
 	/**
 	 * @return mixed[]|string
@@ -26,32 +37,37 @@ class ParserFunctionDokuPresenter implements GndDokuPresenter {
 		$this->parserFunctionReturnValue = $error;
 	}
 
-	public function showGndDoku( string $langCode, FieldDoku ...$fieldDocs ): void {
+	public function showGndDoku( string $langCode, array $codingsToShow, FieldDoku ...$fieldDocs ): void {
+		$this->langCode = $langCode;
+		$this->codingsToShow = $codingsToShow;
+
 		$this->parserFunctionReturnValue = [
 			'noparse' => true,
 			'isHTML' => true,
-			$this->fieldDocsToTable( $langCode, ...$fieldDocs )
+			$this->fieldDocsToTable( ...$fieldDocs )
 		];
 	}
 
-	private function fieldDocsToTable( string $langCode, FieldDoku ...$fieldDocs ): string {
-		$tableHtml = <<< 'HTML'
-<table class="wikitable sortable gnd-doku">
-<thead>
-	<tr>
-		<th>PICA3</th>
-		<th>PICA+</th>
-		<th>MARC 21</th>
-		<th>gnd-table-description</th>
-	</tr>
-</thead>
-<tbody>
-HTML . $this->fieldDocsToHtmlRows( ...$fieldDocs ) . '</tbody></table>';
-
-		return $this->replaceMessagePlaceholders( $langCode, $tableHtml );
+	private function fieldDocsToTable( FieldDoku ...$fieldDocs ): string {
+		return $this->replaceMessagePlaceholders(
+			'<table class="wikitable sortable gnd-doku">'
+			. '<thead><tr>'
+			. ( $this->shouldShow( self::CODING_PICA3 ) ? '<th>PICA3</th>' : '' )
+			. ( $this->shouldShow( self::CODING_PICA_PLUS ) ? '<th>PICA+</th>' : '' )
+			. ( $this->shouldShow( self::CODING_MARC21 ) ? '<th>MARC 21</th>' : '' )
+			. '<th>gnd-table-description</th>'
+			. '</tr></thead>'
+			. '<tbody>'
+			. $this->fieldDocsToHtmlRows( ...$fieldDocs )
+			. '</tbody></table>'
+		);
 	}
 
-	private function replaceMessagePlaceholders( string $langCode, string $text ): string {
+	private function shouldShow( string $coding ): bool {
+		return in_array( $coding, $this->codingsToShow );
+	}
+
+	private function replaceMessagePlaceholders( string $text ): string {
 		return str_replace(
 			[
 				'gnd-table-description',
@@ -59,9 +75,9 @@ HTML . $this->fieldDocsToHtmlRows( ...$fieldDocs ) . '</tbody></table>';
 				'gnd-table-subfield-description',
 			],
 			[
-				wfGetLangObj( $langCode )->getMessage( 'gnd-table-description' ),
-				wfGetLangObj( $langCode )->getMessage( 'gnd-table-view-subfields' ),
-				wfGetLangObj( $langCode )->getMessage( 'gnd-table-subfield-description' ),
+				wfGetLangObj( $this->langCode )->getMessage( 'gnd-table-description' ),
+				wfGetLangObj( $this->langCode )->getMessage( 'gnd-table-view-subfields' ),
+				wfGetLangObj( $this->langCode )->getMessage( 'gnd-table-subfield-description' ),
 			],
 			$text
 		);
@@ -90,13 +106,24 @@ HTML . $this->fieldDocsToHtmlRows( ...$fieldDocs ) . '</tbody></table>';
 	}
 
 	private function fieldDokuToCellContent( FieldDoku $fieldDoku ): array {
-		return [
+		$cellContent = [];
+
+		if ( $this->shouldShow( self::CODING_PICA3 ) ) {
 			// Note: can be improved by using URIs to avoid break when a label changes or another language is used
-			$fieldDoku->getFieldCodes()['PICA3'] ?? '',
-			$fieldDoku->getFieldCodes()['PICA+'] ?? '',
-			$fieldDoku->getFieldCodes()['MARC 21 Format für Normdaten'] ?? $fieldDoku->getFieldCodes()['MARC 21 Format for Authority Data'] ?? '',
-			$this->getDescriptionCellContent( $fieldDoku )
-		];
+			$cellContent[] = $fieldDoku->getFieldCodes()['PICA3'] ?? '';
+		}
+
+		if ( $this->shouldShow( self::CODING_PICA_PLUS ) ) {
+			$cellContent[] = $fieldDoku->getFieldCodes()['PICA+'] ?? '';
+		}
+
+		if ( $this->shouldShow( self::CODING_MARC21 ) ) {
+			$cellContent[] = $fieldDoku->getFieldCodes()['MARC 21 Format für Normdaten'] ?? $fieldDoku->getFieldCodes()['MARC 21 Format for Authority Data'] ?? '';
+		}
+
+		$cellContent[] = $this->getDescriptionCellContent( $fieldDoku );
+
+		return $cellContent;
 	}
 
 	private function getDescriptionCellContent( FieldDoku $fieldDoku ): string {
@@ -112,14 +139,12 @@ HTML . $this->fieldDocsToHtmlRows( ...$fieldDocs ) . '</tbody></table>';
 <table class="wikitable sortable gnd-subfields">
 <thead>
 	<tr>
-		<th>PICA3</th>
-		<th>PICA+</th>
-		<th>MARC 21</th>
-		<th>gnd-table-subfield-description</th>
-	</tr>
-</thead>
-<tbody>
 HTML
+			. ( $this->shouldShow( self::CODING_PICA3 ) ? '<th>PICA3</th>' : '' )
+			. ( $this->shouldShow( self::CODING_PICA_PLUS ) ? '<th>PICA+</th>' : '' )
+			. ( $this->shouldShow( self::CODING_MARC21 ) ? '<th>MARC 21</th>' : '' )
+			. '<th>gnd-table-subfield-description</th>'
+			. '</tr></thead><tbody>'
 			. implode(
 				'',
 				$this->subfieldsToTableRows( ...$fieldDoku->getSubfields() )

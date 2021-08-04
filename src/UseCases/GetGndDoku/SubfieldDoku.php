@@ -13,7 +13,8 @@ class SubfieldDoku {
 
 	/**
 	 * @param array<string, string> $possibleValues [URI => value]
-	 * @param $subfieldCodes array<string, string> $fieldCodes Example: ['PICA3' => '-ohne- Position 2', 'PICA+' => '0 Position 2']
+	 * @param $subfieldCodes array<string, string> $fieldCodes Example:
+	 * 		['https://doku.wikibase.wiki/entity/Q1316' => '-ohne- Position 2', 'https://doku.wikibase.wiki/entity/Q1317' => '0 Position 2']
 	 */
 	public function __construct( string $description, string $label, array $possibleValues, array $subfieldCodes ) {
 		$this->description = $description;

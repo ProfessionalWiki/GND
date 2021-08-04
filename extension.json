@@ -2,7 +2,7 @@
 	"name": "GND",
 	"type": "wikibase",
 
-	"version": "2021-08-03",
+	"version": "2021-08-05",
 
 	"author": [
 		"[https://www.EntropyWins.wtf/mediawiki Jeroen De Dauw]",
@@ -35,10 +35,8 @@
 		"DNB\\GND\\Tests\\": "tests/"
 	},
 
-	"callback": "DNB\\GND\\GndHooks::onExtensionRegistration",
-
 	"Hooks": {
-		"ParserFirstCallInit": "DNB\\GND\\GndHooks::onParserFirstCallInit"
+		"ParserFirstCallInit": "DNB\\GND\\GndDokuFunction::onParserFirstCallInit"
 	},
 
 	"config": {

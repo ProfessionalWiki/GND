@@ -5,7 +5,7 @@ declare( strict_types = 1 );
 namespace DNB\GND\Tests\Integration\Adapters\DataAccess;
 
 use DNB\GND\Adapters\DataAccess\NetworkSparqlQueryDispatcher;
-use DNB\GND\GndHooks;
+use DNB\GND\GndDokuFunction;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 class NetworkSparqlQueryDispatcherTest extends TestCase {
 
 	public function testDokuWikiQuery(): void {
-		$dispatcher = new NetworkSparqlQueryDispatcher( GndHooks::DOKU_SPARQL_ENDPOINT );
+		$dispatcher = new NetworkSparqlQueryDispatcher( GndDokuFunction::DOKU_SPARQL_ENDPOINT );
 
 		$sparqlQueryString = <<< 'SPARQL'
 PREFIX prop: <https://doku.wikibase.wiki/prop/direct/>

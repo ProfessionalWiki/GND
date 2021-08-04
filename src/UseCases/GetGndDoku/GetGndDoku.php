@@ -17,7 +17,7 @@ class GetGndDoku {
 	}
 
 	// TODO: 'MARC 21', 'PICA+', 'PICA3'
-	public function showGndDoku( ?string $langCode, array $codings ): void {
+	public function showGndDoku( ?string $langCode, array $codingsToShow ): void {
 		$langCode ??= 'de';
 
 		if ( !in_array( $langCode, [ 'en', 'de' ] ) ) {
@@ -37,6 +37,7 @@ class GetGndDoku {
 
 		$this->presenter->showGndDoku(
 			$langCode,
+			$codingsToShow,
 			...$this->fieldDocsFromSparqlResults( $codings, $subfields, $subfieldCodes )
 		);
 	}

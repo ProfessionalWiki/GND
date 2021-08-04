@@ -6,7 +6,7 @@ namespace DNB\GND\UseCases\GetGndDoku;
 
 interface GndDokuPresenter {
 
-	public function showGndDoku( string $langCode, FieldDoku ...$fieldDocs ): void;
+	public function showGndDoku( string $langCode, array $codingsToShow, FieldDoku ...$fieldDocs ): void;
 
 	public function showErrorMessage( string $error ): void;
 

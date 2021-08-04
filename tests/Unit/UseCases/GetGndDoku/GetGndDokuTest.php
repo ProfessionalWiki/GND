@@ -5,7 +5,7 @@ declare( strict_types = 1 );
 namespace DNB\GND\Tests\Unit\UseCases\GetGndDoku;
 
 use DNB\GND\Adapters\DataAccess\NetworkSparqlQueryDispatcher;
-use DNB\GND\GndHooks;
+use DNB\GND\GndDokuFunction;
 use DNB\GND\UseCases\GetGndDoku\FieldDoku;
 use DNB\GND\UseCases\GetGndDoku\GetGndDoku;
 use DNB\GND\UseCases\GetGndDoku\GndDokuPresenter;
@@ -39,7 +39,7 @@ class GetGndDokuTest extends TestCase {
 			public array $fieldDocs = [];
 			public ?string $errorMessage = null;
 
-			public function showGndDoku( string $langCode, FieldDoku ...$fieldDocs ): void {
+			public function showGndDoku( string $langCode, array $codingsToShow, FieldDoku ...$fieldDocs ): void {
 				$this->fieldDocs = $fieldDocs;
 			}
 
@@ -54,7 +54,7 @@ class GetGndDokuTest extends TestCase {
 
 		$useCase = new GetGndDoku(
 			$presenter,
-			new NetworkSparqlQueryDispatcher( GndHooks::DOKU_SPARQL_ENDPOINT )
+			new NetworkSparqlQueryDispatcher( GndDokuFunction::DOKU_SPARQL_ENDPOINT )
 		);
 
 		$useCase->showGndDoku( null, self::VALID_CODINGS );
@@ -100,7 +100,7 @@ class GetGndDokuTest extends TestCase {
 
 		$useCase = new GetGndDoku(
 			$presenter,
-			new NetworkSparqlQueryDispatcher( GndHooks::DOKU_SPARQL_ENDPOINT )
+			new NetworkSparqlQueryDispatcher( GndDokuFunction::DOKU_SPARQL_ENDPOINT )
 		);
 
 		$useCase->showGndDoku( 'NOPE', self::VALID_CODINGS );
@@ -113,7 +113,7 @@ class GetGndDokuTest extends TestCase {
 
 		$useCase = new GetGndDoku(
 			$presenter,
-			new NetworkSparqlQueryDispatcher( GndHooks::DOKU_SPARQL_ENDPOINT )
+			new NetworkSparqlQueryDispatcher( GndDokuFunction::DOKU_SPARQL_ENDPOINT )
 		);
 
 		$useCase->showGndDoku( 'en', self::VALID_CODINGS );
