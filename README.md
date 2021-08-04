@@ -40,7 +40,7 @@ wfLoadExtension( 'GND' );
 
 You can verify the extension was enabled successfully by opening your wikis Special:Version page in your browser.
 
-## Usage
+## Usage: GND import
 
 GND import via `ImportGndDump.php`. Example:
 
@@ -49,6 +49,16 @@ GND import via `ImportGndDump.php`. Example:
 Doku-wiki vocabulary sync via `SyncDokuVocabulary`. Example:
 
     php extensions/GND/maintenance/SyncDokuVocabulary.php
+
+## Usage: GND doku function
+
+```
+{{#gnd_doku:language=en|codings=PICA3, PICA+}}
+```
+
+Parameters:
+* `language`. Optional language code. Default `de`. Supports `en` and `de`.
+* `codings`. Optional. Coding columns to show. Default `PICA3, PICA+, MARC21`. Supports these 3 values.
 
 ## Running the tests
 
