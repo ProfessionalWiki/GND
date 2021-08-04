@@ -50,6 +50,14 @@
 	},
 
 	"ResourceModules": {
+		"ext.gnd": {
+			"dependencies": [
+				"jquery.tablesorter"
+			],
+			"scripts": [
+				"gnd-doku-table.js"
+			]
+		}
 	},
 
 	"manifest_version": 2

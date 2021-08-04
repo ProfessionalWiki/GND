@@ -36,7 +36,7 @@ class ParserFunctionDokuPresenter implements GndDokuPresenter {
 
 	private function fieldDocsToTable( FieldDoku ...$fieldDocs ): string {
 		return <<< 'HTML'
-<table class="wikitable sortable">
+<table class="wikitable sortable gnd-doku">
 <thead>
 	<tr>
 		<th>MARC 21</th>

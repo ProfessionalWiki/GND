@@ -35,6 +35,8 @@ final class GndHooks {
 					explode( ',', $parameters['codings'] ?? '' )
 				);
 
+				$parser->getOutput()->addModules( 'ext.gnd' );
+
 				return $presenter->getParserFunctionReturnValue();
 			}
 		);
