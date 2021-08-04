@@ -35,7 +35,10 @@ class GetGndDoku {
 			return;
 		}
 
-		$this->presenter->showGndDoku( ...$this->fieldDocsFromSparqlResults( $codings, $subfields, $subfieldCodes ) );
+		$this->presenter->showGndDoku(
+			$langCode,
+			...$this->fieldDocsFromSparqlResults( $codings, $subfields, $subfieldCodes )
+		);
 	}
 
 	/**

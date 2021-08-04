@@ -39,7 +39,7 @@ class GetGndDokuTest extends TestCase {
 			public array $fieldDocs = [];
 			public ?string $errorMessage = null;
 
-			public function showGndDoku( FieldDoku ...$fieldDocs ): void {
+			public function showGndDoku( string $langCode, FieldDoku ...$fieldDocs ): void {
 				$this->fieldDocs = $fieldDocs;
 			}
 

@@ -5,5 +5,9 @@
 		]
 	},
 	"gnd-name": "GND",
-	"gnd-desc": "Adds scripts to import GND items into Wikibase Repository"
+	"gnd-desc": "Adds scripts to import GND items into Wikibase Repository",
+
+	"gnd-table-description":  "Description",
+	"gnd-table-view-subfields":  "View subfields",
+	"gnd-table-subfield-description":  "Subfield description"
 }

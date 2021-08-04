@@ -1,0 +1,12 @@
+{
+	"@metadata": {
+		"authors": [
+			"Jeroen De Dauw"
+		]
+	},
+	"gnd-name": "GND",
+
+	"gnd-table-description":  "Beschreibung",
+	"gnd-table-view-subfields":  "Unterfelder anzeigen",
+	"gnd-table-subfield-description":  "Unterfeld beschreibung"
+}

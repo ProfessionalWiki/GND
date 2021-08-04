@@ -26,15 +26,15 @@ class ParserFunctionDokuPresenter implements GndDokuPresenter {
 		$this->parserFunctionReturnValue = $error;
 	}
 
-	public function showGndDoku( FieldDoku ...$fieldDocs ): void {
+	public function showGndDoku( string $langCode, FieldDoku ...$fieldDocs ): void {
 		$this->parserFunctionReturnValue = [
 			'noparse' => true,
 			'isHTML' => true,
-			$this->fieldDocsToTable( ...$fieldDocs )
+			$this->fieldDocsToTable( $langCode, ...$fieldDocs )
 		];
 	}
 
-	private function fieldDocsToTable( FieldDoku ...$fieldDocs ): string {
+	private function fieldDocsToTable( string $langCode, FieldDoku ...$fieldDocs ): string {
 		$tableHtml = <<< 'HTML'
 <table class="wikitable sortable gnd-doku">
 <thead>
@@ -42,13 +42,29 @@ class ParserFunctionDokuPresenter implements GndDokuPresenter {
 		<th>MARC 21</th>
 		<th>PICA+</th>
 		<th>PICA3</th>
-		<th>Beschreibung</th>
+		<th>gnd-table-description</th>
 	</tr>
 </thead>
 <tbody>
 HTML . $this->fieldDocsToHtmlRows( ...$fieldDocs ) . '</tbody></table>';
 
-		return $tableHtml;
+		return $this->replaceMessagePlaceholders( $langCode, $tableHtml );
+	}
+
+	private function replaceMessagePlaceholders( string $langCode, string $text ): string {
+		return str_replace(
+			[
+				'gnd-table-description',
+				'gnd-table-view-subfields',
+				'gnd-table-subfield-description',
+			],
+			[
+				wfGetLangObj( $langCode )->getMessage( 'gnd-table-description' ),
+				wfGetLangObj( $langCode )->getMessage( 'gnd-table-view-subfields' ),
+				wfGetLangObj( $langCode )->getMessage( 'gnd-table-subfield-description' ),
+			],
+			$text
+		);
 	}
 
 	private function fieldDocsToHtmlRows( FieldDoku ...$fieldDocs ): string {
@@ -92,14 +108,14 @@ HTML . $this->fieldDocsToHtmlRows( ...$fieldDocs ) . '</tbody></table>';
 			)
 			. <<< 'HTML'
 <details>
-	<summary>Unterfelder anzeigen</summary>
+	<summary>gnd-table-view-subfields</summary>
 <table class="wikitable sortable gnd-subfields">
 <thead>
 	<tr>
 		<th>MARC 21</th>
 		<th>PICA+</th>
 		<th>PICA3</th>
-		<th>Unterfeld beschreibung</th>
+		<th>gnd-table-subfield-description</th>
 	</tr>
 </thead>
 <tbody>
