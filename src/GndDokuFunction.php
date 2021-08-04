@@ -17,6 +17,7 @@ final class GndDokuFunction {
 		$parser->setFunctionHook(
 			'gnd_doku',
 			function( Parser $parser, string ...$parameters ) {
+				$parser->getOutput()->updateCacheExpiry( 0 );
 				$parser->getOutput()->addModules( 'ext.gnd' );
 				return ( new self() )->render( $parameters );
 			}
