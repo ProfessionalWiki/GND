@@ -14,8 +14,12 @@ use Wikibase\DataModel\Entity\Item;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Entity\Property;
 use Wikibase\DataModel\Entity\PropertyId;
+use Wikibase\DataModel\Reference;
+use Wikibase\DataModel\ReferenceList;
 use Wikibase\DataModel\Services\Lookup\InMemoryEntityLookup;
+use Wikibase\DataModel\Snak\PropertyNoValueSnak;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
+use Wikibase\DataModel\Snak\SnakList;
 use Wikibase\DataModel\Statement\Statement;
 use Wikibase\DataModel\Statement\StatementList;
 
@@ -82,12 +86,14 @@ class ItemPropertiesToStringsTest extends TestCase {
 	}
 
 	public function testStatementMainValuesAreMigrated(): void {
+		$itemId = new ItemId( 'Q1' );
+
 		$property = $this->newPropertyWithItemType();
 		$this->propertyLookup->addEntity( $property );
 
 		$this->itemSource = new InMemoryItemSource(
 			new Item(
-				new ItemId( 'Q1' ),
+				$itemId,
 				null,
 				null,
 				new StatementList(
@@ -99,6 +105,9 @@ class ItemPropertiesToStringsTest extends TestCase {
 					),
 					new Statement(
 						new PropertyValueSnak( $property->getId(), new EntityIdValue( new ItemId( 'Q1337' ) ) )
+					),
+					new Statement(
+						new PropertyNoValueSnak( $property->getId() )
 					)
 				)
 			)
@@ -106,16 +115,104 @@ class ItemPropertiesToStringsTest extends TestCase {
 
 		$this->newUseCase()->migrate( $property->getId() );
 
-		$statements = $this->entitySaver->getItemById( new ItemId( 'Q1' ) )->getStatements();
+		$statements = $this->entitySaver->getItemById( $itemId )->getStatements();
 
 		$this->assertEquals(
 			[
 				new PropertyValueSnak( $property->getId(), new StringValue( 'Q42' ) ),
 				new PropertyValueSnak( new PropertyId( 'P404' ), new EntityIdValue( new ItemId( 'Q404' ) ) ),
 				new PropertyValueSnak( $property->getId(), new StringValue( 'Q1337' ) ),
+				new PropertyNoValueSnak( $property->getId() )
 			],
 			$statements->getMainSnaks()
 		);
+	}
+
+	public function testQualifierValuesAreMigrated(): void {
+		$itemId = new ItemId( 'Q1' );
+
+		$property = $this->newPropertyWithItemType();
+		$this->propertyLookup->addEntity( $property );
+
+		$this->itemSource = new InMemoryItemSource(
+			new Item(
+				$itemId,
+				null,
+				null,
+				new StatementList(
+					new Statement(
+						new PropertyNoValueSnak( $property->getId() ),
+						new SnakList( [
+							new PropertyValueSnak( $property->getId(), new EntityIdValue( new ItemId( 'Q42' ) ) ),
+							new PropertyValueSnak( new PropertyId( 'P404' ), new EntityIdValue( new ItemId( 'Q404' ) ) ),
+							new PropertyNoValueSnak( $property->getId() )
+						] ),
+					),
+				)
+			)
+		);
+
+		$this->newUseCase()->migrate( $property->getId() );
+
+		$statements = $this->entitySaver->getItemById( $itemId )->getStatements();
+
+		$this->assertEquals(
+			new SnakList( [
+				new PropertyValueSnak( $property->getId(), new StringValue( 'Q42' ) ),
+				new PropertyValueSnak( new PropertyId( 'P404' ), new EntityIdValue( new ItemId( 'Q404' ) ) ),
+				new PropertyNoValueSnak( $property->getId() )
+			] ),
+			$statements->toArray()[0]->getQualifiers()
+		);
+	}
+
+	public function testReferencesAreMigrated(): void {
+		$itemId = new ItemId( 'Q1' );
+
+		$property = $this->newPropertyWithItemType();
+		$this->propertyLookup->addEntity( $property );
+
+		$this->itemSource = new InMemoryItemSource(
+			new Item(
+				$itemId,
+				null,
+				null,
+				new StatementList(
+					new Statement(
+						new PropertyNoValueSnak( $property->getId() ),
+						null,
+						new ReferenceList( [
+							new Reference( new SnakList( [
+								new PropertyValueSnak( $property->getId(), new EntityIdValue( new ItemId( 'Q42' ) ) ),
+								new PropertyValueSnak( new PropertyId( 'P404' ), new EntityIdValue( new ItemId( 'Q404' ) ) ),
+							] ) ),
+							new Reference( new SnakList( [
+								new PropertyNoValueSnak( $property->getId() ),
+								new PropertyValueSnak( $property->getId(), new EntityIdValue( new ItemId( 'Q1337' ) ) ),
+							] ) )
+						] )
+					),
+				)
+			)
+		);
+
+		$this->newUseCase()->migrate( $property->getId() );
+
+		$statements = $this->entitySaver->getItemById( $itemId )->getStatements();
+
+		$this->assertTrue( $statements->toArray()[0]->getReferences()->hasReference(
+			new Reference( new SnakList( [
+				new PropertyValueSnak( $property->getId(), new StringValue( 'Q42' ) ),
+				new PropertyValueSnak( new PropertyId( 'P404' ), new EntityIdValue( new ItemId( 'Q404' ) ) ),
+			] ) )
+		) );
+
+		$this->assertTrue( $statements->toArray()[0]->getReferences()->hasReference(
+			new Reference( new SnakList( [
+				new PropertyNoValueSnak( $property->getId() ),
+				new PropertyValueSnak( $property->getId(), new StringValue( 'Q1337' ) ),
+			] ) )
+		) );
 	}
 
 }

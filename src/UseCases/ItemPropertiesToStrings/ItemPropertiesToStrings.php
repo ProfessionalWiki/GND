@@ -10,9 +10,12 @@ use DNB\GND\Domain\ItemSource;
 use Wikibase\DataModel\Entity\EntityIdValue;
 use Wikibase\DataModel\Entity\Item;
 use Wikibase\DataModel\Entity\PropertyId;
+use Wikibase\DataModel\Reference;
+use Wikibase\DataModel\ReferenceList;
 use Wikibase\DataModel\Services\Lookup\PropertyLookup;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
 use Wikibase\DataModel\Snak\Snak;
+use Wikibase\DataModel\Snak\SnakList;
 use Wikibase\DataModel\Statement\Statement;
 
 class ItemPropertiesToStrings {
@@ -76,6 +79,8 @@ class ItemPropertiesToStrings {
 	private function migrateItem( Item $item ): void {
 		foreach ( $item->getStatements() as $statement ) {
 			$this->migrateMainSnak( $statement );
+			$this->migrateQualifiers( $statement );
+			$this->migrateReferences( $statement );
 		}
 	}
 
@@ -108,6 +113,32 @@ class ItemPropertiesToStrings {
 
 	private function shouldMigrateValuesOfProperty( PropertyId $id ): bool {
 		return in_array( (string)$id, $this->propertyIdsAsStrings );
+	}
+
+	private function migrateQualifiers( Statement $statement ): void {
+		$migratedQualifiers = [];
+
+		foreach ( $statement->getQualifiers() as $qualifier ) {
+			$migratedQualifiers[] = $this->getMigratedSnakOrNull( $qualifier ) ?? $qualifier;
+		}
+
+		$statement->setQualifiers( new SnakList( $migratedQualifiers ) );
+	}
+
+	private function migrateReferences( Statement $statement ): void {
+		$migratedReferences = [];
+
+		foreach ( $statement->getReferences() as $reference ) {
+			$migratedSnaks = [];
+
+			foreach ( $reference->getSnaks() as $snak ) {
+				$migratedSnaks[] = $this->getMigratedSnakOrNull( $snak ) ?? $snak;
+			}
+
+			$migratedReferences[] = new Reference( new SnakList( $migratedSnaks ) );
+		}
+
+		$statement->setReferences( new ReferenceList( $migratedReferences ) );
 	}
 
 }
