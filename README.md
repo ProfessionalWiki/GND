@@ -40,6 +40,16 @@ wfLoadExtension( 'GND' );
 
 You can verify the extension was enabled successfully by opening your wikis Special:Version page in your browser.
 
+## Usage: GND doku function
+
+```
+{{#gnd_doku:language=en|codings=PICA3, PICA+}}
+```
+
+Parameters:
+* `language`. Optional language code. Default `de`. Supports `en` and `de`.
+* `codings`. Optional. Coding columns to show. Default `PICA3, PICA+, MARC21`. Supports these 3 values.
+
 ## Usage: GND import
 
 GND import via `ImportGndDump.php`. Example:
@@ -50,15 +60,11 @@ Doku-wiki vocabulary sync via `SyncDokuVocabulary`. Example:
 
     php extensions/GND/maintenance/SyncDokuVocabulary.php
 
-## Usage: GND doku function
+## Usage: Changing item properties to strings
 
-```
-{{#gnd_doku:language=en|codings=PICA3, PICA+}}
-```
+Property IDs provided in comma seperated list. Spacing does not matter.
 
-Parameters:
-* `language`. Optional language code. Default `de`. Supports `en` and `de`.
-* `codings`. Optional. Coding columns to show. Default `PICA3, PICA+, MARC21`. Supports these 3 values.
+	php extensions/GND/maintenance/ItemPropertiesToStrings.php --properties "P1, P2, P3"
 
 ## Running the tests
 
