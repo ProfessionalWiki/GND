@@ -12,6 +12,7 @@ use Wikibase\DataModel\Entity\Item;
 use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\DataModel\Services\Lookup\PropertyLookup;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
+use Wikibase\DataModel\Snak\Snak;
 use Wikibase\DataModel\Statement\Statement;
 
 class ItemPropertiesToStrings {
@@ -74,27 +75,35 @@ class ItemPropertiesToStrings {
 
 	private function migrateItem( Item $item ): void {
 		foreach ( $item->getStatements() as $statement ) {
-			$this->migrateStatement( $statement );
+			$this->migrateMainSnak( $statement );
 		}
 	}
 
-	private function migrateStatement( Statement $statement ): void {
-		$mainSnak = $statement->getMainSnak();
+	private function migrateMainSnak( Statement $statement ): void {
+		$migratedSnak = $this->getMigratedSnakOrNull( $statement->getMainSnak() );
 
-		if ( !$this->shouldMigrateValuesOfProperty( $mainSnak->getPropertyId() ) ) {
-			return;
+		if ( $migratedSnak !== null ) {
+			$statement->setMainSnak( $migratedSnak );
+		}
+	}
+
+	private function getMigratedSnakOrNull( Snak $snak ): ?PropertyValueSnak {
+		if ( !$this->shouldMigrateValuesOfProperty( $snak->getPropertyId() ) ) {
+			return null;
 		}
 
-		if ( $mainSnak instanceof PropertyValueSnak ) {
-			$dataValue = $mainSnak->getDataValue();
+		if ( $snak instanceof PropertyValueSnak ) {
+			$dataValue = $snak->getDataValue();
 
 			if ( $dataValue instanceof EntityIdValue ) {
-				$statement->setMainSnak( new PropertyValueSnak(
-					$mainSnak->getPropertyId(),
+				 return new PropertyValueSnak(
+					 $snak->getPropertyId(),
 					new StringValue( (string)$dataValue->getEntityId() )
-				) );
+				);
 			}
 		}
+
+		return null;
 	}
 
 	private function shouldMigrateValuesOfProperty( PropertyId $id ): bool {
