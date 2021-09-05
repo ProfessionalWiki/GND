@@ -8,12 +8,14 @@ use DNB\GND\Domain\EntitySaver;
 use RuntimeException;
 use Wikibase\DataModel\Entity\EntityDocument;
 use Wikibase\DataModel\Entity\EntityId;
+use Wikibase\DataModel\Entity\Item;
 use Wikibase\DataModel\Entity\ItemId;
+use Wikibase\DataModel\Entity\Property;
 use Wikibase\DataModel\Entity\PropertyId;
 
 class InMemoryEntitySaver implements EntitySaver {
 
-	private array $items = [];
+	private array $entities = [];
 	private array $idsToThrowOn = [];
 	private int $nextItemId = 1000;
 	private int $nextPropertyId = 100;
@@ -32,7 +34,7 @@ class InMemoryEntitySaver implements EntitySaver {
 			throw new RuntimeException( $entity->getId()->getSerialization() );
 		}
 
-		$this->items[$entity->getId()->getSerialization()] = $entity;
+		$this->entities[$entity->getId()->getSerialization()] = $entity;
 	}
 
 	private function newId( string $type ): EntityId {
@@ -49,11 +51,19 @@ class InMemoryEntitySaver implements EntitySaver {
 	 * @return EntityDocument[]
 	 */
 	public function getEntities(): array {
-		return array_values( $this->items );
+		return array_values( $this->entities );
 	}
 
 	public function throwOnId( string $itemId ): void {
 		$this->idsToThrowOn[] = $itemId;
+	}
+
+	public function getItemById( ItemId $id ): Item {
+		return $this->entities[$id->getSerialization()];
+	}
+
+	public function getPropertyById( PropertyId $id ): Property {
+		return $this->entities[$id->getSerialization()];
 	}
 
 }
