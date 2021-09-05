@@ -8,6 +8,7 @@ use DataValues\StringValue;
 use DNB\GND\Adapters\DataAccess\InMemoryEntitySaver;
 use DNB\GND\Adapters\DataAccess\InMemoryItemSource;
 use DNB\GND\UseCases\ItemPropertiesToStrings\ItemPropertiesToStrings;
+use DNB\GND\UseCases\ItemPropertiesToStrings\PropertyChangePresenter;
 use PHPUnit\Framework\TestCase;
 use Wikibase\DataModel\Entity\EntityIdValue;
 use Wikibase\DataModel\Entity\Item;
@@ -44,8 +45,18 @@ class ItemPropertiesToStringsTest extends TestCase {
 		return new ItemPropertiesToStrings(
 			$this->propertyLookup,
 			$this->entitySaver,
-			$this->itemSource
+			$this->itemSource,
+			$this->newNullPresenter()
 		);
+	}
+
+	private function newNullPresenter(): PropertyChangePresenter {
+		return new class () implements PropertyChangePresenter {
+			public function presentChangingPropertyType( PropertyId $id, string $oldType, string $newType ) {
+			}
+			public function presentMigratingItem( ItemId $id ) {
+			}
+		};
 	}
 
 	public function testWhenPropertyHasWrongType_exceptionIsThrown(): void {

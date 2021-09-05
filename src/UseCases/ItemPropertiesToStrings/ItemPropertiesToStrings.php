@@ -26,6 +26,7 @@ class ItemPropertiesToStrings {
 	private PropertyLookup $propertyLookup;
 	private EntitySaver $entitySaver;
 	private ItemSource $itemSource;
+	private PropertyChangePresenter $presenter;
 
 	/**
 	 * @var array<int, string>
@@ -33,11 +34,15 @@ class ItemPropertiesToStrings {
 	private array $propertyIdsAsStrings;
 
 	public function __construct(
-		PropertyLookup $propertyLookup, EntitySaver $entitySaver, ItemSource $itemSource
+		PropertyLookup $propertyLookup,
+		EntitySaver $entitySaver,
+		ItemSource $itemSource,
+		PropertyChangePresenter $presenter
 	) {
 		$this->propertyLookup = $propertyLookup;
 		$this->entitySaver = $entitySaver;
 		$this->itemSource = $itemSource;
+		$this->presenter = $presenter;
 	}
 
 	public function migrate( PropertyId ...$propertyIds ): void {
@@ -60,9 +65,15 @@ class ItemPropertiesToStrings {
 	private function changePropertyType( PropertyId $propertyId ): void {
 		$property = $this->propertyLookup->getPropertyForId( $propertyId );
 
+		if ( $property === null ) {
+			throw new \RuntimeException( "Property $propertyId not found" );
+		}
+
 		if ( $property->getDataTypeId() !== self::ITEM_PROPERTY_TYPE ) {
 			throw new \RuntimeException( $propertyId->serialize() . ' has incorrect data type "' . $property->getDataTypeId() . '"' );
 		}
+
+		$this->presenter->presentChangingPropertyType( $propertyId, $property->getDataTypeId(), self::STRING_PROPERTY_TYPE );
 
 		$property->setDataTypeId( self::STRING_PROPERTY_TYPE );
 
@@ -71,6 +82,7 @@ class ItemPropertiesToStrings {
 
 	private function migrateValues(): void {
 		while ( $item = $this->itemSource->next() ) {
+			$this->presenter->presentMigratingItem( $item->getId() );
 			$this->migrateItem( $item );
 			$this->entitySaver->storeEntity( $item );
 		}

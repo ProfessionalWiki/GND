@@ -9,8 +9,8 @@ use Wikibase\DataModel\Entity\PropertyId;
 
 interface PropertyChangePresenter {
 
-	public function presentPropertyTypeChanged( PropertyId $id, string $oldType, string $newType );
+	public function presentChangingPropertyType( PropertyId $id, string $oldType, string $newType );
 
-	public function presentItemMigrated( ItemId $id );
+	public function presentMigratingItem( ItemId $id );
 
 }

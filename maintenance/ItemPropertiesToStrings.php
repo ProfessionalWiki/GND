@@ -4,13 +4,18 @@ declare( strict_types = 1 );
 
 namespace DNB\GND\Maintenance;
 
+use DNB\GND\Adapters\DataAccess\FullLocalItemSource;
 use DNB\GND\Adapters\DataAccess\InMemoryItemSource;
 use DNB\GND\Adapters\DataAccess\WikibaseRepoEntitySaver;
 use DNB\GND\UseCases\ItemPropertiesToStrings\ItemPropertiesToStrings as ItemPropertiesToStringsUseCase;
+use DNB\GND\UseCases\ItemPropertiesToStrings\PropertyChangePresenter;
 use Maintenance;
 use User;
+use Wikibase\DataModel\Entity\Item;
+use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\Lib\WikibaseSettings;
+use Wikibase\Repo\Store\Sql\SqlEntityIdPagerFactory;
 use Wikibase\Repo\WikibaseRepo;
 
 $basePath = getenv( 'MW_INSTALL_PATH' ) !== false ? getenv( 'MW_INSTALL_PATH' ) : __DIR__ . '/../../..';
@@ -40,6 +45,8 @@ class ItemPropertiesToStrings extends Maintenance {
 		}
 
 		$this->newUseCase()->migrate( ...$this->getPropertyIdsFromOptions() );
+
+		$this->outputChanneled( "Done!" );
 	}
 
 	private function getPropertyIdsFromOptions(): array {
@@ -58,12 +65,37 @@ class ItemPropertiesToStrings extends Maintenance {
 				$repo->getEntityStore(),
 				$this->newUser()
 			),
-			new InMemoryItemSource() // TODO: create FullLocalItemSource
+			new FullLocalItemSource(
+				( new SqlEntityIdPagerFactory(
+					$repo->getEntityNamespaceLookup(),
+					$repo->getEntityIdLookup()
+				) )->newSqlEntityIdPager( [ Item::ENTITY_TYPE ] ),
+				$repo->getItemLookup()
+			),
+			$this->newPresenter()
 		);
 	}
 
 	private function newUser(): User {
 		return User::newSystemUser( 'Property migration script', [ 'steal' => true ] );
+	}
+
+	private function newPresenter(): PropertyChangePresenter {
+		return new class( $this ) implements PropertyChangePresenter {
+			private Maintenance $maintenance;
+
+			public function __construct( Maintenance $maintenance ) {
+				$this->maintenance = $maintenance;
+			}
+
+			public function presentChangingPropertyType( PropertyId $id, string $oldType, string $newType ) {
+				$this->maintenance->outputChanneled( "Updating property $id from $oldType to $newType" );
+			}
+
+			public function presentMigratingItem( ItemId $id ) {
+				$this->maintenance->outputChanneled( "Migrating values of item $id" );
+			}
+		};
 	}
 
 }
