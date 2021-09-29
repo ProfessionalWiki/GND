@@ -1,0 +1,48 @@
+{
+	"fields": {
+		"P58": {
+			"label": "Person – preferred name",
+			"description": "GND data field for the preferred name of a person or a family",
+			"aliases": [
+				"PICA+ 028A",
+				"PICA3 100",
+				"MARC 21 100"
+			],
+			"viewLink": "https://doku.wikibase.wiki/wiki/datafield?property=P58",
+			"editLink": "https://doku.wikibase.wiki/wiki/Property:P58",
+			"subfields": {
+				"P41": {
+					"label": "Personal name",
+					"occurrence": false,
+					"description": "Hinweis zur Erfassung von Personen, die nur unter einem Nachnamen bekannt sind"
+				},
+				"P21": {
+					"label": "Surname",
+					"occurrence": false
+				}
+			},
+			"codings": {
+				"PICA+": {
+					"fieldName": "028A"
+				},
+				"PICA3": {
+					"fieldName": "100"
+				},
+				"MARC 21": {
+					"fieldName": "100"
+				}
+			},
+			"rulesOfUse": {
+			},
+			"examples": {
+				"Q626": {
+					"label": "Sarah Hartmann"
+				}
+			}
+		},
+
+		"P150": {
+			"label": "Identification number"
+		}
+	}
+}
