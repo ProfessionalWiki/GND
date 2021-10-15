@@ -7,6 +7,7 @@ namespace DNB\GND\Tests\Integration\Adapters\DataAccess;
 use DNB\GND\Adapters\DataAccess\WikibaseRepoEntitySaver;
 use MediaWikiIntegrationTestCase;
 use User;
+use Wikibase\DataModel\Entity\EntityDocument;
 use Wikibase\DataModel\Entity\Item;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\Repo\WikibaseRepo;
@@ -34,8 +35,8 @@ class WikibaseRepoEntitySaverTest extends MediaWikiIntegrationTestCase {
 		);
 	}
 
-	private function getItemFromPersistence( ItemId $id ): ?Item {
-		return WikibaseRepo::getDefaultInstance()->getItemLookup()->getItemForId( $id );
+	private function getItemFromPersistence( ItemId $id ): ?EntityDocument {
+		return WikibaseRepo::getDefaultInstance()->getEntityLookup()->getEntity( $id );
 	}
 
 	public function testMultipleStorageCallsForOneItem() {
