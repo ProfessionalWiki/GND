@@ -19,14 +19,14 @@ class GndField {
 	public string $definition;
 
 	/**
-	 * @var array<string, string> Example: PICA+ => 028A
+	 * @var array<string, string> Example: [ "PICA+" => "028A" ]
 	 */
 	public array $codings;
 
 	public bool $isRepeatable;
 
 	/**
-	 * @var array<string, TODO> Key is property ID
+	 * @var array<string, GndSubfield> Example: [ "P61" => $gndSubfield ]
 	 */
 	public array $subfields;
 
@@ -41,7 +41,7 @@ class GndField {
 	public array $rulesOfUse;
 
 	/**
-	 * @var array<string, TODO> Key is property ID
+	 * @var array<string, string> Example: [ "P262" => "Sarah Hartmann" ]
 	 */
 	public array $examples;
 
