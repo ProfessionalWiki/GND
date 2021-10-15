@@ -59,8 +59,7 @@ jobs:
         with:
           path: mediawiki/extensions/GND
 
-      - name: Composer update
-        run: composer update
+      - name: composer update
 
       - name: Initialize Wikibase git submodules
         run: ( cd extensions/Wikibase ; git submodule update --init --recursive )
@@ -70,4 +69,12 @@ jobs:
 
       - name: Run PHPUnit
         run: php tests/phpunit/phpunit.php -c extensions/GND/
+        if: matrix.php == 8.0
 
+      - name: Run PHPUnit with code coverage
+        run: php tests/phpunit/phpunit.php -c extensions/GND/ --coverage-clover coverage.xml
+        if: matrix.php == 7.4
+
+      - name: Upload code coverage
+        run: bash <(curl -s https://codecov.io/bash)
+        if: matrix.php == 7.4

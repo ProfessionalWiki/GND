@@ -66,9 +66,13 @@ Property IDs provided in comma seperated list. Spacing does not matter.
 
 	php extensions/GND/maintenance/ItemPropertiesToStrings.php --properties "P1, P2, P3"
 
-## Running the tests
+### Running tests and CI checks
 
-* PHP tests: `php tests/phpunit/phpunit.php -c extensions/GND/`
+You can use the `Makefile` by running make commands in the `ExternalContent` directory.
+
+* `make ci`: Run everything
+* `make test`: Run all tests
+* `make cs`: Run all style checks and static analysis
 
 ## Release notes
 
