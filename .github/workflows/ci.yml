@@ -59,7 +59,7 @@ jobs:
         with:
           path: mediawiki/extensions/GND
 
-      - name: composer update
+      - run: composer update
 
       - name: Initialize Wikibase git submodules
         run: ( cd extensions/Wikibase ; git submodule update --init --recursive )
