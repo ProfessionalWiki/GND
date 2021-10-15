@@ -28,16 +28,17 @@ echo 'wfLoadExtension( "'$EXTENSION_NAME'" );' >> LocalSettings.php
 
 cat <<EOT >> composer.local.json
 {
-  "require": {
-    "wikibase/wikibase": "dev-REL1_35"
-  },
 	"extra": {
 		"merge-plugin": {
 			"merge-dev": true,
 			"include": [
+				"extensions/Wikibase/composer.json",
 				"extensions/$EXTENSION_NAME/composer.json"
 			]
 		}
 	}
 }
 EOT
+
+cd extensions
+git clone https://gerrit.wikimedia.org/r/mediawiki/extensions/Wikibase --branch=$MW_BRANCH --recurse-submodules -j8
