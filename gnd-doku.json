@@ -8,17 +8,19 @@
 				"PICA3 100",
 				"MARC 21 100"
 			],
+			"definition": "Das Feld enthält den bevorzugten Namen einer Person bzw. einer Familie",
 			"viewLink": "https://doku.wikibase.wiki/wiki/datafield?property=P58",
 			"editLink": "https://doku.wikibase.wiki/wiki/Property:P58",
+			"repeatable": false,
 			"subfields": {
 				"P41": {
 					"label": "Personal name",
-					"occurrence": false,
-					"description": "Hinweis zur Erfassung von Personen, die nur unter einem Nachnamen bekannt sind"
+					"description": "Hinweis zur Erfassung von Personen, die nur unter einem Nachnamen bekannt sind",
+					"repeatable": false
 				},
 				"P21": {
 					"label": "Surname",
-					"occurrence": false
+					"repeatable": false
 				}
 			},
 			"codings": {

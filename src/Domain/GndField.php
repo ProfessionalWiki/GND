@@ -26,12 +26,22 @@ class GndField {
 	public bool $isRepeatable;
 
 	/**
+	 * @var array<string, TODO> Key is property ID
+	 */
+	public array $subfields;
+
+	/**
+	 * @var array<int, string>
+	 */
+	public array $validation;
+
+	/**
 	 * @var array<int, string>
 	 */
 	public array $rulesOfUse;
 
 	/**
-	 * @var array<int, TODO>
+	 * @var array<string, TODO> Key is property ID
 	 */
 	public array $examples;
 
