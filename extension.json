@@ -39,6 +39,19 @@
 		"ParserFirstCallInit": "DNB\\GND\\GndDokuFunction::onParserFirstCallInit"
 	},
 
+	"RestRoutes": [
+		{
+			"path": "/gnd/doku/v1",
+			"method": "GET",
+			"factory": "DNB\\GND\\DokuApi::factory"
+		},
+		{
+			"path": "/gnd/doku/v1/{property_id}",
+			"method": "GET",
+			"factory": "DNB\\GND\\DokuApi::factory"
+		}
+	],
+
 	"config": {
 	},
 
