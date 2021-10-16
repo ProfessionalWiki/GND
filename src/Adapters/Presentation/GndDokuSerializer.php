@@ -33,6 +33,7 @@ class GndDokuSerializer {
 			'subfields' => $this->subfieldsToArray( $field ),
 
 			'codings' => $field->codings,
+			'validation' => $field->validation,
 			'rulesOfUse' => $field->rulesOfUse,
 			'examples' => $this->examplesToArray( $field ),
 

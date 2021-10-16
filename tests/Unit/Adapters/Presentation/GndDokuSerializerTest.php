@@ -58,6 +58,11 @@ class GndDokuSerializerTest extends TestCase {
 			'PICA3' => '100',
 		];
 
+		$field->validation = [
+			'Das Feld ist für die Satzart Personen obligatorisch. Das Feld ist für andere Satztarten nicht zugelassen.',
+			'Im Feld muss mindestens das Unterfeld Persönlicher Name oder die Unterfelder Nachname...',
+		];
+
 		$field->rulesOfUse = [
 			'Der bevorzugte Name einer Person setzt sich...',
 			'Das Unterfeld für unterscheidende Zusätze...',
@@ -100,6 +105,11 @@ class GndDokuSerializerTest extends TestCase {
 				"MARC 21": "100",
 				"PICA3": "100"
 			},
+
+			"validation": [
+				"Das Feld ist für die Satzart Personen obligatorisch. Das Feld ist für andere Satztarten nicht zugelassen.",
+				"Im Feld muss mindestens das Unterfeld Persönlicher Name oder die Unterfelder Nachname..."
+			],
 
 			"rulesOfUse": [
 				"Der bevorzugte Name einer Person setzt sich...",
