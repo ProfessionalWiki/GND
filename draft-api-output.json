@@ -8,43 +8,42 @@
 				"PICA3 100",
 				"MARC 21 100"
 			],
+
 			"definition": "Das Feld enthält den bevorzugten Namen einer Person bzw. einer Familie",
-			"viewLink": "https://doku.wikibase.wiki/wiki/datafield?property=P58",
-			"editLink": "https://doku.wikibase.wiki/wiki/Property:P58",
 			"repeatable": false,
+
 			"subfields": {
 				"P41": {
-					"label": "Personal name",
+					"label": "Persönlicher Name",
 					"description": "Hinweis zur Erfassung von Personen, die nur unter einem Nachnamen bekannt sind",
-					"repeatable": false
-				},
-				"P21": {
-					"label": "Surname",
-					"repeatable": false
+					"codings": {
+						"PICA+": "$P",
+						"MARC 21": "$a",
+						"PICA3": "$P"
+					},
+					"allowedValues": {}
 				}
 			},
+
 			"codings": {
-				"PICA+": {
-					"fieldName": "028A"
-				},
-				"PICA3": {
-					"fieldName": "100"
-				},
-				"MARC 21": {
-					"fieldName": "100"
-				}
+				"PICA+": "028A",
+				"MARC 21": "100",
+				"PICA3": "100"
 			},
-			"rulesOfUse": {
-			},
+
+			"rulesOfUse": [
+				"Der bevorzugte Name einer Person setzt sich...",
+				"Das Unterfeld für unterscheidende Zusätze..."
+			],
+
 			"examples": {
 				"Q626": {
 					"label": "Sarah Hartmann"
 				}
-			}
-		},
+			},
 
-		"P150": {
-			"label": "Identification number"
+			"viewLink": "https://doku.wikibase.wiki/wiki/datafield?property=P58",
+			"editLink": "https://doku.wikibase.wiki/wiki/Property:P58"
 		}
 	}
 }
