@@ -4,6 +4,7 @@ declare( strict_types = 1 );
 
 namespace DNB\GND\UseCases\ShowFullDoku;
 
+use DataValues\StringValue;
 use DNB\GND\Domain\Doku\GndField;
 use DNB\GND\Domain\PropertyCollectionLookup;
 use Wikibase\DataModel\Entity\EntityIdValue;
@@ -67,6 +68,8 @@ class ShowFullDoku {
 		$field->description = $property->getDescriptions()->toTextArray()[$languageCode] ?? '';
 		$field->aliases = $property->getAliasGroups()->toTextArray()[$languageCode] ?? [];
 
+		$field->definition = $this->getPropertyStringValue( $property, self::DEFINITION_PROPERTY ) ?? '';
+
 		return $field;
 	}
 
@@ -83,6 +86,22 @@ class ShowFullDoku {
 				new EntityIdValue( new ItemId( self::GND_FIELD_ITEM ) )
 			)
 		);
+	}
+
+	private function getPropertyStringValue( Property $property, string $propertyId ): ?string {
+		$snaks = $property->getStatements()->getByPropertyId( new PropertyId( $propertyId ) )->getMainSnaks();
+
+		if ( array_key_exists( 0, $snaks ) ) {
+			if ( $snaks[0] instanceof PropertyValueSnak ) {
+				$value = $snaks[0]->getDataValue();
+
+				if ( $value instanceof StringValue ) {
+					return $value->getValue();
+				}
+			}
+		}
+
+		return null;
 	}
 
 }

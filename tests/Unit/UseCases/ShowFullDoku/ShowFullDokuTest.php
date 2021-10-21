@@ -4,6 +4,7 @@ declare( strict_types = 1 );
 
 namespace DNB\GND\Tests\Unit\UseCases\ShowFullDoku;
 
+use DataValues\StringValue;
 use DNB\GND\Domain\Doku\GndField;
 use DNB\GND\Domain\PropertyCollection;
 use DNB\GND\UseCases\ShowFullDoku\ShowFullDoku;
@@ -84,6 +85,7 @@ class ShowFullDokuTest extends TestCase {
 				),
 				'string',
 				new StatementList(
+					new Statement( new PropertyValueSnak( new PropertyId( 'P1' ), new StringValue( 'ExpectedDefinition' ) ) ),
 					new Statement( new PropertyValueSnak( new PropertyId( 'P2' ), new EntityIdValue( new ItemId( 'Q2' ) ) ) )
 				)
 			)
@@ -95,6 +97,7 @@ class ShowFullDokuTest extends TestCase {
 		$gndField->label = 'ExpectedLabel';
 		$gndField->description = 'ExpectedDescription';
 		$gndField->aliases = [ 'foo', 'bar' ];
+		$gndField->definition = 'ExpectedDefinition';
 
 		$this->assertEquals(
 			[
@@ -148,6 +151,10 @@ class ShowFullDokuTest extends TestCase {
 		);
 
 		$this->assertSame( 'P4242', $fields[0]->id );
+		$this->assertSame( '', $fields[0]->label );
+		$this->assertSame( '', $fields[0]->description );
+		$this->assertSame( [], $fields[0]->aliases );
+		$this->assertSame( '', $fields[0]->definition );
 	}
 
 }
