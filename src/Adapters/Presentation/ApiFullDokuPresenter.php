@@ -22,7 +22,9 @@ class ApiFullDokuPresenter implements FullDokuPresenter {
 	}
 
 	public function getArray(): array {
-		return ( new GndDokuSerializer() )->fieldsToArrays( $this->gndFields );
+		return [
+			'fields' => ( new GndDokuSerializer() )->fieldsToArrays( $this->gndFields )
+		];
 	}
 
 }

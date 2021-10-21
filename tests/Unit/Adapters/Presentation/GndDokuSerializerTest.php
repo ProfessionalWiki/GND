@@ -95,87 +95,85 @@ class GndDokuSerializerTest extends TestCase {
 
 		$expectedSerialization = <<<'EOD'
 {
-	"fields": {
-		"P58": {
-			"label": "Person – preferred name",
-			"description": "GND data field for the preferred name of a person or a family",
-			"aliases": [
-				"PICA+ 028A",
-				"PICA3 100",
-				"MARC 21 100"
-			],
+	"P58": {
+		"label": "Person – preferred name",
+		"description": "GND data field for the preferred name of a person or a family",
+		"aliases": [
+			"PICA+ 028A",
+			"PICA3 100",
+			"MARC 21 100"
+		],
 
-			"definition": "Das Feld enthält den bevorzugten Namen einer Person bzw. einer Familie",
-			"repeatable": false,
+		"definition": "Das Feld enthält den bevorzugten Namen einer Person bzw. einer Familie",
+		"repeatable": false,
 
-			"subfields": {
-				"P41": {
-					"label": "Persönlicher Name",
-					"description": "Hinweis zur Erfassung von Personen, die nur unter einem Nachnamen bekannt sind",
-					"codings": {
-						"PICA+": "$P",
-						"MARC 21": "$a",
-						"PICA3": "$P"
-					},
-					"allowedValues": {},
-					"references": [
-						{
-							"name": "EH-P-15: Notnamen",
-							"URI": "https://wiki.dnb.de/download/attachments/90411361/EH-P-15.pdf?version=15&modificationDate=1443175739000&api=v2"
-						},
-						{
-							"name": "Example with no URI",
-							"URI": null
-						}
-					],
-					"viewLink": "https://doku.wikibase.wiki/wiki/datafield?property=P41",
-					"editLink": "https://doku.wikibase.wiki/wiki/Property:P41"
+		"subfields": {
+			"P41": {
+				"label": "Persönlicher Name",
+				"description": "Hinweis zur Erfassung von Personen, die nur unter einem Nachnamen bekannt sind",
+				"codings": {
+					"PICA+": "$P",
+					"MARC 21": "$a",
+					"PICA3": "$P"
 				},
-				"P21": {
-					"label": "Nachname",
-					"description": "",
-					"codings": {
-						"PICA+": "$a",
-						"MARC 21": "$a",
-						"PICA3": "-ohne-"
+				"allowedValues": {},
+				"references": [
+					{
+						"name": "EH-P-15: Notnamen",
+						"URI": "https://wiki.dnb.de/download/attachments/90411361/EH-P-15.pdf?version=15&modificationDate=1443175739000&api=v2"
 					},
-					"allowedValues": {
-						"Q17": "Person",
-						"Q155": "Werk"
-					},
-					"references": [],
-					"viewLink": "https://doku.wikibase.wiki/wiki/datafield?property=P21",
-					"editLink": "https://doku.wikibase.wiki/wiki/Property:P21"
-				}
+					{
+						"name": "Example with no URI",
+						"URI": null
+					}
+				],
+				"viewLink": "https://doku.wikibase.wiki/wiki/datafield?property=P41",
+				"editLink": "https://doku.wikibase.wiki/wiki/Property:P41"
 			},
+			"P21": {
+				"label": "Nachname",
+				"description": "",
+				"codings": {
+					"PICA+": "$a",
+					"MARC 21": "$a",
+					"PICA3": "-ohne-"
+				},
+				"allowedValues": {
+					"Q17": "Person",
+					"Q155": "Werk"
+				},
+				"references": [],
+				"viewLink": "https://doku.wikibase.wiki/wiki/datafield?property=P21",
+				"editLink": "https://doku.wikibase.wiki/wiki/Property:P21"
+			}
+		},
 
-			"codings": {
-				"PICA+": "028A",
-				"MARC 21": "100",
-				"PICA3": "100"
-			},
+		"codings": {
+			"PICA+": "028A",
+			"MARC 21": "100",
+			"PICA3": "100"
+		},
 
-			"validation": [
-				"Das Feld ist für die Satzart Personen obligatorisch. Das Feld ist für andere Satztarten nicht zugelassen.",
-				"Im Feld muss mindestens das Unterfeld Persönlicher Name oder die Unterfelder Nachname..."
-			],
+		"validation": [
+			"Das Feld ist für die Satzart Personen obligatorisch. Das Feld ist für andere Satztarten nicht zugelassen.",
+			"Im Feld muss mindestens das Unterfeld Persönlicher Name oder die Unterfelder Nachname..."
+		],
 
-			"rulesOfUse": [
-				"Der bevorzugte Name einer Person setzt sich...",
-				"Das Unterfeld für unterscheidende Zusätze..."
-			],
+		"rulesOfUse": [
+			"Der bevorzugte Name einer Person setzt sich...",
+			"Das Unterfeld für unterscheidende Zusätze..."
+		],
 
-			"examples": {
-				"Q626": {
-					"label": "Sarah Hartmann",
-					"viewLink": "https://doku.wikibase.wiki/wiki/datafield?item=Q626",
-					"editLink": "https://doku.wikibase.wiki/wiki/Item:Q626"
-				}
-			},
+		"examples": {
+			"Q626": {
+				"label": "Sarah Hartmann",
+				"viewLink": "https://doku.wikibase.wiki/wiki/datafield?item=Q626",
+				"editLink": "https://doku.wikibase.wiki/wiki/Item:Q626"
+			}
+		},
 
-			"viewLink": "https://doku.wikibase.wiki/wiki/datafield?property=P58",
-			"editLink": "https://doku.wikibase.wiki/wiki/Property:P58"
-		}
+		"viewLink": "https://doku.wikibase.wiki/wiki/datafield?property=P58",
+		"editLink": "https://doku.wikibase.wiki/wiki/Property:P58"
 	}
 }
 EOD;

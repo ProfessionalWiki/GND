@@ -22,9 +22,7 @@ class GndDokuSerializer {
 			$fieldsArray[$field->id] = $this->fieldToArray( $field );
 		}
 
-		return [
-			'fields' => $fieldsArray
-		];
+		return $fieldsArray;
 	}
 
 	private function fieldToArray( GndField $field ): array {
