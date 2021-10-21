@@ -18,6 +18,7 @@ use Wikibase\DataModel\Entity\Property;
 use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\DataModel\Services\Lookup\InMemoryEntityLookup;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
+use Wikibase\DataModel\Snak\SnakList;
 use Wikibase\DataModel\Statement\Statement;
 use Wikibase\DataModel\Statement\StatementList;
 use Wikibase\DataModel\Term\AliasGroup;
@@ -86,7 +87,26 @@ class ShowFullDokuTest extends TestCase {
 				'string',
 				new StatementList(
 					new Statement( new PropertyValueSnak( new PropertyId( 'P1' ), new StringValue( 'ExpectedDefinition' ) ) ),
-					new Statement( new PropertyValueSnak( new PropertyId( 'P2' ), new EntityIdValue( new ItemId( 'Q2' ) ) ) )
+					new Statement( new PropertyValueSnak( new PropertyId( 'P2' ), new EntityIdValue( new ItemId( 'Q2' ) ) ) ),
+
+					new Statement(
+						new PropertyValueSnak( new PropertyId( 'P4' ), new StringValue( '028A' ) ),
+						new SnakList( [
+							new PropertyValueSnak( new PropertyId( 'P3' ), new EntityIdValue( new ItemId( 'Q1317' ) ) )
+						] )
+					),
+					new Statement(
+						new PropertyValueSnak( new PropertyId( 'P4' ), new StringValue( '100' ) ),
+						new SnakList( [
+							new PropertyValueSnak( new PropertyId( 'P3' ), new EntityIdValue( new ItemId( 'Q1320' ) ) )
+						] )
+					),
+					new Statement(
+						new PropertyValueSnak( new PropertyId( 'P4' ), new StringValue( '100' ) ),
+						new SnakList( [
+							new PropertyValueSnak( new PropertyId( 'P3' ), new EntityIdValue( new ItemId( 'Q1316' ) ) )
+						] )
+					),
 				)
 			)
 		];
@@ -98,6 +118,11 @@ class ShowFullDokuTest extends TestCase {
 		$gndField->description = 'ExpectedDescription';
 		$gndField->aliases = [ 'foo', 'bar' ];
 		$gndField->definition = 'ExpectedDefinition';
+		$gndField->codings = [
+			'PICA+' => '028A',
+			'MARC 21' => '100',
+			'PICA3' => '100',
+		];
 
 		$this->assertEquals(
 			[
@@ -155,6 +180,7 @@ class ShowFullDokuTest extends TestCase {
 		$this->assertSame( '', $fields[0]->description );
 		$this->assertSame( [], $fields[0]->aliases );
 		$this->assertSame( '', $fields[0]->definition );
+		$this->assertSame( [], $fields[0]->codings );
 	}
 
 }

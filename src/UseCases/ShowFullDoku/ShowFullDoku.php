@@ -19,8 +19,15 @@ class ShowFullDoku {
 	private const ELEMENT_OF_PROPERTY = 'P2';
 	private const GND_FIELD_ITEM = 'Q2';
 
-	private const DEFINITION_PROPERTY = 'P1';
 	private const CODINGS_PROPERTY = 'P4';
+	private const CODING_TYPE_PROPERTY = 'P3';
+	private const CODING_MAP = [
+		'Q1317' => 'PICA+',
+		'Q1316' => 'PICA3',
+		'Q1320' => 'MARC 21',
+	];
+
+	private const DEFINITION_PROPERTY = 'P1';
 	private const RECURRING_PROPERTY = 'P12';
 	private const SUBFIELDS_PROPERTY = 'P15';
 	private const VALIDATION_PROPERTY = 'P9';
@@ -69,6 +76,7 @@ class ShowFullDoku {
 		$field->aliases = $property->getAliasGroups()->toTextArray()[$languageCode] ?? [];
 
 		$field->definition = $this->getPropertyStringValue( $property, self::DEFINITION_PROPERTY ) ?? '';
+		$field->codings = $this->getCodingsFromProperty( $property );
 
 		return $field;
 	}
@@ -102,6 +110,29 @@ class ShowFullDoku {
 		}
 
 		return null;
+	}
+
+	private function getCodingsFromProperty( Property $property ): array {
+		$codings = [];
+
+		$codingStatements = $property->getStatements()->getByPropertyId( new PropertyId( self::CODINGS_PROPERTY ) );
+
+		foreach ( $codingStatements as $statement ) {
+			foreach ( self::CODING_MAP as $codingItemId => $keyName ) {
+				if ( $statement->getQualifiers()->hasSnak( $this->newCodingType( $codingItemId ) ) ) {
+					$codings[$keyName] = $statement->getMainSnak()->getDataValue()->getValue();
+				}
+			}
+		}
+
+		return $codings;
+	}
+
+	private function newCodingType( string $typeItemId ): PropertyValueSnak {
+		return new PropertyValueSnak(
+			new PropertyId( self::CODING_TYPE_PROPERTY ),
+			new EntityIdValue( new ItemId( $typeItemId ) )
+		);
 	}
 
 }
