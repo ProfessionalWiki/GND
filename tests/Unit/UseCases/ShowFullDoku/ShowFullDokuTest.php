@@ -123,6 +123,7 @@ class ShowFullDokuTest extends TestCase {
 			'MARC 21' => '100',
 			'PICA3' => '100',
 		];
+		$gndField->isRepeatable = false;
 
 		$this->assertEquals(
 			[
@@ -181,6 +182,7 @@ class ShowFullDokuTest extends TestCase {
 		$this->assertSame( [], $fields[0]->aliases );
 		$this->assertSame( '', $fields[0]->definition );
 		$this->assertSame( [], $fields[0]->codings );
+		$this->assertFalse( $fields[0]->isRepeatable );
 	}
 
 }

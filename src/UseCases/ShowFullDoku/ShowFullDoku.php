@@ -4,6 +4,7 @@ declare( strict_types = 1 );
 
 namespace DNB\GND\UseCases\ShowFullDoku;
 
+use DataValues\BooleanValue;
 use DataValues\StringValue;
 use DNB\GND\Domain\Doku\GndField;
 use DNB\GND\Domain\PropertyCollectionLookup;
@@ -28,7 +29,7 @@ class ShowFullDoku {
 	];
 
 	private const DEFINITION_PROPERTY = 'P1';
-	private const RECURRING_PROPERTY = 'P12';
+	private const REPEATABLE_PROPERTY = 'P12';
 	private const SUBFIELDS_PROPERTY = 'P15';
 	private const VALIDATION_PROPERTY = 'P9';
 	private const RULES_OF_USE_PROPERTY = 'P10';
@@ -77,6 +78,7 @@ class ShowFullDoku {
 
 		$field->definition = $this->getPropertyStringValue( $property, self::DEFINITION_PROPERTY ) ?? '';
 		$field->codings = $this->getCodingsFromProperty( $property );
+		$field->isRepeatable = $this->getIsRepeatableFromProperty( $property );
 
 		return $field;
 	}
@@ -133,6 +135,22 @@ class ShowFullDoku {
 			new PropertyId( self::CODING_TYPE_PROPERTY ),
 			new EntityIdValue( new ItemId( $typeItemId ) )
 		);
+	}
+
+	private function getIsRepeatableFromProperty( Property $property ): bool {
+		$snaks = $property->getStatements()->getByPropertyId( new PropertyId( self::REPEATABLE_PROPERTY ) )->getMainSnaks();
+
+		if ( array_key_exists( 0, $snaks ) ) {
+			if ( $snaks[0] instanceof PropertyValueSnak ) {
+				$value = $snaks[0]->getDataValue();
+
+				if ( $value instanceof BooleanValue ) {
+					return $value->getValue();
+				}
+			}
+		}
+
+		return false;
 	}
 
 }
