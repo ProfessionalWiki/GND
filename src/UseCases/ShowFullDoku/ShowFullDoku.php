@@ -55,8 +55,8 @@ class ShowFullDoku {
 		$field = new GndField();
 
 		$field->id = $property->getId()->serialize();
-		$field->label = $property->getLabels()->getByLanguage( $languageCode )->getText();
-		$field->description = $property->getDescriptions()->getByLanguage( $languageCode )->getText();
+		$field->label = $property->getLabels()->toTextArray()[$languageCode] ?? '';
+		$field->description = $property->getDescriptions()->toTextArray()[$languageCode] ?? '';
 		$field->aliases = $property->getAliasGroups()->toTextArray()[$languageCode] ?? [];
 
 		return $field;

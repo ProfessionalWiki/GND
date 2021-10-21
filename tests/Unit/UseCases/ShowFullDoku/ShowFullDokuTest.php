@@ -105,7 +105,7 @@ class ShowFullDokuTest extends TestCase {
 	}
 
 	public function testPropertyThatIsNotElementOfGndFieldIsSkipped(): void {
-		$property = $this->newValidGndProperty();
+		$property = $this->newMinimalValidGndProperty();
 
 		$property->setStatements( new StatementList(
 			// P2 needs to be Q2
@@ -115,7 +115,7 @@ class ShowFullDokuTest extends TestCase {
 		$this->assertIsSkipped( $property );
 	}
 
-	private function newValidGndProperty(): Property {
+	private function newMinimalValidGndProperty(): Property {
 		return new Property(
 			new PropertyId( 'P4242' ),
 			new Fingerprint( new TermList( [] ) ),
@@ -134,11 +134,20 @@ class ShowFullDokuTest extends TestCase {
 	}
 
 	public function testPropertyHasNoElementOfStatementIsSkipped(): void {
-		$property = $this->newValidGndProperty();
+		$property = $this->newMinimalValidGndProperty();
 
 		$property->setStatements( new StatementList() );
 
 		$this->assertIsSkipped( $property );
+	}
+
+	public function testMinimalPropertyWithNoOptionalStatementsIsValid(): void {
+		$fields = $this->getUseCasePresentedValueForPropsAndItems(
+			[ $this->newMinimalValidGndProperty() ],
+			[]
+		);
+
+		$this->assertSame( 'P4242', $fields[0]->id );
 	}
 
 }
