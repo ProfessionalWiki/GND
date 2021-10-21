@@ -5,7 +5,7 @@ declare( strict_types = 1 );
 namespace DNB\GND\Adapters\Presentation;
 
 use DNB\GND\Domain\Doku\GndField;
-use DNB\GND\ShowFullDoku\FullDokuPresenter;
+use DNB\GND\UseCases\ShowFullDoku\FullDokuPresenter;
 
 class ApiFullDokuPresenter implements FullDokuPresenter {
 

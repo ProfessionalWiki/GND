@@ -5,8 +5,8 @@ declare( strict_types = 1 );
 namespace DNB\GND;
 
 use DNB\GND\Adapters\Presentation\ApiFullDokuPresenter;
-use DNB\GND\ShowFullDoku\FullDokuPresenter;
-use DNB\GND\ShowFullDoku\ShowFullDoku;
+use DNB\GND\UseCases\ShowFullDoku\FullDokuPresenter;
+use DNB\GND\UseCases\ShowFullDoku\ShowFullDoku;
 use MediaWiki\Rest\SimpleHandler;
 use Wikimedia\ParamValidator\ParamValidator;
 
@@ -19,7 +19,7 @@ class DokuApi extends SimpleHandler {
 	public function run( string $propertyId = null ): array {
 		$presenter = new ApiFullDokuPresenter();
 
-		$this->newUseCase( $presenter )->showFullDoku();
+		$this->newUseCase( $presenter )->showFullDoku( 'de' ); // TODO: inject lang code
 
 		return $presenter->getArray();
 	}

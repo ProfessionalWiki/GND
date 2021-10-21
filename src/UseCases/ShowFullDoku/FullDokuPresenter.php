@@ -2,7 +2,7 @@
 
 declare( strict_types = 1 );
 
-namespace DNB\GND\ShowFullDoku;
+namespace DNB\GND\UseCases\ShowFullDoku;
 
 use DNB\GND\Domain\Doku\GndField;
 
