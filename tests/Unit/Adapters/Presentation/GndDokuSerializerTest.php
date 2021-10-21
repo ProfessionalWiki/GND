@@ -49,6 +49,20 @@ class GndDokuSerializerTest extends TestCase {
 					'PICA3' => '$P',
 				],
 				[]
+			),
+			new GndSubfield(
+				"P21",
+				"Nachname",
+				"",
+				[
+					'PICA+' => '$a',
+					'MARC 21' => '$a',
+					'PICA3' => '-ohne-',
+				],
+				[
+					"Q17" => "Person",
+					"Q155" => "Werk",
+				]
 			)
 		];
 
@@ -99,6 +113,21 @@ class GndDokuSerializerTest extends TestCase {
 					"allowedValues": {},
 					"viewLink": "https://doku.wikibase.wiki/wiki/datafield?property=P41",
 					"editLink": "https://doku.wikibase.wiki/wiki/Property:P41"
+				},
+				"P21": {
+					"label": "Nachname",
+					"description": "",
+					"codings": {
+						"PICA+": "$a",
+						"MARC 21": "$a",
+						"PICA3": "-ohne-"
+					},
+					"allowedValues": {
+						"Q17": "Person",
+						"Q155": "Werk"
+					},
+					"viewLink": "https://doku.wikibase.wiki/wiki/datafield?property=P21",
+					"editLink": "https://doku.wikibase.wiki/wiki/Property:P21"
 				}
 			},
 
