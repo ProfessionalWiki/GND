@@ -13,6 +13,7 @@ use Wikibase\Repo\WikibaseRepo;
 
 /**
  * @covers \DNB\GND\Adapters\DataAccess\DokuEntitySource
+ * @covers \DNB\GND\Adapters\DataAccess\MediaWikiFileFetcher
  */
 class DokuEntitySourceTest extends TestCase {
 

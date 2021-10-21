@@ -11,6 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \DNB\GND\Adapters\DataAccess\DokuSparqlIdSource
+ * @covers \DNB\GND\Adapters\DataAccess\MediaWikiFileFetcher
  */
 class DokuSparqlIdSourceTest extends TestCase {
 
