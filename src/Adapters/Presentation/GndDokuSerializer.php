@@ -8,6 +8,11 @@ use DNB\GND\Domain\Doku\GndField;
 
 class GndDokuSerializer {
 
+	private const PROPERTY_VIEW_URL = 'https://doku.wikibase.wiki/wiki/datafield?property=$1';
+	private const PROPERTY_EDIT_URL = 'https://doku.wikibase.wiki/wiki/Property:$1';
+	private const ITEM_VIEW_URL = 'https://doku.wikibase.wiki/wiki/datafield?item=$1';
+	private const ITEM_EDIT_URL = 'https://doku.wikibase.wiki/wiki/Item:$1';
+
 	public function fieldsToArrays( GndField ...$fields ): array {
 		$fieldsArray = [];
 
@@ -37,8 +42,8 @@ class GndDokuSerializer {
 			'rulesOfUse' => $field->rulesOfUse,
 			'examples' => $this->examplesToArray( $field ),
 
-			'viewLink' => 'https://doku.wikibase.wiki/wiki/datafield?property=' . $field->id,
-			'editLink' => 'https://doku.wikibase.wiki/wiki/Property:' . $field->id
+			'viewLink' => str_replace( '$1', $field->id, self::PROPERTY_VIEW_URL ),
+			'editLink' => str_replace( '$1', $field->id, self::PROPERTY_EDIT_URL )
 		];
 	}
 
@@ -49,8 +54,12 @@ class GndDokuSerializer {
 			$subfieldsArray[$subfield->getId()] = [
 				'label' => $subfield->getLabel(),
 				'description' => $subfield->getDescription(),
+
 				'codings' => $subfield->getCodings(),
 				'allowedValues' => $subfield->getPossibleValues(),
+
+				'viewLink' => str_replace( '$1', $subfield->getId(), self::PROPERTY_VIEW_URL ),
+				'editLink' => str_replace( '$1', $subfield->getId(), self::PROPERTY_EDIT_URL )
 			];
 		}
 
@@ -58,10 +67,17 @@ class GndDokuSerializer {
 	}
 
 	private function examplesToArray( GndField $field ): array {
-		return array_map(
+		$examples = array_map(
 			fn ( string $label ) => [ 'label' => $label ],
 			$field->examples
 		);
+
+		foreach ( $examples as $itemId => $example ) {
+			$examples[$itemId]['viewLink'] = str_replace( '$1', $itemId, self::ITEM_VIEW_URL );
+			$examples[$itemId]['editLink'] = str_replace( '$1', $itemId, self::ITEM_EDIT_URL );
+		}
+
+		return $examples;
 	}
 
 }

@@ -96,7 +96,9 @@ class GndDokuSerializerTest extends TestCase {
 						"MARC 21": "$a",
 						"PICA3": "$P"
 					},
-					"allowedValues": {}
+					"allowedValues": {},
+					"viewLink": "https://doku.wikibase.wiki/wiki/datafield?property=P41",
+					"editLink": "https://doku.wikibase.wiki/wiki/Property:P41"
 				}
 			},
 
@@ -118,7 +120,9 @@ class GndDokuSerializerTest extends TestCase {
 
 			"examples": {
 				"Q626": {
-					"label": "Sarah Hartmann"
+					"label": "Sarah Hartmann",
+					"viewLink": "https://doku.wikibase.wiki/wiki/datafield?item=Q626",
+					"editLink": "https://doku.wikibase.wiki/wiki/Item:Q626"
 				}
 			},
 
