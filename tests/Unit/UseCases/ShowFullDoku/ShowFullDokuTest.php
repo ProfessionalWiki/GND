@@ -19,6 +19,8 @@ use Wikibase\DataModel\Services\Lookup\InMemoryEntityLookup;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
 use Wikibase\DataModel\Statement\Statement;
 use Wikibase\DataModel\Statement\StatementList;
+use Wikibase\DataModel\Term\AliasGroup;
+use Wikibase\DataModel\Term\AliasGroupList;
 use Wikibase\DataModel\Term\Fingerprint;
 use Wikibase\DataModel\Term\Term;
 use Wikibase\DataModel\Term\TermList;
@@ -63,11 +65,23 @@ class ShowFullDokuTest extends TestCase {
 		$properties = [
 			new Property(
 				new PropertyId( 'P4242' ),
-				new Fingerprint( new TermList( [
-					new Term( 'wrong', 'WrongLabel' ),
-					new Term( self::LANG_CODE, 'ExpectedLabel' ),
-					new Term( 'nope', 'WrongLabel' ),
-				] ) ),
+				new Fingerprint(
+					new TermList( [
+						new Term( 'wrong', 'WrongLabel' ),
+						new Term( self::LANG_CODE, 'ExpectedLabel' ),
+						new Term( 'nope', 'WrongLabel' ),
+					] ),
+					new TermList( [
+						new Term( 'wrong', 'WrongDescription' ),
+						new Term( self::LANG_CODE, 'ExpectedDescription' ),
+						new Term( 'nope', 'WrongDescription' ),
+					] ),
+					new AliasGroupList( [
+						new AliasGroup( 'wrong', [ 'a', 'b' ] ),
+						new AliasGroup( self::LANG_CODE, [ 'foo', 'bar' ] ),
+						new AliasGroup( 'nope', [ 'c', 'd' ] ),
+					] )
+				),
 				'string',
 				new StatementList(
 					new Statement( new PropertyValueSnak( new PropertyId( 'P2' ), new EntityIdValue( new ItemId( 'Q2' ) ) ) )
@@ -79,6 +93,8 @@ class ShowFullDokuTest extends TestCase {
 		$gndField = new GndField();
 		$gndField->id = 'P4242';
 		$gndField->label = 'ExpectedLabel';
+		$gndField->description = 'ExpectedDescription';
+		$gndField->aliases = [ 'foo', 'bar' ];
 
 		$this->assertEquals(
 			[

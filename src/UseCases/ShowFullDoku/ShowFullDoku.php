@@ -56,6 +56,8 @@ class ShowFullDoku {
 
 		$field->id = $property->getId()->serialize();
 		$field->label = $property->getLabels()->getByLanguage( $languageCode )->getText();
+		$field->description = $property->getDescriptions()->getByLanguage( $languageCode )->getText();
+		$field->aliases = $property->getAliasGroups()->toTextArray()[$languageCode] ?? [];
 
 		return $field;
 	}
