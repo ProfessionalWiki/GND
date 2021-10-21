@@ -7,6 +7,7 @@ namespace DNB\GND\Maintenance;
 use DNB\GND\Adapters\DataAccess\FullLocalItemSource;
 use DNB\GND\Adapters\DataAccess\InMemoryItemSource;
 use DNB\GND\Adapters\DataAccess\WikibaseRepoEntitySaver;
+use DNB\GND\GndServicesFactory;
 use DNB\GND\UseCases\ItemPropertiesToStrings\ItemPropertiesToStrings as ItemPropertiesToStringsUseCase;
 use DNB\GND\UseCases\ItemPropertiesToStrings\PropertyChangePresenter;
 use Maintenance;
@@ -57,21 +58,12 @@ class ItemPropertiesToStrings extends Maintenance {
 	}
 
 	private function newUseCase(): ItemPropertiesToStringsUseCase {
-		$repo = WikibaseRepo::getDefaultInstance();
+		$servicesFactory = GndServicesFactory::getInstance();
 
 		return new ItemPropertiesToStringsUseCase(
-			$repo->getPropertyLookup(),
-			new WikibaseRepoEntitySaver(
-				$repo->getEntityStore(),
-				$this->newUser()
-			),
-			new FullLocalItemSource(
-				( new SqlEntityIdPagerFactory(
-					$repo->getEntityNamespaceLookup(),
-					$repo->getEntityIdLookup()
-				) )->newSqlEntityIdPager( [ Item::ENTITY_TYPE ] ),
-				$repo->getItemLookup()
-			),
+			$servicesFactory->getPropertyLookup(),
+			$servicesFactory->newEntitySaver( $this->newUser() ),
+			$servicesFactory->newFullLocalItemSource(),
 			$this->newPresenter()
 		);
 	}

@@ -16,7 +16,7 @@ class PropertyCollection {
 
 	public function __construct( Property ...$properties ) {
 		foreach ( $properties as $property ) {
-			$this->properties[$property->getId()->serialize()] = $properties;
+			$this->properties[$property->getId()->serialize()] = $property;
 		}
 	}
 

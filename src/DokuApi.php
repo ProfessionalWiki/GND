@@ -4,12 +4,10 @@ declare( strict_types = 1 );
 
 namespace DNB\GND;
 
-use DNB\GND\Adapters\DataAccess\WikibasePropertyCollectionLookup;
 use DNB\GND\Adapters\Presentation\ApiFullDokuPresenter;
 use DNB\GND\ShowFullDoku\FullDokuPresenter;
 use DNB\GND\ShowFullDoku\ShowFullDoku;
 use MediaWiki\Rest\SimpleHandler;
-use Wikibase\Repo\WikibaseRepo;
 use Wikimedia\ParamValidator\ParamValidator;
 
 class DokuApi extends SimpleHandler {
@@ -27,10 +25,12 @@ class DokuApi extends SimpleHandler {
 	}
 
 	private function newUseCase( FullDokuPresenter $presenter ): ShowFullDoku {
+		$servicesFactory = GndServicesFactory::getInstance();
+
 		return new ShowFullDoku(
 			$presenter,
-			new WikibasePropertyCollectionLookup(),
-			WikibaseRepo::getDefaultInstance()->getItemLookup()
+			$servicesFactory->getPropertyCollectionLookup(),
+			$servicesFactory->getItemLookup()
 		);
 	}
 
