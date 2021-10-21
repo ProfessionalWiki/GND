@@ -18,6 +18,14 @@ class ShowFullDoku {
 	private const ELEMENT_OF_PROPERTY = 'P2';
 	private const GND_FIELD_ITEM = 'Q2';
 
+	private const DEFINITION_PROPERTY = 'P1';
+	private const CODINGS_PROPERTY = 'P4';
+	private const RECURRING_PROPERTY = 'P12';
+	private const SUBFIELDS_PROPERTY = 'P15';
+	private const VALIDATION_PROPERTY = 'P9';
+	private const RULES_OF_USE_PROPERTY = 'P10';
+	private const EXAMPLES_PROPERTY = 'P11';
+
 	private FullDokuPresenter $presenter;
 	private PropertyCollectionLookup $propertyLookup;
 	private ItemLookup $itemLookup;
