@@ -5,8 +5,10 @@ declare( strict_types = 1 );
 namespace DNB\GND\UseCases\ShowFullDoku;
 
 use DataValues\BooleanValue;
+use DataValues\DataValue;
 use DataValues\StringValue;
 use DNB\GND\Domain\Doku\GndField;
+use DNB\GND\Domain\Doku\GndSubfield;
 use DNB\GND\Domain\PropertyCollectionLookup;
 use Wikibase\DataModel\Entity\EntityIdValue;
 use Wikibase\DataModel\Entity\ItemId;
@@ -14,6 +16,9 @@ use Wikibase\DataModel\Entity\Property;
 use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\DataModel\Services\Lookup\ItemLookup;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
+use Wikibase\DataModel\Snak\Snak;
+use Wikibase\DataModel\Snak\SnakList;
+use Wikibase\DataModel\Statement\Statement;
 
 class ShowFullDoku {
 
@@ -28,9 +33,12 @@ class ShowFullDoku {
 		'Q1320' => 'MARC 21',
 	];
 
+	private const SUBFIELDS_PROPERTY = 'P15';
+	private const SUBFIELD_DESCRIPTION_PROPERTY = 'P7';
+
 	private const DEFINITION_PROPERTY = 'P1';
 	private const REPEATABLE_PROPERTY = 'P12';
-	private const SUBFIELDS_PROPERTY = 'P15';
+
 	private const VALIDATION_PROPERTY = 'P9';
 	private const RULES_OF_USE_PROPERTY = 'P10';
 	private const EXAMPLES_PROPERTY = 'P11';
@@ -72,6 +80,7 @@ class ShowFullDoku {
 		$field = new GndField();
 
 		$field->id = $property->getId()->serialize();
+
 		$field->label = $property->getLabels()->toTextArray()[$languageCode] ?? '';
 		$field->description = $property->getDescriptions()->toTextArray()[$languageCode] ?? '';
 		$field->aliases = $property->getAliasGroups()->toTextArray()[$languageCode] ?? [];
@@ -79,6 +88,7 @@ class ShowFullDoku {
 		$field->definition = $this->getPropertyStringValue( $property, self::DEFINITION_PROPERTY ) ?? '';
 		$field->codings = $this->getCodingsFromProperty( $property );
 		$field->isRepeatable = $this->getIsRepeatableFromProperty( $property );
+		$field->subfields = $this->getSubfieldsFromProperty( $property );
 
 		return $field;
 	}
@@ -144,13 +154,66 @@ class ShowFullDoku {
 			if ( $snaks[0] instanceof PropertyValueSnak ) {
 				$value = $snaks[0]->getDataValue();
 
-				if ( $value instanceof BooleanValue ) {
+				if ( $value instanceof BooleanValue ) { // FIXME: this is actually a string value...
 					return $value->getValue();
 				}
 			}
 		}
 
 		return false;
+	}
+
+	/**
+	 * @return array<int, GndSubfield>
+	 */
+	private function getSubfieldsFromProperty( Property $property ): array {
+		return array_filter(
+			array_map(
+				fn( Statement $statement ) => $this->statementToSubfield( $statement ),
+				$property->getStatements()->getByPropertyId( new PropertyId( self::SUBFIELDS_PROPERTY ) )->toArray()
+			),
+			fn ( ?GndSubfield $subfield ) => $subfield !== null
+		);
+	}
+
+	private function statementToSubfield( Statement $statement ): ?GndSubfield {
+		$mainSnak = $statement->getMainSnak();
+
+		if ( $mainSnak instanceof PropertyValueSnak ) {
+			$mainValue = $mainSnak->getDataValue();
+
+			if ( $mainValue instanceof EntityIdValue ) {
+				return new GndSubfield(
+					$mainValue->getEntityId()->getSerialization(),
+					'', // TODO
+					$this->getQualifierValue( $statement, self::SUBFIELD_DESCRIPTION_PROPERTY ) ?? '',
+					[], // TODO
+					[], // TODO
+					[] // TODO
+				);
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * @return mixed|null
+	 */
+	private function getQualifierValue( Statement $statement, string $propertyId ) {
+		foreach ( $statement->getQualifiers() as $qualifier ) {
+			if ( $qualifier instanceof PropertyValueSnak ) {
+				if ( $qualifier->getPropertyId()->equals( new PropertyId( $propertyId ) ) ) {
+					$dataValue = $qualifier->getDataValue();
+
+					if ( $dataValue instanceof StringValue ) {
+						return $dataValue->getValue();
+					}
+				}
+			}
+		}
+
+		return null;
 	}
 
 }

@@ -4,8 +4,11 @@ declare( strict_types = 1 );
 
 namespace DNB\GND\Tests\Unit\UseCases\ShowFullDoku;
 
+use DataValues\BooleanValue;
 use DataValues\StringValue;
 use DNB\GND\Domain\Doku\GndField;
+use DNB\GND\Domain\Doku\GndSubfield;
+use DNB\GND\Domain\Doku\Reference;
 use DNB\GND\Domain\PropertyCollection;
 use DNB\GND\UseCases\ShowFullDoku\ShowFullDoku;
 use DNB\GND\Tests\TestDoubles\SpyFullDokuPresenter;
@@ -107,6 +110,20 @@ class ShowFullDokuTest extends TestCase {
 							new PropertyValueSnak( new PropertyId( 'P3' ), new EntityIdValue( new ItemId( 'Q1316' ) ) )
 						] )
 					),
+
+					new Statement(
+						new PropertyValueSnak( new PropertyId( 'P15' ), new EntityIdValue( new PropertyId( 'P41' ) ) ),
+						new SnakList( [
+							new PropertyValueSnak( new PropertyId( 'P12' ), new BooleanValue( false ) ),
+							new PropertyValueSnak( new PropertyId( 'P7' ), new StringValue( 'Hinweis zur Erfassung von Personen' ) ),
+						] )
+					),
+					new Statement(
+						new PropertyValueSnak( new PropertyId( 'P15' ), new EntityIdValue( new PropertyId( 'P21' ) ) ),
+						new SnakList( [
+							new PropertyValueSnak( new PropertyId( 'P12' ), new BooleanValue( false ) ),
+						] )
+					),
 				)
 			)
 		];
@@ -124,6 +141,28 @@ class ShowFullDokuTest extends TestCase {
 			'PICA3' => '100',
 		];
 		$gndField->isRepeatable = false;
+		$gndField->subfields = [
+			new GndSubfield(
+				"P41",
+				"",
+				"Hinweis zur Erfassung von Personen",
+				[
+				],
+				[],
+				[
+				]
+			),
+			new GndSubfield(
+				"P21",
+				"",
+				"",
+				[
+				],
+				[
+				],
+				[]
+			)
+		];
 
 		$this->assertEquals(
 			[
@@ -177,12 +216,14 @@ class ShowFullDokuTest extends TestCase {
 		);
 
 		$this->assertSame( 'P4242', $fields[0]->id );
+
 		$this->assertSame( '', $fields[0]->label );
 		$this->assertSame( '', $fields[0]->description );
 		$this->assertSame( [], $fields[0]->aliases );
 		$this->assertSame( '', $fields[0]->definition );
 		$this->assertSame( [], $fields[0]->codings );
 		$this->assertFalse( $fields[0]->isRepeatable );
+		$this->assertSame( [], $fields[0]->subfields );
 	}
 
 }

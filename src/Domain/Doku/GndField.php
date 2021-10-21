@@ -26,7 +26,7 @@ class GndField {
 	public bool $isRepeatable;
 
 	/**
-	 * @var array<string, GndSubfield> Example: [ "P61" => $gndSubfield ]
+	 * @var array<int, GndSubfield> Example: [ $gndSubfield1, $gndSubfield2 ]
 	 */
 	public array $subfields;
 
