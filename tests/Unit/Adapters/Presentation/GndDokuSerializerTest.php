@@ -10,6 +10,7 @@ use DNB\GND\Adapters\DataAccess\GndConverterItemSource;
 use DNB\GND\Adapters\Presentation\GndDokuSerializer;
 use DNB\GND\Domain\Doku\GndField;
 use DNB\GND\Domain\Doku\GndSubfield;
+use DNB\GND\Domain\Doku\Reference;
 use DNB\GND\Domain\ItemSource;
 use DNB\GND\Tests\TestDoubles\StubDataTypeLookup;
 use PHPUnit\Framework\TestCase;
@@ -19,6 +20,7 @@ use SplFileObject;
  * @covers \DNB\GND\Adapters\Presentation\GndDokuSerializer
  * @covers \DNB\GND\Domain\Doku\GndField
  * @covers \DNB\GND\Domain\Doku\GndSubfield
+ * @covers \DNB\GND\Domain\Doku\Reference
  */
 class GndDokuSerializerTest extends TestCase {
 
@@ -48,7 +50,11 @@ class GndDokuSerializerTest extends TestCase {
 					'MARC 21' => '$a',
 					'PICA3' => '$P',
 				],
-				[]
+				[],
+				[
+					new Reference( 'EH-P-15: Notnamen', 'https://wiki.dnb.de/download/attachments/90411361/EH-P-15.pdf?version=15&modificationDate=1443175739000&api=v2' ),
+					new Reference( 'Example with no URI', null ),
+				]
 			),
 			new GndSubfield(
 				"P21",
@@ -62,7 +68,8 @@ class GndDokuSerializerTest extends TestCase {
 				[
 					"Q17" => "Person",
 					"Q155" => "Werk",
-				]
+				],
+				[]
 			)
 		];
 
@@ -111,6 +118,16 @@ class GndDokuSerializerTest extends TestCase {
 						"PICA3": "$P"
 					},
 					"allowedValues": {},
+					"references": [
+						{
+							"name": "EH-P-15: Notnamen",
+							"URI": "https://wiki.dnb.de/download/attachments/90411361/EH-P-15.pdf?version=15&modificationDate=1443175739000&api=v2"
+						},
+						{
+							"name": "Example with no URI",
+							"URI": null
+						}
+					],
 					"viewLink": "https://doku.wikibase.wiki/wiki/datafield?property=P41",
 					"editLink": "https://doku.wikibase.wiki/wiki/Property:P41"
 				},
@@ -126,6 +143,7 @@ class GndDokuSerializerTest extends TestCase {
 						"Q17": "Person",
 						"Q155": "Werk"
 					},
+					"references": [],
 					"viewLink": "https://doku.wikibase.wiki/wiki/datafield?property=P21",
 					"editLink": "https://doku.wikibase.wiki/wiki/Property:P21"
 				}

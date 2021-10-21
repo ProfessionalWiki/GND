@@ -22,6 +22,16 @@
 						"PICA3": "$P"
 					},
 					"allowedValues": {},
+					"references": [
+						{
+							"name": "EH-P-15: Notnamen",
+							"URI": "https://wiki.dnb.de/download/attachments/90411361/EH-P-15.pdf?version=15&modificationDate=1443175739000&api=v2"
+						},
+						{
+							"name": "Example with no URI",
+							"URI": null
+						}
+					],
 					"viewLink": "https://doku.wikibase.wiki/wiki/datafield?property=P41",
 					"editLink": "https://doku.wikibase.wiki/wiki/Property:P41"
 				},
@@ -37,6 +47,7 @@
 						"Q17": "Person",
 						"Q155": "Werk"
 					},
+					"references": [],
 					"viewLink": "https://doku.wikibase.wiki/wiki/datafield?property=P21",
 					"editLink": "https://doku.wikibase.wiki/wiki/Property:P21"
 				}

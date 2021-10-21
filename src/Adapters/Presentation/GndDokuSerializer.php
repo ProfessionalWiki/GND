@@ -5,6 +5,8 @@ declare( strict_types = 1 );
 namespace DNB\GND\Adapters\Presentation;
 
 use DNB\GND\Domain\Doku\GndField;
+use DNB\GND\Domain\Doku\GndSubfield;
+use DNB\GND\Domain\Doku\Reference;
 
 class GndDokuSerializer {
 
@@ -57,6 +59,7 @@ class GndDokuSerializer {
 
 				'codings' => $subfield->getCodings(),
 				'allowedValues' => $subfield->getPossibleValues(),
+				'references' => $this->referencesToArray( $subfield ),
 
 				'viewLink' => str_replace( '$1', $subfield->getId(), self::PROPERTY_VIEW_URL ),
 				'editLink' => str_replace( '$1', $subfield->getId(), self::PROPERTY_EDIT_URL )
@@ -64,6 +67,16 @@ class GndDokuSerializer {
 		}
 
 		return $subfieldsArray;
+	}
+
+	private function referencesToArray( GndSubfield $subfield ): array {
+		return array_map(
+			fn( Reference $reference ) => [
+				'name' => $reference->getName(),
+				'URI' => $reference->getUri(),
+			],
+			$subfield->getReferences()
+		);
 	}
 
 	private function examplesToArray( GndField $field ): array {
