@@ -10,9 +10,6 @@ use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Services\EntityId\EntityIdPager;
 use Wikibase\DataModel\Services\Lookup\ItemLookup;
 
-/**
- * Note: not covered by automated tests
- */
 class FullLocalItemSource implements ItemSource {
 
 	private EntityIdPager $entityIdPager;

@@ -56,12 +56,9 @@ class WikibasePropertyCollectionLookupTest extends MediaWikiIntegrationTestCase 
 	}
 
 	private function saveEntity( EntityDocument $entity ): void {
-		$saver = new WikibaseRepoEntitySaver(
-			WikibaseRepo::getDefaultInstance()->getEntityStore(),
+		GndServicesFactory::getInstance()->newEntitySaver(
 			User::newSystemUser( 'WikibasePropertyCollectionLookupTest', [ 'steal' => true ] )
-		);
-
-		$saver->storeEntity( $entity );
+		)->storeEntity( $entity );
 	}
 
 }
