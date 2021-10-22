@@ -14,6 +14,8 @@ use Wikibase\DataModel\Entity\Item;
 use Wikibase\DataModel\Entity\Property;
 use Wikibase\DataModel\Services\EntityId\SeekableEntityIdPager;
 use Wikibase\DataModel\Services\Lookup\ItemLookup;
+use Wikibase\DataModel\Services\Lookup\LegacyAdapterItemLookup;
+use Wikibase\DataModel\Services\Lookup\LegacyAdapterPropertyLookup;
 use Wikibase\DataModel\Services\Lookup\PropertyLookup;
 use Wikibase\Repo\Store\Sql\SqlEntityIdPagerFactory;
 use Wikibase\Repo\WikibaseRepo;
@@ -37,11 +39,11 @@ class GndServicesFactory {
 	}
 
 	public function getItemLookup(): ItemLookup {
-		return WikibaseRepo::getDefaultInstance()->getItemLookup();
+		return new LegacyAdapterItemLookup( WikibaseRepo::getDefaultInstance()->getEntityLookup() );
 	}
 
 	public function getPropertyLookup(): PropertyLookup {
-		return WikibaseRepo::getDefaultInstance()->getPropertyLookup();
+		return new LegacyAdapterPropertyLookup( WikibaseRepo::getDefaultInstance()->getEntityLookup() );
 	}
 
 	public function newEntitySaver( \User $user ): EntitySaver {
