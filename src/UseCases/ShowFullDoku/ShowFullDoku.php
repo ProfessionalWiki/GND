@@ -207,7 +207,11 @@ class ShowFullDoku {
 		 * @var Reference $reference
 		 */
 		foreach ( $statement->getReferences() as $reference ) {
-			$references[] = $this->wikibaseReferenceToGndReference( $reference );
+			$reference = $this->wikibaseReferenceToGndReference( $reference );
+
+			if ( $reference !== null ) {
+				$references[] = $reference;
+			}
 		}
 
 		return $references;

@@ -126,6 +126,9 @@ class ShowFullDokuTest extends TestCase {
 							] ),
 							new Reference( [
 								new PropertyValueSnak( new PropertyId( 'P20' ), new StringValue( 'Example with no URI' ) ),
+							] ),
+							new Reference( [
+								new PropertyValueSnak( new PropertyId( 'P100000' ), new StringValue( 'Missing P20' ) ),
 							] )
 						] )
 					),
