@@ -94,7 +94,7 @@ class ShowFullDoku {
 		$field->subfields = $this->getSubfieldsFromProperty( $property );
 		$field->validation = $this->getStringValuesFromProperty( $property, self::VALIDATION_PROPERTY );
 		$field->rulesOfUse = $this->getStringValuesFromProperty( $property, self::RULES_OF_USE_PROPERTY );
-		$field->examples = $this->getExamplesFromProperty( $property );
+		$field->examples = $this->getExamplesFromProperty( $property, $languageCode );
 
 		return $field;
 	}
@@ -263,16 +263,36 @@ class ShowFullDoku {
 	/**
 	 * @return array<string, string>
 	 */
-	private function getExamplesFromProperty( Property $property ): array {
+	private function getExamplesFromProperty( Property $property, string $languageCode ): array {
 		$examples = [];
 
 		foreach ( $this->getMainSnakDataValues( $property, self::EXAMPLES_PROPERTY ) as $dataValue ) {
 			if ( $dataValue instanceof EntityIdValue ) {
-				$examples[$dataValue->getEntityId()->getSerialization()] = ''; // TODO
+				$itemId = $dataValue->getEntityId()->getSerialization();
+				$itemLabel = $this->getItemLabel( $itemId, $languageCode );
+
+				if ( $itemLabel !== null ) {
+					$examples[$itemId] = $itemLabel;
+				}
 			}
 		}
 
 		return $examples;
+	}
+
+	private function getItemLabel( string $itemId, string $languageCode ): ?string {
+		try {
+			$item = $this->itemLookup->getItemForId( new ItemId( $itemId ) );
+		}
+		catch ( \Exception $exception ) {
+			return null;
+		}
+
+		if ( $item === null ) {
+			return null;
+		}
+
+		return $item->getFingerprint()->getLabels()->toTextArray()[$languageCode] ?? null;
 	}
 
 	/**

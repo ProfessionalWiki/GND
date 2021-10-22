@@ -144,10 +144,30 @@ class ShowFullDokuTest extends TestCase {
 
 					new Statement( new PropertyValueSnak( new PropertyId( 'P11' ), new EntityIdValue( new ItemId( 'Q262' ) ) ) ),
 					new Statement( new PropertyValueSnak( new PropertyId( 'P11' ), new EntityIdValue( new ItemId( 'Q1330' ) ) ) ),
+					new Statement( new PropertyValueSnak( new PropertyId( 'P11' ), new EntityIdValue( new ItemId( 'Q404' ) ) ) ),
 				)
 			)
 		];
-		$items = [];
+
+		$items = [
+			new Item(
+				new ItemId( 'Q262' ),
+				new Fingerprint(
+					new TermList( [
+						new Term( 'wrong', 'Not Sarah' ),
+						new Term( self::LANG_CODE, 'Sarah Hartmann' ),
+					] )
+				)
+			),
+			new Item(
+				new ItemId( 'Q1330' ),
+				new Fingerprint(
+					new TermList( [
+						new Term( self::LANG_CODE, 'Hadley Hemingway Mowrer' ),
+					] )
+				)
+			)
+		];
 
 		$gndField = new GndField();
 		$gndField->id = 'P4242';
@@ -197,8 +217,8 @@ class ShowFullDokuTest extends TestCase {
 		];
 
 		$gndField->examples = [
-			'Q262' => '', // TODO
-			'Q1330' => ''
+			'Q262' => 'Sarah Hartmann',
+			'Q1330' => 'Hadley Hemingway Mowrer',
 		];
 
 		$this->assertEquals(
