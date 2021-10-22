@@ -93,6 +93,7 @@ class ShowFullDoku {
 		$field->codings = $this->getCodingsFromProperty( $property );
 		$field->isRepeatable = $this->getIsRepeatableFromProperty( $property );
 		$field->subfields = $this->getSubfieldsFromProperty( $property );
+		$field->validation = $this->getStringValuesFromProperty( $property, self::VALIDATION_PROPERTY );
 
 		return $field;
 	}
@@ -263,6 +264,27 @@ class ShowFullDoku {
 		}
 
 		return $valuesById;
+	}
+
+	/**
+	 * @return array<int, string>
+	 */
+	private function getStringValuesFromProperty( Property $property, string $propertyId ): array {
+		$values = [];
+
+		$snaks = $property->getStatements()->getByPropertyId( new PropertyId( $propertyId ) )->getMainSnaks();
+
+		foreach ( $snaks as $snak ) {
+			if ( $snak instanceof PropertyValueSnak ) {
+				$value = $snak->getDataValue();
+
+				if ( $value instanceof StringValue ) {
+					$values[] = $value->getValue();
+				}
+			}
+		}
+
+		return $values;
 	}
 
 }
