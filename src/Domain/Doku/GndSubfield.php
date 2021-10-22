@@ -38,12 +38,36 @@ class GndSubfield {
 		array $possibleValues,
 		array $references
 	) {
+		$this->assertStringToStringMap( $codings );
+		$this->assertStringToStringMap( $possibleValues );
+		$this->assertAreReferences( $references );
+
 		$this->id = $id;
 		$this->label = $label;
 		$this->description = $description;
 		$this->codings = $codings;
 		$this->possibleValues = $possibleValues;
 		$this->references = $references;
+	}
+
+	private function assertStringToStringMap( array $map ): void {
+		foreach ( $map as $key => $value ) {
+			if ( !is_string( $key ) ) {
+				throw new \InvalidArgumentException( 'key needs to be string' );
+			}
+
+			if ( !is_string( $value ) ) {
+				throw new \InvalidArgumentException( 'value needs to be string' );
+			}
+		}
+	}
+
+	private function assertAreReferences( array $references ): void {
+		foreach ( $references as $value ) {
+			if ( !( $value instanceof GndReference ) ) {
+				throw new \InvalidArgumentException( '$references only takes GndReference' );
+			}
+		}
 	}
 
 	public function getId(): string {
