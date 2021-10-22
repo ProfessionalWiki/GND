@@ -18,7 +18,6 @@ use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\DataModel\Reference;
 use Wikibase\DataModel\Services\Lookup\ItemLookup;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
-use Wikibase\DataModel\Snak\Snak;
 use Wikibase\DataModel\Snak\SnakList;
 use Wikibase\DataModel\Statement\Statement;
 
@@ -89,12 +88,13 @@ class ShowFullDoku {
 		$field->description = $property->getDescriptions()->toTextArray()[$languageCode] ?? '';
 		$field->aliases = $property->getAliasGroups()->toTextArray()[$languageCode] ?? [];
 
-		$field->definition = $this->getPropertyStringValue( $property, self::DEFINITION_PROPERTY ) ?? '';
+		$field->definition = $this->getStringValuesFromProperty( $property, self::DEFINITION_PROPERTY )[0] ?? '';
 		$field->codings = $this->getCodingsFromProperty( $property );
 		$field->isRepeatable = $this->getIsRepeatableFromProperty( $property );
 		$field->subfields = $this->getSubfieldsFromProperty( $property );
 		$field->validation = $this->getStringValuesFromProperty( $property, self::VALIDATION_PROPERTY );
 		$field->rulesOfUse = $this->getStringValuesFromProperty( $property, self::RULES_OF_USE_PROPERTY );
+		$field->examples = $this->getExamplesFromProperty( $property );
 
 		return $field;
 	}
@@ -112,22 +112,6 @@ class ShowFullDoku {
 				new EntityIdValue( new ItemId( self::GND_FIELD_ITEM ) )
 			)
 		);
-	}
-
-	private function getPropertyStringValue( Property $property, string $propertyId ): ?string {
-		$snaks = $property->getStatements()->getByPropertyId( new PropertyId( $propertyId ) )->getMainSnaks();
-
-		if ( array_key_exists( 0, $snaks ) ) {
-			if ( $snaks[0] instanceof PropertyValueSnak ) {
-				$value = $snaks[0]->getDataValue();
-
-				if ( $value instanceof StringValue ) {
-					return $value->getValue();
-				}
-			}
-		}
-
-		return null;
 	}
 
 	private function getCodingsFromProperty( Property $property ): array {
@@ -154,15 +138,9 @@ class ShowFullDoku {
 	}
 
 	private function getIsRepeatableFromProperty( Property $property ): bool {
-		$snaks = $property->getStatements()->getByPropertyId( new PropertyId( self::REPEATABLE_PROPERTY ) )->getMainSnaks();
-
-		if ( array_key_exists( 0, $snaks ) ) {
-			if ( $snaks[0] instanceof PropertyValueSnak ) {
-				$value = $snaks[0]->getDataValue();
-
-				if ( $value instanceof BooleanValue ) { // FIXME: this is actually a string value...
-					return $value->getValue();
-				}
+		foreach ( $this->getMainSnakDataValues( $property, self::REPEATABLE_PROPERTY ) as $dataValue ) {
+			if ( $dataValue instanceof BooleanValue ) { // FIXME: this is actually a string value...
+				return $dataValue->getValue();
 			}
 		}
 
@@ -273,15 +251,44 @@ class ShowFullDoku {
 	private function getStringValuesFromProperty( Property $property, string $propertyId ): array {
 		$values = [];
 
-		$snaks = $property->getStatements()->getByPropertyId( new PropertyId( $propertyId ) )->getMainSnaks();
+		foreach ( $this->getMainSnakDataValues( $property, $propertyId ) as $dataValue ) {
+			if ( $dataValue instanceof StringValue ) {
+				$values[] = $dataValue->getValue();
+			}
+		}
+
+		return $values;
+	}
+
+	/**
+	 * @return array<string, string>
+	 */
+	private function getExamplesFromProperty( Property $property ): array {
+		$examples = [];
+
+		foreach ( $this->getMainSnakDataValues( $property, self::EXAMPLES_PROPERTY ) as $dataValue ) {
+			if ( $dataValue instanceof EntityIdValue ) {
+				$examples[$dataValue->getEntityId()->getSerialization()] = ''; // TODO
+			}
+		}
+
+		return $examples;
+	}
+
+	/**
+	 * @param Property $property
+	 * @param string $statementPropertyId
+	 *
+	 * @return array<int, DataValue>
+	 */
+	private function getMainSnakDataValues( Property $property, string $statementPropertyId ): array {
+		$values = [];
+
+		$snaks = $property->getStatements()->getByPropertyId( new PropertyId( $statementPropertyId ) )->getMainSnaks();
 
 		foreach ( $snaks as $snak ) {
 			if ( $snak instanceof PropertyValueSnak ) {
-				$value = $snak->getDataValue();
-
-				if ( $value instanceof StringValue ) {
-					$values[] = $value->getValue();
-				}
+				$values[] = $snak->getDataValue();
 			}
 		}
 

@@ -141,6 +141,9 @@ class ShowFullDokuTest extends TestCase {
 
 					new Statement( new PropertyValueSnak( new PropertyId( 'P10' ), new StringValue( 'Der bevorzugte Name einer Person setzt ...' ) ) ),
 					new Statement( new PropertyValueSnak( new PropertyId( 'P10' ), new StringValue( 'Das Unterfeld für unterscheidende Zusätze ...' ) ) ),
+
+					new Statement( new PropertyValueSnak( new PropertyId( 'P11' ), new EntityIdValue( new ItemId( 'Q262' ) ) ) ),
+					new Statement( new PropertyValueSnak( new PropertyId( 'P11' ), new EntityIdValue( new ItemId( 'Q1330' ) ) ) ),
 				)
 			)
 		];
@@ -191,6 +194,11 @@ class ShowFullDokuTest extends TestCase {
 		$gndField->rulesOfUse = [
 			'Der bevorzugte Name einer Person setzt ...',
 			'Das Unterfeld für unterscheidende Zusätze ...',
+		];
+
+		$gndField->examples = [
+			'Q262' => '', // TODO
+			'Q1330' => ''
 		];
 
 		$this->assertEquals(
@@ -255,6 +263,7 @@ class ShowFullDokuTest extends TestCase {
 		$this->assertSame( [], $fields[0]->subfields );
 		$this->assertSame( [], $fields[0]->validation );
 		$this->assertSame( [], $fields[0]->rulesOfUse );
+		$this->assertSame( [], $fields[0]->examples );
 	}
 
 }
