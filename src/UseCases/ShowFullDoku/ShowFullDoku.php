@@ -94,6 +94,7 @@ class ShowFullDoku {
 		$field->isRepeatable = $this->getIsRepeatableFromProperty( $property );
 		$field->subfields = $this->getSubfieldsFromProperty( $property );
 		$field->validation = $this->getStringValuesFromProperty( $property, self::VALIDATION_PROPERTY );
+		$field->rulesOfUse = $this->getStringValuesFromProperty( $property, self::RULES_OF_USE_PROPERTY );
 
 		return $field;
 	}

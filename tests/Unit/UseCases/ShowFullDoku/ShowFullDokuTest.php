@@ -138,6 +138,9 @@ class ShowFullDokuTest extends TestCase {
 
 					new Statement( new PropertyValueSnak( new PropertyId( 'P9' ), new StringValue( 'Das Feld ist für die Satzart Personen ...' ) ) ),
 					new Statement( new PropertyValueSnak( new PropertyId( 'P9' ), new StringValue( 'Im Feld muss mindestens das Unterfeld ...' ) ) ),
+
+					new Statement( new PropertyValueSnak( new PropertyId( 'P10' ), new StringValue( 'Der bevorzugte Name einer Person setzt ...' ) ) ),
+					new Statement( new PropertyValueSnak( new PropertyId( 'P10' ), new StringValue( 'Das Unterfeld für unterscheidende Zusätze ...' ) ) ),
 				)
 			)
 		];
@@ -183,6 +186,11 @@ class ShowFullDokuTest extends TestCase {
 		$gndField->validation = [
 			'Das Feld ist für die Satzart Personen ...',
 			'Im Feld muss mindestens das Unterfeld ...',
+		];
+
+		$gndField->rulesOfUse = [
+			'Der bevorzugte Name einer Person setzt ...',
+			'Das Unterfeld für unterscheidende Zusätze ...',
 		];
 
 		$this->assertEquals(
@@ -245,6 +253,8 @@ class ShowFullDokuTest extends TestCase {
 		$this->assertSame( [], $fields[0]->codings );
 		$this->assertFalse( $fields[0]->isRepeatable );
 		$this->assertSame( [], $fields[0]->subfields );
+		$this->assertSame( [], $fields[0]->validation );
+		$this->assertSame( [], $fields[0]->rulesOfUse );
 	}
 
 }
