@@ -21,14 +21,14 @@ class GndSubfield {
 	private array $possibleValues;
 
 	/**
-	 * @var array<int, Reference>
+	 * @var array<int, GndReference>
 	 */
 	private array $references;
 
 	/**
 	 * @param array<string, string> $codings Example: [ "PICA+" => "$0 Position 2" ]
 	 * @param array<string, string> $possibleValues Example: [ "Q17" => "Person" ]
-	 * @param array<int, Reference> $references
+	 * @param array<int, GndReference> $references
 	 */
 	public function __construct(
 		string $id,
@@ -73,7 +73,7 @@ class GndSubfield {
 	}
 
 	/**
-	 * @return Reference[]
+	 * @return GndReference[]
 	 */
 	public function getReferences(): array {
 		return $this->references;

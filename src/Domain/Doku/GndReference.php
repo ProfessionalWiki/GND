@@ -4,7 +4,7 @@ declare( strict_types = 1 );
 
 namespace DNB\GND\Domain\Doku;
 
-class Reference {
+class GndReference {
 
 	private string $name;
 	private ?string $uri;

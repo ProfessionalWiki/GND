@@ -6,7 +6,7 @@ namespace DNB\GND\Adapters\Presentation;
 
 use DNB\GND\Domain\Doku\GndField;
 use DNB\GND\Domain\Doku\GndSubfield;
-use DNB\GND\Domain\Doku\Reference;
+use DNB\GND\Domain\Doku\GndReference;
 
 class GndDokuSerializer {
 
@@ -69,7 +69,7 @@ class GndDokuSerializer {
 
 	private function referencesToArray( GndSubfield $subfield ): array {
 		return array_map(
-			fn( Reference $reference ) => [
+			fn( GndReference $reference ) => [
 				'name' => $reference->getName(),
 				'URI' => $reference->getUri(),
 			],

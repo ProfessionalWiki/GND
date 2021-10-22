@@ -10,7 +10,7 @@ use DNB\GND\Adapters\DataAccess\GndConverterItemSource;
 use DNB\GND\Adapters\Presentation\GndDokuSerializer;
 use DNB\GND\Domain\Doku\GndField;
 use DNB\GND\Domain\Doku\GndSubfield;
-use DNB\GND\Domain\Doku\Reference;
+use DNB\GND\Domain\Doku\GndReference;
 use DNB\GND\Domain\ItemSource;
 use DNB\GND\Tests\TestDoubles\StubDataTypeLookup;
 use PHPUnit\Framework\TestCase;
@@ -20,7 +20,7 @@ use SplFileObject;
  * @covers \DNB\GND\Adapters\Presentation\GndDokuSerializer
  * @covers \DNB\GND\Domain\Doku\GndField
  * @covers \DNB\GND\Domain\Doku\GndSubfield
- * @covers \DNB\GND\Domain\Doku\Reference
+ * @covers \DNB\GND\Domain\Doku\GndReference
  */
 class GndDokuSerializerTest extends TestCase {
 
@@ -52,8 +52,8 @@ class GndDokuSerializerTest extends TestCase {
 				],
 				[],
 				[
-					new Reference( 'EH-P-15: Notnamen', 'https://wiki.dnb.de/download/attachments/90411361/EH-P-15.pdf?version=15&modificationDate=1443175739000&api=v2' ),
-					new Reference( 'Example with no URI', null ),
+					new GndReference( 'EH-P-15: Notnamen', 'https://wiki.dnb.de/download/attachments/90411361/EH-P-15.pdf?version=15&modificationDate=1443175739000&api=v2' ),
+					new GndReference( 'Example with no URI', null ),
 				]
 			),
 			new GndSubfield(

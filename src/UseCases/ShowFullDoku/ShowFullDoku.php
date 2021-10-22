@@ -8,12 +8,14 @@ use DataValues\BooleanValue;
 use DataValues\DataValue;
 use DataValues\StringValue;
 use DNB\GND\Domain\Doku\GndField;
+use DNB\GND\Domain\Doku\GndReference;
 use DNB\GND\Domain\Doku\GndSubfield;
 use DNB\GND\Domain\PropertyCollectionLookup;
 use Wikibase\DataModel\Entity\EntityIdValue;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Entity\Property;
 use Wikibase\DataModel\Entity\PropertyId;
+use Wikibase\DataModel\Reference;
 use Wikibase\DataModel\Services\Lookup\ItemLookup;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
 use Wikibase\DataModel\Snak\Snak;
@@ -35,6 +37,8 @@ class ShowFullDoku {
 
 	private const SUBFIELDS_PROPERTY = 'P15';
 	private const SUBFIELD_DESCRIPTION_PROPERTY = 'P7';
+	private const SUBFIELD_REF_NAME_PROP = 'P20';
+	private const SUBFIELD_REF_URI_PROP = 'P57';
 
 	private const DEFINITION_PROPERTY = 'P1';
 	private const REPEATABLE_PROPERTY = 'P12';
@@ -189,7 +193,7 @@ class ShowFullDoku {
 					$this->getQualifierValue( $statement, self::SUBFIELD_DESCRIPTION_PROPERTY ) ?? '',
 					[], // TODO
 					[], // TODO
-					[] // TODO
+					$this->referencesFromStatement( $statement )
 				);
 			}
 		}
@@ -214,6 +218,51 @@ class ShowFullDoku {
 		}
 
 		return null;
+	}
+
+	private function referencesFromStatement( Statement $statement ): array {
+		$references = [];
+
+		/**
+		 * @var Reference $reference
+		 */
+		foreach ( $statement->getReferences() as $reference ) {
+			$references[] = $this->wikibaseReferenceToGndReference( $reference );
+		}
+
+		return $references;
+	}
+
+	private function wikibaseReferenceToGndReference( Reference $reference ): ?GndReference {
+		$valuesById = $this->getSnakValuesByPropertyId( $reference->getSnaks() );
+
+		if ( array_key_exists( self::SUBFIELD_REF_NAME_PROP, $valuesById ) ) {
+			$nameValue = $valuesById[self::SUBFIELD_REF_NAME_PROP];
+
+			if ( $nameValue instanceof StringValue ) {
+				return new GndReference(
+					$nameValue->getValue(),
+					array_key_exists( self::SUBFIELD_REF_URI_PROP, $valuesById ) ? $valuesById[self::SUBFIELD_REF_URI_PROP]->getValue() : null
+				);
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * @return array<string, DataValue>
+	 */
+	private function getSnakValuesByPropertyId( SnakList $snaks ): array {
+		$valuesById = [];
+
+		foreach ( $snaks as $snak ) {
+			if ( $snak instanceof PropertyValueSnak ) {
+				$valuesById[$snak->getPropertyId()->getSerialization()] = $snak->getDataValue();
+			}
+		}
+
+		return $valuesById;
 	}
 
 }

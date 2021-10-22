@@ -8,7 +8,7 @@ use DataValues\BooleanValue;
 use DataValues\StringValue;
 use DNB\GND\Domain\Doku\GndField;
 use DNB\GND\Domain\Doku\GndSubfield;
-use DNB\GND\Domain\Doku\Reference;
+use DNB\GND\Domain\Doku\GndReference;
 use DNB\GND\Domain\PropertyCollection;
 use DNB\GND\UseCases\ShowFullDoku\ShowFullDoku;
 use DNB\GND\Tests\TestDoubles\SpyFullDokuPresenter;
@@ -19,6 +19,8 @@ use Wikibase\DataModel\Entity\Item;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Entity\Property;
 use Wikibase\DataModel\Entity\PropertyId;
+use Wikibase\DataModel\Reference;
+use Wikibase\DataModel\ReferenceList;
 use Wikibase\DataModel\Services\Lookup\InMemoryEntityLookup;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
 use Wikibase\DataModel\Snak\SnakList;
@@ -116,6 +118,15 @@ class ShowFullDokuTest extends TestCase {
 						new SnakList( [
 							new PropertyValueSnak( new PropertyId( 'P12' ), new BooleanValue( false ) ),
 							new PropertyValueSnak( new PropertyId( 'P7' ), new StringValue( 'Hinweis zur Erfassung von Personen' ) ),
+						] ),
+						new ReferenceList( [
+							new Reference( [
+								new PropertyValueSnak( new PropertyId( 'P20' ), new StringValue( 'EH-P-15: Notnamen' ) ),
+								new PropertyValueSnak( new PropertyId( 'P57' ), new StringValue( 'https://wiki.dnb.de/download/attachments/90411361/EH-P-15.pdf' ) ),
+							] ),
+							new Reference( [
+								new PropertyValueSnak( new PropertyId( 'P20' ), new StringValue( 'Example with no URI' ) ),
+							] )
 						] )
 					),
 					new Statement(
@@ -150,6 +161,8 @@ class ShowFullDokuTest extends TestCase {
 				],
 				[],
 				[
+					new GndReference( 'EH-P-15: Notnamen', 'https://wiki.dnb.de/download/attachments/90411361/EH-P-15.pdf' ),
+					new GndReference( 'Example with no URI', null ),
 				]
 			),
 			new GndSubfield(
