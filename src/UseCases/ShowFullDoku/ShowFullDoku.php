@@ -179,7 +179,7 @@ class ShowFullDoku {
 					$mainValue->getEntityId()->getSerialization(),
 					$this->getPropertyLabel( $mainValue->getEntityId(), $languageCode ),
 					$this->getQualifierValue( $statement, self::SUBFIELD_DESCRIPTION_PROPERTY ) ?? '',
-					[], // TODO
+					$this->getSubfieldCodings( $mainValue->getEntityId() ),
 					[], // TODO
 					$this->referencesFromStatement( $statement )
 				);
@@ -214,6 +214,17 @@ class ShowFullDoku {
 		}
 
 		return null;
+	}
+
+	/**
+	 * @return array<string, string>
+	 */
+	private function getSubfieldCodings( PropertyId $propertyId ): array {
+		if ( $this->getProperties()->hasId( $propertyId ) ) {
+			return $this->getCodingsFromProperty( $this->getProperties()->getById( $propertyId ) );
+		}
+
+		return [];
 	}
 
 	private function referencesFromStatement( Statement $statement ): array {

@@ -162,6 +162,26 @@ class ShowFullDokuTest extends TestCase {
 					] ),
 				),
 				'string',
+				new StatementList(
+					new Statement(
+						new PropertyValueSnak( new PropertyId( 'P4' ), new StringValue( '$P' ) ),
+						new SnakList( [
+							new PropertyValueSnak( new PropertyId( 'P3' ), new EntityIdValue( new ItemId( 'Q1317' ) ) )
+						] )
+					),
+					new Statement(
+						new PropertyValueSnak( new PropertyId( 'P4' ), new StringValue( '$a' ) ),
+						new SnakList( [
+							new PropertyValueSnak( new PropertyId( 'P3' ), new EntityIdValue( new ItemId( 'Q1320' ) ) )
+						] )
+					),
+					new Statement(
+						new PropertyValueSnak( new PropertyId( 'P4' ), new StringValue( '$P' ) ),
+						new SnakList( [
+							new PropertyValueSnak( new PropertyId( 'P3' ), new EntityIdValue( new ItemId( 'Q1316' ) ) )
+						] )
+					),
+				)
 			),
 			new Property(
 				new PropertyId( 'P21' ),
@@ -212,6 +232,9 @@ class ShowFullDokuTest extends TestCase {
 				"Persönlicher Name",
 				"Hinweis zur Erfassung von Personen",
 				[
+					'PICA+' => '$P',
+					'MARC 21' => '$a',
+					'PICA3' => '$P',
 				],
 				[],
 				[
