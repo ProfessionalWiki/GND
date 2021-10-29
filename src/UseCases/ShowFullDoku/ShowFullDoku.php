@@ -42,6 +42,7 @@ class ShowFullDoku {
 	private const SUBFIELD_DESCRIPTION_PROPERTY = 'P7';
 	private const SUBFIELD_REF_NAME_PROP = 'P20';
 	private const SUBFIELD_REF_URI_PROP = 'P57';
+	private const SUBFIELD_ALLOWED_VALUES_PROP = 'P8';
 
 	private const DEFINITION_PROPERTY = 'P1';
 	private const REPEATABLE_PROPERTY = 'P12';
@@ -180,13 +181,50 @@ class ShowFullDoku {
 					$this->getPropertyLabel( $mainValue->getEntityId(), $languageCode ),
 					$this->getQualifierValue( $statement, self::SUBFIELD_DESCRIPTION_PROPERTY ) ?? '',
 					$this->getSubfieldCodings( $mainValue->getEntityId() ),
-					[], // TODO
+					$this->getAllowedValuesFromStatement( $statement, $languageCode ),
 					$this->referencesFromStatement( $statement )
 				);
 			}
 		}
 
 		return null;
+	}
+
+	private function getAllowedValuesFromStatement( Statement $statement, string $languageCode ): array {
+		$qualifierValues = $this->getAllValuesForPropertyId(
+			$statement->getQualifiers(),
+			new PropertyId( self::SUBFIELD_ALLOWED_VALUES_PROP )
+		);
+
+		$allowedValues = [];
+
+		foreach ( $qualifierValues as $dataValue ) {
+			if ( $dataValue instanceof EntityIdValue ) {
+				$allowedValues[$dataValue->getEntityId()->serialize()] = $this->getItemLabel(
+					$dataValue->getEntityId()->serialize(),
+					$languageCode
+				) ?? $dataValue->getEntityId()->serialize();
+			}
+		}
+
+		return $allowedValues;
+	}
+
+	/**
+	 * @return array<int, DataValue>
+	 */
+	private function getAllValuesForPropertyId( SnakList $snaks, PropertyId $id ): array {
+		$values = [];
+
+		foreach ( $snaks as $snak ) {
+			if ( $snak instanceof PropertyValueSnak ) {
+				if ( $snak->getPropertyId()->equals( $id ) ) {
+					$values[] = $snak->getDataValue();
+				}
+			}
+		}
+
+		return $values;
 	}
 
 	private function getPropertyLabel( PropertyId $id, string $languageCode ): string {

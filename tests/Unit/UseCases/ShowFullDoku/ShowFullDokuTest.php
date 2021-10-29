@@ -141,6 +141,14 @@ class ShowFullDokuTest extends TestCase {
 					new Statement(
 						new PropertyValueSnak( new PropertyId( 'P15' ), new EntityIdValue( new PropertyId( 'P404' ) ) ),
 					),
+					new Statement(
+						new PropertyValueSnak( new PropertyId( 'P15' ), new EntityIdValue( new PropertyId( 'P61' ) ) ),
+						new SnakList( [
+							new PropertyValueSnak( new PropertyId( 'P8' ), new EntityIdValue( new ItemId( 'Q17' ) ) ),
+							new PropertyValueSnak( new PropertyId( 'P8' ), new EntityIdValue( new ItemId( 'Q151' ) ) ),
+							new PropertyValueSnak( new PropertyId( 'P8' ), new EntityIdValue( new ItemId( 'Q404' ) ) ),
+						] )
+					),
 
 					new Statement( new PropertyValueSnak( new PropertyId( 'P9' ), new StringValue( 'Das Feld ist für die Satzart Personen ...' ) ) ),
 					new Statement( new PropertyValueSnak( new PropertyId( 'P9' ), new StringValue( 'Im Feld muss mindestens das Unterfeld ...' ) ) ),
@@ -211,6 +219,22 @@ class ShowFullDokuTest extends TestCase {
 						new Term( self::LANG_CODE, 'Hadley Hemingway Mowrer' ),
 					] )
 				)
+			),
+			new Item(
+				new ItemId( 'Q17' ),
+				new Fingerprint(
+					new TermList( [
+						new Term( self::LANG_CODE, 'Person' ),
+					] )
+				)
+			),
+			new Item(
+				new ItemId( 'Q151' ),
+				new Fingerprint(
+					new TermList( [
+						new Term( 'wrong', 'Corporate body' ),
+					] )
+				)
 			)
 		];
 
@@ -246,19 +270,28 @@ class ShowFullDokuTest extends TestCase {
 				"P21",
 				"P21",
 				"",
-				[
-				],
-				[
-				],
+				[],
+				[],
 				[]
 			),
 			new GndSubfield(
 				"P404",
 				"P404",
 				"",
+				[],
+				[],
+				[]
+			),
+			new GndSubfield(
+				"P61",
+				"P61",
+				"",
 				[
 				],
 				[
+					'Q17' => 'Person',
+					'Q151' => 'Q151',
+					'Q404' => 'Q404',
 				],
 				[]
 			)
