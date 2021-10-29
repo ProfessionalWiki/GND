@@ -41,12 +41,7 @@
 
 	"RestRoutes": [
 		{
-			"path": "/gnd/doku/v1",
-			"method": "GET",
-			"factory": "DNB\\GND\\DokuApi::factory"
-		},
-		{
-			"path": "/gnd/doku/v1/{property_id}",
+			"path": "/gnd/doku/v1/datafields",
 			"method": "GET",
 			"factory": "DNB\\GND\\DokuApi::factory"
 		}
