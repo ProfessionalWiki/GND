@@ -31,4 +31,8 @@ class PropertyCollection {
 		return $this->properties[$id->serialize()];
 	}
 
+	public function hasId( PropertyId $id ) {
+		return array_key_exists( $id->serialize(), $this->properties );
+	}
+
 }

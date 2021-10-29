@@ -22,6 +22,9 @@ use Wikibase\DataModel\Snak\PropertyValueSnak;
 use Wikibase\DataModel\Snak\SnakList;
 use Wikibase\DataModel\Statement\Statement;
 
+/**
+ * TODO: $languageCode is passed around a lot: suggests extract class refactoring
+ */
 class ShowFullDoku {
 
 	private const ELEMENT_OF_PROPERTY = 'P2';
@@ -174,7 +177,7 @@ class ShowFullDoku {
 			if ( $mainValue instanceof EntityIdValue ) {
 				return new GndSubfield(
 					$mainValue->getEntityId()->getSerialization(),
-					$this->getProperties()->getById( $mainValue->getEntityId() )->getLabels()->toTextArray()[$languageCode] ?? '',
+					$this->getPropertyLabel( $mainValue->getEntityId(), $languageCode ),
 					$this->getQualifierValue( $statement, self::SUBFIELD_DESCRIPTION_PROPERTY ) ?? '',
 					[], // TODO
 					[], // TODO
@@ -184,6 +187,14 @@ class ShowFullDoku {
 		}
 
 		return null;
+	}
+
+	private function getPropertyLabel( PropertyId $id, string $languageCode ): string {
+		if ( $this->getProperties()->hasId( $id ) ) {
+			return $this->getProperties()->getById( $id )->getLabels()->toTextArray()[$languageCode] ?? $id->serialize();
+		}
+
+		return $id->serialize();
 	}
 
 	/**

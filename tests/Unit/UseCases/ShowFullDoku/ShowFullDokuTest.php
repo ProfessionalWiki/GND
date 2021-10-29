@@ -138,6 +138,9 @@ class ShowFullDokuTest extends TestCase {
 							new PropertyValueSnak( new PropertyId( 'P12' ), new BooleanValue( false ) ),
 						] )
 					),
+					new Statement(
+						new PropertyValueSnak( new PropertyId( 'P15' ), new EntityIdValue( new PropertyId( 'P404' ) ) ),
+					),
 
 					new Statement( new PropertyValueSnak( new PropertyId( 'P9' ), new StringValue( 'Das Feld ist für die Satzart Personen ...' ) ) ),
 					new Statement( new PropertyValueSnak( new PropertyId( 'P9' ), new StringValue( 'Im Feld muss mindestens das Unterfeld ...' ) ) ),
@@ -218,7 +221,17 @@ class ShowFullDokuTest extends TestCase {
 			),
 			new GndSubfield(
 				"P21",
+				"P21",
 				"",
+				[
+				],
+				[
+				],
+				[]
+			),
+			new GndSubfield(
+				"P404",
+				"P404",
 				"",
 				[
 				],
