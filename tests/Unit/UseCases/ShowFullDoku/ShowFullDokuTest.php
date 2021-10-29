@@ -149,6 +149,25 @@ class ShowFullDokuTest extends TestCase {
 					new Statement( new PropertyValueSnak( new PropertyId( 'P11' ), new EntityIdValue( new ItemId( 'Q1330' ) ) ) ),
 					new Statement( new PropertyValueSnak( new PropertyId( 'P11' ), new EntityIdValue( new ItemId( 'Q404' ) ) ) ),
 				)
+			),
+
+			new Property(
+				new PropertyId( 'P41' ),
+				new Fingerprint(
+					new TermList( [
+						new Term( self::LANG_CODE, 'Persönlicher Name' ),
+					] ),
+				),
+				'string',
+			),
+			new Property(
+				new PropertyId( 'P21' ),
+				new Fingerprint(
+					new TermList( [
+						new Term( 'WRONG', 'Surname' ),
+					] ),
+				),
+				'string',
 			)
 		];
 
@@ -187,7 +206,7 @@ class ShowFullDokuTest extends TestCase {
 		$gndField->subfields = [
 			new GndSubfield(
 				"P41",
-				"",
+				"Persönlicher Name",
 				"Hinweis zur Erfassung von Personen",
 				[
 				],

@@ -10,6 +10,7 @@ use DataValues\StringValue;
 use DNB\GND\Domain\Doku\GndField;
 use DNB\GND\Domain\Doku\GndReference;
 use DNB\GND\Domain\Doku\GndSubfield;
+use DNB\GND\Domain\PropertyCollection;
 use DNB\GND\Domain\PropertyCollectionLookup;
 use Wikibase\DataModel\Entity\EntityIdValue;
 use Wikibase\DataModel\Entity\ItemId;
@@ -49,6 +50,7 @@ class ShowFullDoku {
 	private FullDokuPresenter $presenter;
 	private PropertyCollectionLookup $propertyLookup;
 	private ItemLookup $itemLookup;
+	private PropertyCollection $properties;
 
 	public function __construct( FullDokuPresenter $presenter, PropertyCollectionLookup $propertyLookup, ItemLookup $itemLookup ) {
 		$this->presenter = $presenter;
@@ -62,9 +64,7 @@ class ShowFullDoku {
 		 */
 		$gndFields = [];
 
-		$properties = $this->propertyLookup->getProperties();
-
-		foreach ( $properties->asArray() as $property ) {
+		foreach ( $this->getProperties()->asArray() as $property ) {
 			$field = $this->propertyToGndField( $property, $languageCode );
 
 			if ( $field !== null ) {
@@ -73,6 +73,11 @@ class ShowFullDoku {
 		}
 
 		$this->presenter->present( $gndFields );
+	}
+
+	private function getProperties(): PropertyCollection {
+		$this->properties ??= $this->propertyLookup->getProperties();
+		return $this->properties;
 	}
 
 	private function propertyToGndField( Property $property, string $languageCode ): ?GndField {
@@ -91,7 +96,7 @@ class ShowFullDoku {
 		$field->definition = $this->getStringValuesFromProperty( $property, self::DEFINITION_PROPERTY )[0] ?? '';
 		$field->codings = $this->getCodingsFromProperty( $property );
 		$field->isRepeatable = $this->getIsRepeatableFromProperty( $property );
-		$field->subfields = $this->getSubfieldsFromProperty( $property );
+		$field->subfields = $this->getSubfieldsFromProperty( $property, $languageCode );
 		$field->validation = $this->getStringValuesFromProperty( $property, self::VALIDATION_PROPERTY );
 		$field->rulesOfUse = $this->getStringValuesFromProperty( $property, self::RULES_OF_USE_PROPERTY );
 		$field->examples = $this->getExamplesFromProperty( $property, $languageCode );
@@ -150,17 +155,17 @@ class ShowFullDoku {
 	/**
 	 * @return array<int, GndSubfield>
 	 */
-	private function getSubfieldsFromProperty( Property $property ): array {
+	private function getSubfieldsFromProperty( Property $property, string $languageCode ): array {
 		return array_filter(
 			array_map(
-				fn( Statement $statement ) => $this->statementToSubfield( $statement ),
+				fn( Statement $statement ) => $this->statementToSubfield( $statement, $languageCode ),
 				$property->getStatements()->getByPropertyId( new PropertyId( self::SUBFIELDS_PROPERTY ) )->toArray()
 			),
 			fn ( ?GndSubfield $subfield ) => $subfield !== null
 		);
 	}
 
-	private function statementToSubfield( Statement $statement ): ?GndSubfield {
+	private function statementToSubfield( Statement $statement, string $languageCode ): ?GndSubfield {
 		$mainSnak = $statement->getMainSnak();
 
 		if ( $mainSnak instanceof PropertyValueSnak ) {
@@ -169,7 +174,7 @@ class ShowFullDoku {
 			if ( $mainValue instanceof EntityIdValue ) {
 				return new GndSubfield(
 					$mainValue->getEntityId()->getSerialization(),
-					'', // TODO
+					$this->getProperties()->getById( $mainValue->getEntityId() )->getLabels()->toTextArray()[$languageCode] ?? '',
 					$this->getQualifierValue( $statement, self::SUBFIELD_DESCRIPTION_PROPERTY ) ?? '',
 					[], // TODO
 					[], // TODO
