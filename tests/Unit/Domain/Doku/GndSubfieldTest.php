@@ -20,7 +20,8 @@ class GndSubfieldTest extends TestCase {
 			'desc',
 			[],
 			[],
-			[ 'not a reference' ]
+			[ 'not a reference' ],
+			true
 		);
 	}
 
@@ -32,7 +33,8 @@ class GndSubfieldTest extends TestCase {
 			'desc',
 			[ 'value' ],
 			[],
-			[]
+			[],
+			true
 		);
 	}
 
@@ -44,7 +46,8 @@ class GndSubfieldTest extends TestCase {
 			'desc',
 			[ 'string key' => 32202 ],
 			[],
-			[]
+			[],
+			true
 		);
 	}
 
@@ -56,7 +59,8 @@ class GndSubfieldTest extends TestCase {
 			'desc',
 			[],
 			[ 'value' ],
-			[]
+			[],
+			true
 		);
 	}
 
@@ -68,7 +72,8 @@ class GndSubfieldTest extends TestCase {
 			'desc',
 			[],
 			[ 'string key' => 32202 ],
-			[]
+			[],
+			true
 		);
 	}
 

@@ -58,6 +58,7 @@ class GndDokuSerializer {
 				'codings' => $subfield->getCodings(),
 				'allowedValues' => $subfield->getPossibleValues(),
 				'references' => $this->referencesToArray( $subfield ),
+				'repeatable' => $subfield->isRepeatable(),
 
 				'viewLink' => str_replace( '$1', $subfield->getId(), self::PROPERTY_VIEW_URL ),
 				'editLink' => str_replace( '$1', $subfield->getId(), self::PROPERTY_EDIT_URL )

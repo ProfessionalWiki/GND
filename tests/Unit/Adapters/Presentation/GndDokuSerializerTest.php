@@ -54,7 +54,8 @@ class GndDokuSerializerTest extends TestCase {
 				[
 					new GndReference( 'EH-P-15: Notnamen', 'https://wiki.dnb.de/download/attachments/90411361/EH-P-15.pdf?version=15&modificationDate=1443175739000&api=v2' ),
 					new GndReference( 'Example with no URI', null ),
-				]
+				],
+				false
 			),
 			new GndSubfield(
 				"P21",
@@ -69,7 +70,8 @@ class GndDokuSerializerTest extends TestCase {
 					"Q17" => "Person",
 					"Q155" => "Werk",
 				],
-				[]
+				[],
+				true
 			)
 		];
 
@@ -127,6 +129,7 @@ class GndDokuSerializerTest extends TestCase {
 						"URI": null
 					}
 				],
+				"repeatable": false,
 				"viewLink": "https://doku.wikibase.wiki/wiki/datafield?property=P41",
 				"editLink": "https://doku.wikibase.wiki/wiki/Property:P41"
 			},
@@ -143,6 +146,7 @@ class GndDokuSerializerTest extends TestCase {
 					"Q155": "Werk"
 				},
 				"references": [],
+				"repeatable": true,
 				"viewLink": "https://doku.wikibase.wiki/wiki/datafield?property=P21",
 				"editLink": "https://doku.wikibase.wiki/wiki/Property:P21"
 			}

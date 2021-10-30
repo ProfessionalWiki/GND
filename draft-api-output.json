@@ -32,6 +32,7 @@
 							"URI": null
 						}
 					],
+					"repeatable": false,
 					"viewLink": "https://doku.wikibase.wiki/wiki/datafield?property=P41",
 					"editLink": "https://doku.wikibase.wiki/wiki/Property:P41"
 				},
@@ -48,6 +49,7 @@
 						"Q155": "Werk"
 					},
 					"references": [],
+					"repeatable": true,
 					"viewLink": "https://doku.wikibase.wiki/wiki/datafield?property=P21",
 					"editLink": "https://doku.wikibase.wiki/wiki/Property:P21"
 				}

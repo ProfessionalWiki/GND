@@ -135,11 +135,15 @@ class ShowFullDokuTest extends TestCase {
 					new Statement(
 						new PropertyValueSnak( new PropertyId( 'P15' ), new EntityIdValue( new PropertyId( 'P21' ) ) ),
 						new SnakList( [
-							new PropertyValueSnak( new PropertyId( 'P12' ), new BooleanValue( false ) ),
+							new PropertyValueSnak( new PropertyId( 'P12' ), new BooleanValue( true ) ),
 						] )
 					),
 					new Statement(
 						new PropertyValueSnak( new PropertyId( 'P15' ), new EntityIdValue( new PropertyId( 'P404' ) ) ),
+
+						new SnakList( [
+							new PropertyValueSnak( new PropertyId( 'P12' ), new StringValue( 'Nein' ) ),
+						] )
 					),
 					new Statement(
 						new PropertyValueSnak( new PropertyId( 'P15' ), new EntityIdValue( new PropertyId( 'P61' ) ) ),
@@ -147,6 +151,8 @@ class ShowFullDokuTest extends TestCase {
 							new PropertyValueSnak( new PropertyId( 'P8' ), new EntityIdValue( new ItemId( 'Q17' ) ) ),
 							new PropertyValueSnak( new PropertyId( 'P8' ), new EntityIdValue( new ItemId( 'Q151' ) ) ),
 							new PropertyValueSnak( new PropertyId( 'P8' ), new EntityIdValue( new ItemId( 'Q404' ) ) ),
+
+							new PropertyValueSnak( new PropertyId( 'P12' ), new StringValue( 'Ja' ) ),
 						] )
 					),
 
@@ -264,7 +270,8 @@ class ShowFullDokuTest extends TestCase {
 				[
 					new GndReference( 'EH-P-15: Notnamen', 'https://wiki.dnb.de/download/attachments/90411361/EH-P-15.pdf' ),
 					new GndReference( 'Example with no URI', null ),
-				]
+				],
+				false
 			),
 			new GndSubfield(
 				"P21",
@@ -272,7 +279,8 @@ class ShowFullDokuTest extends TestCase {
 				"",
 				[],
 				[],
-				[]
+				[],
+				true
 			),
 			new GndSubfield(
 				"P404",
@@ -280,7 +288,8 @@ class ShowFullDokuTest extends TestCase {
 				"",
 				[],
 				[],
-				[]
+				[],
+				false
 			),
 			new GndSubfield(
 				"P61",
@@ -293,7 +302,8 @@ class ShowFullDokuTest extends TestCase {
 					'Q151' => 'Q151',
 					'Q404' => 'Q404',
 				],
-				[]
+				[],
+				true
 			)
 		];
 

@@ -25,6 +25,8 @@ class GndSubfield {
 	 */
 	private array $references;
 
+	private bool $isRepeatable;
+
 	/**
 	 * @param array<string, string> $codings Example: [ "PICA+" => "$0 Position 2" ]
 	 * @param array<string, string> $possibleValues Example: [ "Q17" => "Person" ]
@@ -36,7 +38,8 @@ class GndSubfield {
 		string $description,
 		array $codings,
 		array $possibleValues,
-		array $references
+		array $references,
+		bool $isRepeatable
 	) {
 		$this->assertStringToStringMap( $codings );
 		$this->assertStringToStringMap( $possibleValues );
@@ -48,6 +51,7 @@ class GndSubfield {
 		$this->codings = $codings;
 		$this->possibleValues = $possibleValues;
 		$this->references = $references;
+		$this->isRepeatable = $isRepeatable;
 	}
 
 	private function assertStringToStringMap( array $map ): void {
@@ -101,6 +105,10 @@ class GndSubfield {
 	 */
 	public function getReferences(): array {
 		return $this->references;
+	}
+
+	public function isRepeatable(): bool {
+		return $this->isRepeatable;
 	}
 
 }

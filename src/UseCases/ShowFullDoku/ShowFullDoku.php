@@ -148,12 +148,21 @@ class ShowFullDoku {
 
 	private function getIsRepeatableFromProperty( Property $property ): bool {
 		foreach ( $this->getMainSnakDataValues( $property, self::REPEATABLE_PROPERTY ) as $dataValue ) {
-			if ( $dataValue instanceof BooleanValue ) { // FIXME: this is actually a string value...
-				return $dataValue->getValue();
-			}
+			return $this->valueIsTrue( $dataValue );
 		}
 
 		return false;
+	}
+
+	private function valueIsTrue( DataValue $value ): bool {
+		if ( $value instanceof BooleanValue ) {
+			return $value->getValue();
+		}
+		if ( $value instanceof StringValue ) {
+			return strtolower( $value->getValue() ) === 'ja';
+		}
+
+		throw new \InvalidArgumentException();
 	}
 
 	/**
@@ -182,12 +191,23 @@ class ShowFullDoku {
 					$this->getQualifierValue( $statement, self::SUBFIELD_DESCRIPTION_PROPERTY ) ?? '',
 					$this->getSubfieldCodings( $mainValue->getEntityId() ),
 					$this->getAllowedValuesFromStatement( $statement, $languageCode ),
-					$this->referencesFromStatement( $statement )
+					$this->referencesFromStatement( $statement ),
+					$this->getIsRepeatableFromStatement( $statement )
 				);
 			}
 		}
 
 		return null;
+	}
+
+	private function getIsRepeatableFromStatement( Statement $statement ): bool {
+		$qualifiersById = $this->getSnakValuesByPropertyId( $statement->getQualifiers() );
+
+		if ( !array_key_exists( self::REPEATABLE_PROPERTY, $qualifiersById ) ) {
+			return false;
+		}
+
+		return $this->valueIsTrue( $qualifiersById[self::REPEATABLE_PROPERTY] );
 	}
 
 	private function getAllowedValuesFromStatement( Statement $statement, string $languageCode ): array {
