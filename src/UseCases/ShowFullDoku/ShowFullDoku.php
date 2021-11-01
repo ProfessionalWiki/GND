@@ -143,13 +143,6 @@ class ShowFullDoku {
 		return $codings;
 	}
 
-	private function newCodingType( string $typeItemId ): PropertyValueSnak {
-		return new PropertyValueSnak(
-			new PropertyId( self::CODING_TYPE_PROPERTY ),
-			new EntityIdValue( new ItemId( $typeItemId ) )
-		);
-	}
-
 	private function getIsRepeatableFromProperty( Property $property ): bool {
 		foreach ( $this->getMainSnakDataValues( $property, self::REPEATABLE_PROPERTY ) as $dataValue ) {
 			return $this->valueIsTrue( $dataValue );
