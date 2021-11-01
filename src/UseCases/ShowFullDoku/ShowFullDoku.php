@@ -19,7 +19,6 @@ use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\DataModel\Reference;
 use Wikibase\DataModel\Services\Lookup\ItemLookup;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
-use Wikibase\DataModel\Snak\SnakList;
 use Wikibase\DataModel\Statement\Statement;
 
 /**
@@ -198,7 +197,7 @@ class ShowFullDoku {
 	}
 
 	private function getIsRepeatableFromStatement( Statement $statement ): bool {
-		$qualifiersById = $this->getSnakValuesByPropertyId( $statement->getQualifiers() );
+		$qualifiersById = ( new Snaks( $statement->getQualifiers() ) )->getLastValueByPropertyId();
 
 		if ( !array_key_exists( self::REPEATABLE_PROPERTY, $qualifiersById ) ) {
 			return false;
@@ -208,8 +207,7 @@ class ShowFullDoku {
 	}
 
 	private function getAllowedValuesFromStatement( Statement $statement, string $languageCode ): array {
-		$qualifierValues = $this->getAllValuesForPropertyId(
-			$statement->getQualifiers(),
+		$qualifierValues = ( new Snaks( $statement->getQualifiers() ) )->getAllValuesForPropertyId(
 			new PropertyId( self::SUBFIELD_ALLOWED_VALUES_PROP )
 		);
 
@@ -225,23 +223,6 @@ class ShowFullDoku {
 		}
 
 		return $allowedValues;
-	}
-
-	/**
-	 * @return array<int, DataValue>
-	 */
-	private function getAllValuesForPropertyId( SnakList $snaks, PropertyId $id ): array {
-		$values = [];
-
-		foreach ( $snaks as $snak ) {
-			if ( $snak instanceof PropertyValueSnak ) {
-				if ( $snak->getPropertyId()->equals( $id ) ) {
-					$values[] = $snak->getDataValue();
-				}
-			}
-		}
-
-		return $values;
 	}
 
 	private function getPropertyLabel( PropertyId $id, string $languageCode ): string {
@@ -303,7 +284,7 @@ class ShowFullDoku {
 	}
 
 	private function wikibaseReferenceToGndReference( Reference $reference ): ?GndReference {
-		$valuesById = $this->getSnakValuesByPropertyId( $reference->getSnaks() );
+		$valuesById = ( new Snaks( $reference->getSnaks() ) )->getLastValueByPropertyId();
 
 		if ( array_key_exists( self::SUBFIELD_REF_DESCRIPTION_PROP, $valuesById ) ) {
 			$nameValue = $valuesById[self::SUBFIELD_REF_DESCRIPTION_PROP];
@@ -317,21 +298,6 @@ class ShowFullDoku {
 		}
 
 		return null;
-	}
-
-	/**
-	 * @return array<string, DataValue>
-	 */
-	private function getSnakValuesByPropertyId( SnakList $snaks ): array {
-		$valuesById = [];
-
-		foreach ( $snaks as $snak ) {
-			if ( $snak instanceof PropertyValueSnak ) {
-				$valuesById[$snak->getPropertyId()->getSerialization()] = $snak->getDataValue();
-			}
-		}
-
-		return $valuesById;
 	}
 
 	/**
