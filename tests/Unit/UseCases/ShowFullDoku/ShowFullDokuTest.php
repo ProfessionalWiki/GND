@@ -34,7 +34,8 @@ use Wikibase\DataModel\Term\TermList;
 
 /**
  * @covers \DNB\GND\UseCases\ShowFullDoku\ShowFullDoku
- * @covers \DNB\GND\UseCases\ShowFullDoku\Snaks
+ * @covers \DNB\GND\UseCases\ShowFullDoku\NiceSnaks
+ * @covers \DNB\GND\UseCases\ShowFullDoku\NiceStatement
  */
 class ShowFullDokuTest extends TestCase {
 

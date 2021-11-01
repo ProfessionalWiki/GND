@@ -12,7 +12,7 @@ use Wikibase\DataModel\Snak\SnakList;
 /**
  * Wrapper around SnakList that provides convenient generic accessor methods.
  */
-class Snaks {
+class NiceSnaks {
 
 	private SnakList $snaks;
 

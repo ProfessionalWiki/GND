@@ -128,7 +128,7 @@ class ShowFullDoku {
 		$codingStatements = $property->getStatements()->getByPropertyId( new PropertyId( self::CODINGS_PROPERTY ) );
 
 		foreach ( $codingStatements as $statement ) {
-			$codingType = $this->getQualifierValue( $statement, self::CODING_TYPE_PROPERTY );
+			$codingType = ( new NiceStatement( $statement ) )->getQualifierValue(self::CODING_TYPE_PROPERTY );
 
 			if ( $codingType instanceof EntityIdValue ) {
 				$codingTypeId = $codingType->getEntityId()->serialize();
@@ -184,7 +184,7 @@ class ShowFullDoku {
 				return new GndSubfield(
 					$mainValue->getEntityId()->getSerialization(),
 					$this->getPropertyLabel( $mainValue->getEntityId(), $languageCode ),
-					$this->getQualifierStringValue( $statement, self::SUBFIELD_DESCRIPTION_PROPERTY ) ?? '',
+					( new NiceStatement( $statement ) )->getQualifierStringValue( self::SUBFIELD_DESCRIPTION_PROPERTY ) ?? '',
 					$this->getSubfieldCodings( $mainValue->getEntityId() ),
 					$this->getAllowedValuesFromStatement( $statement, $languageCode ),
 					$this->referencesFromStatement( $statement ),
@@ -197,7 +197,7 @@ class ShowFullDoku {
 	}
 
 	private function getIsRepeatableFromStatement( Statement $statement ): bool {
-		$qualifiersById = ( new Snaks( $statement->getQualifiers() ) )->getLastValueByPropertyId();
+		$qualifiersById = ( new NiceSnaks( $statement->getQualifiers() ) )->getLastValueByPropertyId();
 
 		if ( !array_key_exists( self::REPEATABLE_PROPERTY, $qualifiersById ) ) {
 			return false;
@@ -207,7 +207,7 @@ class ShowFullDoku {
 	}
 
 	private function getAllowedValuesFromStatement( Statement $statement, string $languageCode ): array {
-		$qualifierValues = ( new Snaks( $statement->getQualifiers() ) )->getAllValuesForPropertyId(
+		$qualifierValues = ( new NiceSnaks( $statement->getQualifiers() ) )->getAllValuesForPropertyId(
 			new PropertyId( self::SUBFIELD_ALLOWED_VALUES_PROP )
 		);
 
@@ -231,28 +231,6 @@ class ShowFullDoku {
 		}
 
 		return $id->serialize();
-	}
-
-	private function getQualifierStringValue( Statement $statement, string $propertyId ): ?string {
-		$dataValue = $this->getQualifierValue( $statement, $propertyId );
-
-		if ( $dataValue instanceof StringValue ) {
-			return $dataValue->getValue();
-		}
-
-		return null;
-	}
-
-	private function getQualifierValue( Statement $statement, string $propertyId ): ?DataValue {
-		foreach ( $statement->getQualifiers() as $qualifier ) {
-			if ( $qualifier instanceof PropertyValueSnak ) {
-				if ( $qualifier->getPropertyId()->equals( new PropertyId( $propertyId ) ) ) {
-					return $qualifier->getDataValue();
-				}
-			}
-		}
-
-		return null;
 	}
 
 	/**
@@ -284,7 +262,7 @@ class ShowFullDoku {
 	}
 
 	private function wikibaseReferenceToGndReference( Reference $reference ): ?GndReference {
-		$valuesById = ( new Snaks( $reference->getSnaks() ) )->getLastValueByPropertyId();
+		$valuesById = ( new NiceSnaks( $reference->getSnaks() ) )->getLastValueByPropertyId();
 
 		if ( array_key_exists( self::SUBFIELD_REF_DESCRIPTION_PROP, $valuesById ) ) {
 			$nameValue = $valuesById[self::SUBFIELD_REF_DESCRIPTION_PROP];
