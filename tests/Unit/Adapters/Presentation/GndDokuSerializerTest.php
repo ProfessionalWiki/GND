@@ -121,12 +121,12 @@ class GndDokuSerializerTest extends TestCase {
 				"allowedValues": {},
 				"references": [
 					{
-						"name": "EH-P-15: Notnamen",
-						"URI": "https://wiki.dnb.de/download/attachments/90411361/EH-P-15.pdf?version=15&modificationDate=1443175739000&api=v2"
+						"description": "EH-P-15: Notnamen",
+						"URL": "https://wiki.dnb.de/download/attachments/90411361/EH-P-15.pdf?version=15&modificationDate=1443175739000&api=v2"
 					},
 					{
-						"name": "Example with no URI",
-						"URI": null
+						"description": "Example with no URI",
+						"URL": null
 					}
 				],
 				"repeatable": false,
