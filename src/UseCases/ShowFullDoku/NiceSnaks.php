@@ -7,6 +7,7 @@ namespace DNB\GND\UseCases\ShowFullDoku;
 use DataValues\DataValue;
 use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
+use Wikibase\DataModel\Snak\Snak;
 use Wikibase\DataModel\Snak\SnakList;
 
 /**
@@ -14,23 +15,29 @@ use Wikibase\DataModel\Snak\SnakList;
  */
 class NiceSnaks {
 
-	private SnakList $snaks;
+	/**
+	 * @var array<int, Snak>
+	 */
+	private array $snaks = [];
 
-	public function __construct( SnakList $snaks ) {
-		$this->snaks = $snaks;
+	/**
+	 * @param SnakList|Snak[] $snaks
+	 */
+	public function __construct( $snaks ) {
+		foreach ( $snaks as $snak ) {
+			$this->snaks[] = $snak;
+		}
 	}
 
 	/**
 	 * @return array<int, DataValue>
 	 */
-	public function getAllValuesForPropertyId( PropertyId $id ): array {
+	public function getDataValuesForPropertyId( PropertyId $id ): array {
 		$values = [];
 
-		foreach ( $this->snaks as $snak ) {
-			if ( $snak instanceof PropertyValueSnak ) {
-				if ( $snak->getPropertyId()->equals( $id ) ) {
-					$values[] = $snak->getDataValue();
-				}
+		foreach ( $this->getAllValueSnaks() as $snak ) {
+			if ( $snak->getPropertyId()->equals( $id ) ) {
+				$values[] = $snak->getDataValue();
 			}
 		}
 
@@ -40,16 +47,34 @@ class NiceSnaks {
 	/**
 	 * @return array<string, DataValue>
 	 */
-	public function getLastValueByPropertyId(): array {
+	public function getLastDataValueByPropertyId(): array {
 		$valuesById = [];
 
-		foreach ( $this->snaks as $snak ) {
-			if ( $snak instanceof PropertyValueSnak ) {
-				$valuesById[$snak->getPropertyId()->getSerialization()] = $snak->getDataValue();
-			}
+		foreach ( $this->getAllValueSnaks() as $snak ) {
+			$valuesById[$snak->getPropertyId()->getSerialization()] = $snak->getDataValue();
 		}
 
 		return $valuesById;
+	}
+
+	/**
+	 * @return array<int, DataValue>
+	 */
+	public function getAllDataValues(): array {
+		return array_map(
+			fn( PropertyValueSnak $snak ) => $snak->getDataValue(),
+			$this->getAllValueSnaks()
+		);
+	}
+
+	/**
+	 * @return array<int, PropertyValueSnak>
+	 */
+	public function getAllValueSnaks(): array {
+		return array_filter(
+			$this->snaks,
+			fn( Snak $snak ) => $snak instanceof PropertyValueSnak
+		);
 	}
 
 }

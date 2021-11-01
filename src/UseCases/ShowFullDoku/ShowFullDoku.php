@@ -197,7 +197,7 @@ class ShowFullDoku {
 	}
 
 	private function getIsRepeatableFromStatement( Statement $statement ): bool {
-		$qualifiersById = ( new NiceSnaks( $statement->getQualifiers() ) )->getLastValueByPropertyId();
+		$qualifiersById = ( new NiceSnaks( $statement->getQualifiers() ) )->getLastDataValueByPropertyId();
 
 		if ( !array_key_exists( self::REPEATABLE_PROPERTY, $qualifiersById ) ) {
 			return false;
@@ -207,7 +207,7 @@ class ShowFullDoku {
 	}
 
 	private function getAllowedValuesFromStatement( Statement $statement, string $languageCode ): array {
-		$qualifierValues = ( new NiceSnaks( $statement->getQualifiers() ) )->getAllValuesForPropertyId(
+		$qualifierValues = ( new NiceSnaks( $statement->getQualifiers() ) )->getDataValuesForPropertyId(
 			new PropertyId( self::SUBFIELD_ALLOWED_VALUES_PROP )
 		);
 
@@ -262,7 +262,7 @@ class ShowFullDoku {
 	}
 
 	private function wikibaseReferenceToGndReference( Reference $reference ): ?GndReference {
-		$valuesById = ( new NiceSnaks( $reference->getSnaks() ) )->getLastValueByPropertyId();
+		$valuesById = ( new NiceSnaks( $reference->getSnaks() ) )->getLastDataValueByPropertyId();
 
 		if ( array_key_exists( self::SUBFIELD_REF_DESCRIPTION_PROP, $valuesById ) ) {
 			$nameValue = $valuesById[self::SUBFIELD_REF_DESCRIPTION_PROP];
@@ -335,17 +335,8 @@ class ShowFullDoku {
 	 * @return array<int, DataValue>
 	 */
 	private function getMainSnakDataValues( Property $property, string $statementPropertyId ): array {
-		$values = [];
-
 		$snaks = $property->getStatements()->getByPropertyId( new PropertyId( $statementPropertyId ) )->getMainSnaks();
-
-		foreach ( $snaks as $snak ) {
-			if ( $snak instanceof PropertyValueSnak ) {
-				$values[] = $snak->getDataValue();
-			}
-		}
-
-		return $values;
+		return ( new NiceSnaks( $snaks ) )->getAllDataValues();
 	}
 
 }
