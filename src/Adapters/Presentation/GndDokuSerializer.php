@@ -71,8 +71,8 @@ class GndDokuSerializer {
 	private function referencesToArray( GndSubfield $subfield ): array {
 		return array_map(
 			fn( GndReference $reference ) => [
-				'name' => $reference->getName(),
-				'URI' => $reference->getUri(),
+				'name' => $reference->getDescription(),
+				'URI' => $reference->getUrl(),
 			],
 			$subfield->getReferences()
 		);

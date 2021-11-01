@@ -6,20 +6,20 @@ namespace DNB\GND\Domain\Doku;
 
 class GndReference {
 
-	private string $name;
-	private ?string $uri;
+	private string $description;
+	private ?string $url;
 
-	public function __construct( string $name, ?string $uri ) {
-		$this->name = $name;
-		$this->uri = $uri;
+	public function __construct( string $description, ?string $url ) {
+		$this->description = $description;
+		$this->url = $url;
 	}
 
-	public function getName(): string {
-		return $this->name;
+	public function getDescription(): string {
+		return $this->description;
 	}
 
-	public function getUri(): ?string {
-		return $this->uri;
+	public function getUrl(): ?string {
+		return $this->url;
 	}
 
 }

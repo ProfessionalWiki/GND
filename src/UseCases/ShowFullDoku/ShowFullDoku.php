@@ -40,8 +40,8 @@ class ShowFullDoku {
 
 	private const SUBFIELDS_PROPERTY = 'P15';
 	private const SUBFIELD_DESCRIPTION_PROPERTY = 'P7';
-	private const SUBFIELD_REF_NAME_PROP = 'P20';
-	private const SUBFIELD_REF_URI_PROP = 'P57';
+	private const SUBFIELD_REF_DESCRIPTION_PROP = 'P7';
+	private const SUBFIELD_REF_URL_PROP = 'P371';
 	private const SUBFIELD_ALLOWED_VALUES_PROP = 'P8';
 
 	private const DEFINITION_PROPERTY = 'P1';
@@ -305,13 +305,13 @@ class ShowFullDoku {
 	private function wikibaseReferenceToGndReference( Reference $reference ): ?GndReference {
 		$valuesById = $this->getSnakValuesByPropertyId( $reference->getSnaks() );
 
-		if ( array_key_exists( self::SUBFIELD_REF_NAME_PROP, $valuesById ) ) {
-			$nameValue = $valuesById[self::SUBFIELD_REF_NAME_PROP];
+		if ( array_key_exists( self::SUBFIELD_REF_DESCRIPTION_PROP, $valuesById ) ) {
+			$nameValue = $valuesById[self::SUBFIELD_REF_DESCRIPTION_PROP];
 
 			if ( $nameValue instanceof StringValue ) {
 				return new GndReference(
 					$nameValue->getValue(),
-					array_key_exists( self::SUBFIELD_REF_URI_PROP, $valuesById ) ? $valuesById[self::SUBFIELD_REF_URI_PROP]->getValue() : null
+					array_key_exists( self::SUBFIELD_REF_URL_PROP, $valuesById ) ? $valuesById[self::SUBFIELD_REF_URL_PROP]->getValue() : null
 				);
 			}
 		}

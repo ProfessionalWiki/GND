@@ -121,14 +121,14 @@ class ShowFullDokuTest extends TestCase {
 						] ),
 						new ReferenceList( [
 							new Reference( [
-								new PropertyValueSnak( new PropertyId( 'P20' ), new StringValue( 'EH-P-15: Notnamen' ) ),
-								new PropertyValueSnak( new PropertyId( 'P57' ), new StringValue( 'https://wiki.dnb.de/download/attachments/90411361/EH-P-15.pdf' ) ),
+								new PropertyValueSnak( new PropertyId( 'P7' ), new StringValue( 'EH-P-15: Notnamen' ) ),
+								new PropertyValueSnak( new PropertyId( 'P371' ), new StringValue( 'https://wiki.dnb.de/download/attachments/90411361/EH-P-15.pdf' ) ),
 							] ),
 							new Reference( [
-								new PropertyValueSnak( new PropertyId( 'P20' ), new StringValue( 'Example with no URI' ) ),
+								new PropertyValueSnak( new PropertyId( 'P7' ), new StringValue( 'Example with no URL' ) ),
 							] ),
 							new Reference( [
-								new PropertyValueSnak( new PropertyId( 'P100000' ), new StringValue( 'Missing P20' ) ),
+								new PropertyValueSnak( new PropertyId( 'P100000' ), new StringValue( 'Missing P7' ) ),
 							] )
 						] )
 					),
@@ -269,7 +269,7 @@ class ShowFullDokuTest extends TestCase {
 				[],
 				[
 					new GndReference( 'EH-P-15: Notnamen', 'https://wiki.dnb.de/download/attachments/90411361/EH-P-15.pdf' ),
-					new GndReference( 'Example with no URI', null ),
+					new GndReference( 'Example with no URL', null ),
 				],
 				false
 			),
