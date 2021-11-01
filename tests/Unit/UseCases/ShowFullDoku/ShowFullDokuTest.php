@@ -112,6 +112,12 @@ class ShowFullDokuTest extends TestCase {
 							new PropertyValueSnak( new PropertyId( 'P3' ), new EntityIdValue( new ItemId( 'Q1316' ) ) )
 						] )
 					),
+					new Statement(
+						new PropertyValueSnak( new PropertyId( 'P4' ), new StringValue( 'unknown coding type' ) ),
+						new SnakList( [
+							new PropertyValueSnak( new PropertyId( 'P3' ), new EntityIdValue( new ItemId( 'Q404' ) ) )
+						] )
+					),
 
 					new Statement(
 						new PropertyValueSnak( new PropertyId( 'P15' ), new EntityIdValue( new PropertyId( 'P41' ) ) ),

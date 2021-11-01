@@ -129,9 +129,13 @@ class ShowFullDoku {
 		$codingStatements = $property->getStatements()->getByPropertyId( new PropertyId( self::CODINGS_PROPERTY ) );
 
 		foreach ( $codingStatements as $statement ) {
-			foreach ( self::CODING_MAP as $codingItemId => $keyName ) {
-				if ( $statement->getQualifiers()->hasSnak( $this->newCodingType( $codingItemId ) ) ) {
-					$codings[$keyName] = $statement->getMainSnak()->getDataValue()->getValue();
+			$codingType = $this->getQualifierValue( $statement, self::CODING_TYPE_PROPERTY );
+
+			if ( $codingType instanceof EntityIdValue ) {
+				$codingTypeId = $codingType->getEntityId()->serialize();
+
+				if ( array_key_exists( $codingTypeId, self::CODING_MAP ) ) {
+					$codings[self::CODING_MAP[$codingTypeId]] = $statement->getMainSnak()->getDataValue()->getValue();
 				}
 			}
 		}
@@ -188,7 +192,7 @@ class ShowFullDoku {
 				return new GndSubfield(
 					$mainValue->getEntityId()->getSerialization(),
 					$this->getPropertyLabel( $mainValue->getEntityId(), $languageCode ),
-					$this->getQualifierValue( $statement, self::SUBFIELD_DESCRIPTION_PROPERTY ) ?? '',
+					$this->getQualifierStringValue( $statement, self::SUBFIELD_DESCRIPTION_PROPERTY ) ?? '',
 					$this->getSubfieldCodings( $mainValue->getEntityId() ),
 					$this->getAllowedValuesFromStatement( $statement, $languageCode ),
 					$this->referencesFromStatement( $statement ),
@@ -255,18 +259,21 @@ class ShowFullDoku {
 		return $id->serialize();
 	}
 
-	/**
-	 * @return mixed|null
-	 */
-	private function getQualifierValue( Statement $statement, string $propertyId ) {
+	private function getQualifierStringValue( Statement $statement, string $propertyId ): ?string {
+		$dataValue = $this->getQualifierValue( $statement, $propertyId );
+
+		if ( $dataValue instanceof StringValue ) {
+			return $dataValue->getValue();
+		}
+
+		return null;
+	}
+
+	private function getQualifierValue( Statement $statement, string $propertyId ): ?DataValue {
 		foreach ( $statement->getQualifiers() as $qualifier ) {
 			if ( $qualifier instanceof PropertyValueSnak ) {
 				if ( $qualifier->getPropertyId()->equals( new PropertyId( $propertyId ) ) ) {
-					$dataValue = $qualifier->getDataValue();
-
-					if ( $dataValue instanceof StringValue ) {
-						return $dataValue->getValue();
-					}
+					return $qualifier->getDataValue();
 				}
 			}
 		}
