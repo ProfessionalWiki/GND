@@ -57,12 +57,12 @@ GND import via `ImportGndDump.php`. Example:
 
     php extensions/GND/maintenance/ImportGndDump.php --path extensions/GND/data/GND.json --limit 10
 
+The import script expects a file with one JSON structure per line. Example of
+a valid file: https://github.com/ProfessionalWiki/GND/blob/master/tests/GND.json
+
 To see all availble options, run:
 
     php extensions/GND/maintenance/ImportGndDump.php --help
-    
-The import script expects a file with one JSON structure per line. Example of
-a valid file: https://github.com/ProfessionalWiki/GND/blob/master/tests/GND.json
 
 ## GND Vocabulary syncronisation
 
