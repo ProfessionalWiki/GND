@@ -57,6 +57,8 @@ GND import via `ImportGndDump.php`. Example:
 
     php extensions/GND/maintenance/ImportGndDump.php --path extensions/GND/data/GND.json --limit 10
 
+## GND Vocabulary syncronisation
+
 Doku-wiki vocabulary sync via `SyncDokuVocabulary`. Example:
 
     php extensions/GND/maintenance/SyncDokuVocabulary.php
