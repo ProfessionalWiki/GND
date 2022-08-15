@@ -17,6 +17,7 @@ use Wikibase\DataModel\Snak\PropertyValueSnak;
 use Wikibase\DataModel\Snak\SnakList;
 use Wikibase\DataModel\Statement\Statement;
 use Wikibase\DataModel\Statement\StatementList;
+use Wikibase\DataModel\Term\Fingerprint;
 
 /**
  * Builds a Wikibase Item (using the Wikibase DataModel classes) from
@@ -41,7 +42,7 @@ class ItemBuilder {
 
 		return new Item(
 			ItemId::newFromNumber( $id ),
-			null,
+			$this->fingerprintFromGndItem( $gndItem ),
 			null,
 			$this->statementsFromGndItem( $gndItem )
 		);
@@ -89,6 +90,20 @@ class ItemBuilder {
 				$this->propertyTypeLookup->getDataTypeIdForProperty( new PropertyId( $propertyId ) )
 			)
 		);
+	}
+
+	private function fingerprintFromGndItem( GndItem $gndItem ): Fingerprint {
+		$fingerprint = new Fingerprint();
+
+		$label = $gndItem->getGermanLabel();
+
+		if ( is_string( $label ) ) {
+			$fingerprint->setLabel( 'de', $label );
+		}
+
+		$fingerprint->setAliasGroup( 'de', $gndItem->getGermanAliases() );
+
+		return $fingerprint;
 	}
 
 }
