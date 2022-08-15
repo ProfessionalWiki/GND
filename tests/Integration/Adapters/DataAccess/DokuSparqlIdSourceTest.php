@@ -34,7 +34,7 @@ class DokuSparqlIdSourceTest extends TestCase {
 
 		$ids = $idSource->getVocabularyIds();
 
-		$this->assertSame( 'P101', $ids[0] );
+		$this->assertSame( 'P100', $ids[0] );
 	}
 
 }
