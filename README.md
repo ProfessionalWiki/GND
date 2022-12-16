@@ -1,6 +1,6 @@
 # GND MediaWiki extension
 
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ProfessionalWiki/GND/CI/master)](https://github.com/ProfessionalWiki/GND/actions?query=workflow%3ACI)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/ProfessionalWiki/GND/ci.yml?branch=master)](https://github.com/ProfessionalWiki/GND/actions?query=workflow%3ACI)
 [![codecov](https://codecov.io/gh/ProfessionalWiki/GND/branch/master/graph/badge.svg)](https://codecov.io/gh/ProfessionalWiki/GND)
 [![Latest Stable Version](https://poser.pugx.org/dnb/mediawiki-gnd/version.png)](https://packagist.org/packages/dnb/mediawiki-gnd)
 [![Download count](https://poser.pugx.org/dnb/mediawiki-gnd/d/total.png)](https://packagist.org/packages/dnb/mediawiki-gnd)
