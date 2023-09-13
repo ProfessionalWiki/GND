@@ -70,7 +70,7 @@ class ItemPropertiesToStrings {
 		}
 
 		if ( $property->getDataTypeId() !== self::ITEM_PROPERTY_TYPE ) {
-			throw new \RuntimeException( $propertyId->serialize() . ' has incorrect data type "' . $property->getDataTypeId() . '"' );
+			throw new \RuntimeException( $propertyId->getSerialization() . ' has incorrect data type "' . $property->getDataTypeId() . '"' );
 		}
 
 		$this->presenter->presentChangingPropertyType( $propertyId, $property->getDataTypeId(), self::STRING_PROPERTY_TYPE );
